@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Github Profile Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-[#262C36] flex flex-col items-center justify-center">
+    <!-- let ele = document.querySelector("h1");
+    
+    const fun = () => {
+      ele.innerHTML = "changed text";
+      };
+      
+      let timeOut = setTimeout(fun, 3000);
+      
+      function stop() {
+        clearInterval(timeOut);
+        } -->
+    <div>
+      <h1 class="text-6xl m-5 text-white">Github Profile Search</h1>
+      <form onsubmit="search(event)" class="flex justify-center gap-2">
+        <input
+          type="text"
+          id="search-id"
+          class="bg-white border-none p-2 rounded-md flex-2 focus:outline-none active:border-none"
+        />
+        <button
+          type="submit"
+          class="bg-blue-500 border-none p-2 rounded-md text-white flex-1 cursor-pointer"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+    <br />
+    <br />
+
+    <div class="card-cant"></div>
+    <script src="./GithubProfile.js"></script>
+  </body>
+</html>
