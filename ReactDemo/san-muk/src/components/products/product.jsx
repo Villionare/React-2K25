@@ -1,5 +1,5 @@
 import TempStyle from "../StyleModules/temp.module.css";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 const Button = () => {
   const [buttonValue, setButtonValue] = useState("Info");
@@ -10,9 +10,10 @@ const Button = () => {
     setFlag(!Flag);
   };
 
-  useEffect(() => {
-    console.log("this is use Effect");
-  }, [Flag]);
+  // useEffect(() => {
+  //   console.log("this is use Effect");
+  // }, [Flag]);
+
   //[] - this will run once when the page loades
 
   return (
