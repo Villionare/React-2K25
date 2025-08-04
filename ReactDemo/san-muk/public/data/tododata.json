@@ -1,0 +1,124 @@
+{
+    "todoItems": [
+        {
+            "id": 1,
+            "text": "Buy groceries",
+            "completed": false,
+            "createdAt": "2025-08-04T09:00:00Z"
+        },
+        {
+            "id": 2,
+            "text": "Walk the dog",
+            "completed": true,
+            "createdAt": "2025-08-04T09:10:00Z"
+        },
+        {
+            "id": 3,
+            "text": "Read a book",
+            "completed": false,
+            "createdAt": "2025-08-04T09:20:00Z"
+        },
+        {
+            "id": 4,
+            "text": "Finish homework",
+            "completed": false,
+            "createdAt": "2025-08-04T09:30:00Z"
+        },
+        {
+            "id": 5,
+            "text": "Call mom",
+            "completed": true,
+            "createdAt": "2025-08-04T09:40:00Z"
+        },
+        {
+            "id": 6,
+            "text": "Clean the house",
+            "completed": false,
+            "createdAt": "2025-08-04T09:50:00Z"
+        },
+        {
+            "id": 7,
+            "text": "Pay bills",
+            "completed": false,
+            "createdAt": "2025-08-04T10:00:00Z"
+        },
+        {
+            "id": 8,
+            "text": "Go for a run",
+            "completed": true,
+            "createdAt": "2025-08-04T10:10:00Z"
+        },
+        {
+            "id": 9,
+            "text": "Prepare dinner",
+            "completed": false,
+            "createdAt": "2025-08-04T10:20:00Z"
+        },
+        {
+            "id": 10,
+            "text": "Write blog post",
+            "completed": false,
+            "createdAt": "2025-08-04T10:30:00Z"
+        },
+        {
+            "id": 11,
+            "text": "Meditate",
+            "completed": true,
+            "createdAt": "2025-08-04T10:40:00Z"
+        },
+        {
+            "id": 12,
+            "text": "Reply to emails",
+            "completed": false,
+            "createdAt": "2025-08-04T10:50:00Z"
+        },
+        {
+            "id": 13,
+            "text": "Plan weekend trip",
+            "completed": false,
+            "createdAt": "2025-08-04T11:00:00Z"
+        },
+        {
+            "id": 14,
+            "text": "Update resume",
+            "completed": false,
+            "createdAt": "2025-08-04T11:10:00Z"
+        },
+        {
+            "id": 15,
+            "text": "Read news",
+            "completed": true,
+            "createdAt": "2025-08-04T11:20:00Z"
+        },
+        {
+            "id": 16,
+            "text": "Practice coding",
+            "completed": false,
+            "createdAt": "2025-08-04T11:30:00Z"
+        },
+        {
+            "id": 17,
+            "text": "Organize desk",
+            "completed": false,
+            "createdAt": "2025-08-04T11:40:00Z"
+        },
+        {
+            "id": 18,
+            "text": "Schedule meeting",
+            "completed": false,
+            "createdAt": "2025-08-04T11:50:00Z"
+        },
+        {
+            "id": 19,
+            "text": "Backup files",
+            "completed": true,
+            "createdAt": "2025-08-04T12:00:00Z"
+        },
+        {
+            "id": 20,
+            "text": "Water plants",
+            "completed": false,
+            "createdAt": "2025-08-04T12:10:00Z"
+        }
+    ]
+}
