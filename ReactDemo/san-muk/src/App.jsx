@@ -4,6 +4,7 @@ import Section from "./components/Section/Section";
 import TodaApp from "./components/UseReducer&useState_project";
 import ReducerComponent from "./components/useReducer/useReducer";
 import Todo from "./todoApp/components";
+import Dialog from "./todoApp/components/Dialog";
 
 const App = () => {
   return (

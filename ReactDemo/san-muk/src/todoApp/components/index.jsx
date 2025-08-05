@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-// const sampleTodos = [
-//   { id: 1, text: "Buy groceries", completed: false },
-//   { id: 2, text: "Walk the dog", completed: true },
-//   { id: 3, text: "Read a book", completed: false },
-// ];
+import Dialog from "./Dialog";
 
 function Todo() {
   const [dataFetched, setdataFetched] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [currentTask, setCurrentTask] = useState({});
 
   const fetchData = async () => {
     try {
@@ -25,44 +23,62 @@ function Todo() {
   };
 
   useEffect(() => {
-    console.log(dataFetched);
-  }, [dataFetched]);
-
-  useEffect(() => {
     fetchData();
   }, []);
 
+  //if the open dialog is false then diloge wont render
+  useEffect(
+    (currentTask) => {
+      openDialog ? (
+        <Dialog task={currentTask} onClose={() => setOpenDialog(null)} />
+      ) : (
+        console.log(null)
+      );
+    },
+    [openDialog]
+  );
+
   return (
     <div className="container mx-auto p-6 max-w-md">
-      <div className="bg-white rounded-lg shadow-xl p-6">
+      <div className="bg-white rounded-lg shadow-xl p-6 ">
         <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
           Todo List
         </h1>
         <ul className="space-y-4">
-          {dataFetched.todoItems.map((todo) => (
-            <li
-              key={todo.id}
-              className={`flex items-center justify-between p-4 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 bg-gray-50 ${
-                todo.completed ? "opacity-60" : ""
-              }`}
-            >
-              <span
-                className={`text-lg ${
-                  todo.completed
-                    ? "line-through text-gray-400"
-                    : "text-gray-800"
+          {dataFetched.todoItems &&
+            dataFetched.todoItems.map((todo) => (
+              <li
+                key={todo.id}
+                className={`flex items-center  justify-between p-4 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 bg-gray-50 ${
+                  todo.completed ? "opacity-60" : ""
                 }`}
               >
-                {todo.text}
-              </span>
-              <button
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-                disabled={todo.completed}
-              >
-                {todo.completed ? "Done" : "Mark Done"}
-              </button>
-            </li>
-          ))}
+                <span
+                  className={`text-lg ${
+                    todo.completed
+                      ? "line-through text-gray-400"
+                      : "text-gray-800"
+                  }`}
+                >
+                  {todo.text}
+                </span>
+                <button
+                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                  onClick={() => {
+                    setOpenDialog(true);
+                    setCurrentTask(todo);
+                  }}
+                >
+                  Details
+                </button>
+                <button
+                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                  disabled={todo.completed}
+                >
+                  {todo.completed ? "Done" : "Mark Done"}
+                </button>
+              </li>
+            ))}
         </ul>
       </div>
     </div>
