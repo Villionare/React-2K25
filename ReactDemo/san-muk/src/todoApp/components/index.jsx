@@ -6,6 +6,11 @@ function Todo() {
   const [dataFetched, setdataFetched] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentTask, setCurrentTask] = useState({});
+  const [mark, setMark] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -22,22 +27,11 @@ function Todo() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const setMark = () => {
+  //   console.log(currentTask);
 
-  //if the open dialog is false then diloge wont render
-  useEffect(
-    (currentTask) => {
-      openDialog ? (
-        <Dialog task={currentTask} onClose={() => setOpenDialog(null)} />
-      ) : (
-        console.log(null)
-      );
-    },
-    [openDialog]
-  );
-
+  //   currentTask.completed = !currentTask.completed;
+  // };
   return (
     <div className="container mx-auto p-6 max-w-md">
       <div className="bg-white rounded-lg shadow-xl p-6 ">
@@ -49,9 +43,7 @@ function Todo() {
             dataFetched.todoItems.map((todo) => (
               <li
                 key={todo.id}
-                className={`flex items-center  justify-between p-4 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 bg-gray-50 ${
-                  todo.completed ? "opacity-60" : ""
-                }`}
+                className={`flex items-center  justify-between p-4 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 bg-gray-50 `}
               >
                 <span
                   className={`text-lg ${
@@ -65,15 +57,21 @@ function Todo() {
                 <button
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
                   onClick={() => {
-                    setOpenDialog(true);
                     setCurrentTask(todo);
+                    setOpenDialog(true);
                   }}
                 >
                   Details
                 </button>
                 <button
+                  key={todo.id}
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-                  disabled={todo.completed}
+                  onClick={() => {
+                    setMark(todo.completed);
+                    todo.completed = !todo.completed;
+                    setMark(todo.completed);
+                    console.log(mark);
+                  }}
                 >
                   {todo.completed ? "Done" : "Mark Done"}
                 </button>
@@ -81,6 +79,9 @@ function Todo() {
             ))}
         </ul>
       </div>
+      {openDialog && (
+        <Dialog task={currentTask} onClose={() => setOpenDialog(false)} />
+      )}
     </div>
   );
 }
