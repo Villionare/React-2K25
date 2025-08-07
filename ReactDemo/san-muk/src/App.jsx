@@ -1,8 +1,12 @@
+import MainApp from "./common-form";
+import CommonForm from "./common-form";
 import Aside from "./components/Aside/Aside";
 import Header from "./components/Header/Header";
 import Section from "./components/Section/Section";
 import TodaApp from "./components/UseReducer&useState_project";
 import ReducerComponent from "./components/useReducer/useReducer";
+import FormHandling from "./form";
+import TesterForm from "./formtemp/Tester";
 import Todo from "./todoApp/components";
 import Dialog from "./todoApp/components/Dialog";
 
@@ -18,7 +22,12 @@ const App = () => {
       {/* <ReducerComponent /> */}
 
       {/* <TodaApp /> */}
-      <Todo />
+      {/* <Todo /> */}
+
+      {/* <FormHandling /> */}
+
+      {/* <MainApp /> */}
+      <TesterForm />
     </>
   );
 };
