@@ -4,7 +4,6 @@ import { useState } from "react";
 
 const FormRendrer = ({ elements, onChange, onSubmit, setFinaldata }) => {
 
-
     const [input, setInput] = useState(elements.type.inputTag);
     const [buttons, setButtons] = useState(elements.type.buttons);
     // console.log(input[0].style);
@@ -33,8 +32,8 @@ const FormRendrer = ({ elements, onChange, onSubmit, setFinaldata }) => {
 
     return <form onSubmit={onSubmit}>
         <h1>Login Form</h1>
-        {input.map((input) => { return <input type={input.type} placeholder={input.placeholder} name={input.name} value={config.value} onChange={handleOnChange} className={input.style} /> })}
-        {buttons.map((input) => { return <input type={input.type} placeholder={input.placeholder} name={input.name} value={config.value} onChange={handleOnChange} className={input.style} /> })}
+        {input.map((input) => { return <input type={input.type} key={input.id} placeholder={input.placeholder} name={input.name} value={config.value} onChange={handleOnChange} className={input.style} /> })}
+        {buttons.map((input) => { return <input type={input.type} key={input.id} placeholder={input.placeholder} name={input.name} value={config.value} onChange={handleOnChange} className={input.style} /> })}
     </form>
 }
 
