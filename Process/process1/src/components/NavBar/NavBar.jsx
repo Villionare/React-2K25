@@ -1,20 +1,20 @@
 const NavBar = () => {
 
     return <>
-        <div className="fixed flex items-center flex-col gap-5 h-full pt-15">
+        <div className="z-2 fixed flex flex-col items-center gap-5 h-full py-15">
             <div>
-                <button className="bg-[#333333] w-12 h-12 flex items-center justify-center rounded-3xl">
+                <button className="bg-[#333333] w-12 h-12 flex items-center justify-center rounded-3xl z-10">
                     <i className="fa-solid fa-bars" style={{ color: '#ffffff' }}></i>
                 </button>
             </div>
-            <div className="hidden h-70 md:block bg-[#333333] rounded-tr-3xl rounded-br-3xl">
+            {/* <div className="hidden w-full h-70 md:block bg-[#333333] rounded-tr-3xl rounded-br-3xl">
                 <ul className="flex flex-col items-center justify-around text-white h-full p-2 w-13">
                     <li><button className="bg-amber-300 p-2 rounded-2xl font-extrabold ">#1</button></li>
                     <li><i className="sidebar-icons fa-solid fa-magnifying-glass"></i></li>
                     <li><i className="sidebar-icons fa-solid fa-bookmark"></i></li>
                     <li><i className="sidebar-icons fa-solid fa-hourglass-half"></i></li>
                 </ul>
-            </div>
+            </div> */}
         </div>
     </>
 }
