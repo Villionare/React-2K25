@@ -14,7 +14,6 @@ const Section = () => {
         return () => clearInterval(interval);
     }, [index]);
 
-
     const quotes = [
         {
             quote: "Every time I go to a movie, it's magic, no matter what the movie's about.",
@@ -68,25 +67,13 @@ const Section = () => {
     return <>
         <div className="bg-linear-to-r from-black to-gray-800 px-15">
 
-            <div className=" flex flex-col justify-evenly md:flex-row pt-20 min-h-screen">
+            <div className="flex flex-col pt-25 min-[]:-h-screen md:gap-20 md:flex-row md:pt-20 border-1 border-yellow-300">
 
-                <div className="flex justify-center items-center flex-1 md:order-1 md:pl-10">
-                    <p className="text-7xl text-white font-bold">"Movies Makes us More Human"</p>
-                </div>
-
-                <div className="flex flex-row items-center justify-center flex-1 my-10 md:order-2 md:pl-10">
-                    <MovieCard />
-                </div>
-
-            </div>
-
-            <div className="h-[80vh] order-1 md:order-2 md:min-h-screen " >
-
-                <div className="flex justify-center items-center h-full w-full rounded-4xl bg-cover bg-center" style={{ backgroundImage: `url(${quotes[index].imgSrc})` }}>
+                <div className="flex-1 flex justify-center items-center h-[85vh] border-1 border-red-600">
                     <div
-                        className="text-center " key={index}
+                        className="text-center" key={index}
                     >
-                        <h1 className="text-5xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                        <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
                             {quotes[index].quote}
                         </h1>
 
@@ -94,9 +81,24 @@ const Section = () => {
                             {`-` + quotes[index].filmmaker}
                         </p>
                     </div>
-
                 </div>
+
+                <div className="flex-1 flex justify-center items-center h-[85vh] border-1 border-red-600">
+                    {/* img cant */}
+                    <img src={quotes[index].imgSrc} className="bg-center bg-cover" alt="" />
+                </div>
+
             </div>
+
+
+            {/* <div className="flex justify-center items-center flex-1 md:order-1 md:pl-10">
+                    <p className="text-7xl text-white font-bold">"Movies Makes us More Human"</p>
+                </div>
+
+                <div className="flex flex-row items-center justify-center flex-1 my-10 md:order-2 md:pl-10">
+                    <MovieCard />
+                </div> */}
+
 
             {/* categories */}
             <Categories />
