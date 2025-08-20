@@ -1,13 +1,13 @@
 const Categories = ({ }) => {
 
     return <>
-        <div className="mt-10 z-1">
+        <div className="mt-10">
             <h1 className="text-center font-bold text-white text-5xl mb-5 sm:mt-0 ">
                 Categories:
             </h1>
         </div>
 
-        <div className="flex flex-col justify-center items-center p-5 w-full ">
+        <div className="flex flex-col justify-center items-center p-5 mx-15">
 
             {/* category boxes */}
             <div className="flex flex-col w-full gap-10 md:flex-row md:gap-3">
