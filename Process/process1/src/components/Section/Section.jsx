@@ -1,18 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import Categories from "../Pages/Categories";
-import { motion } from "motion/react"
 
 const Section = () => {
 
     const [index, setIndex] = useState(0);
+    const [fade, setFade] = useState(true);
+
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setIndex(prev => (prev + 1) % quotes.length);
+    //     }, 5000);
+
+    //     return () => clearInterval(interval);
+    // }, [index]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setIndex(prev => (prev + 1) % quotes.length);
+            // start fade out
+            setFade(false);
+
+            setTimeout(() => {
+                setIndex((prev) => (prev + 1) % quotes.length);
+                setFade(true); // fade in new quote
+            }, 500); // match fade duration
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [index]);
+    }, []);
 
     const quotes = [
         {
@@ -58,63 +72,92 @@ const Section = () => {
         {
             quote: "Movies Makes us More Human",
             filmmaker: "Abhay Singh",
-            imgSrc: "" // no image found
+            imgSrc: "/ChristopherNolan.webp" // no image found
         }
     ];
 
     return <>
-        <div className="flex flex-col bg-linear-to-r from-black to-gray-800">
+        <div className="flex flex-col">
 
-            <div className="flex h-screen">
+            <div className="flex flex-col gap-0 min-h-fit md:min-h-screen md:flex-row">
+
+                {/* hero small */}
+                <div className="flex md:hidden overflow-hidden">
+
+                    <div className="relative h-100">
+                        <video autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="h-full w-full object-cover scale-150 "
+                            src="/vd.mp4" type="video/mp4">
+                            video doesn't support
+                        </video>
+                        <div className="absolute inset-0 bg-black/50"></div>
+                        <div className="absolute inset-5 flex-1 flex flex-col p-10 text-3xl md:text-8xl text-white font-bold justify-start ">
+                            <p className="">
+                                One journal,
+                            </p>
+                            <p className="text-6xl font-bold bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.fuchsia.400),theme(colors.sky.400))] bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_8s_linear_infinite] ">
+                                a thousand films.
+                            </p>
+                            <button className="w-fit mt-5 text-lg bg-none border-1 p-5 border-amber-50 rounded-full hover:bg-gray-200 hover:text-black transition duration-100">
+                                Explore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Hero section */}
-                <div className="flex-1 flex flex-col min-h-screen box-border py-25 md:py-25">
-                    <div className="flex-1 flex flex-col p-10 text-3xl md:text-8xl text-white font-bold justify-start ">
-                        <p className="">
+                <div className="hidden flex-1 flex-col box-border md:flex">
+
+                    <div className="flex-1 flex flex-col text-3xl md:text-8xl text-white font-bold justify-center md:pl-10 ">
+                        <p>
                             One journal,
                         </p>
                         <p className="text-6xl font-bold bg-[linear-gradient(to_right,theme(colors.indigo.400),theme(colors.fuchsia.400),theme(colors.sky.400))] bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_8s_linear_infinite] ">
                             a thousand films.
                         </p>
-                        <button className="w-fit mt-5 text-lg bg-none border-1 p-5 border-amber-50 rounded-full">
+                        <button className="w-fit mt-5 text-lg bg-none border-1 p-5 border-amber-50 rounded-full hover:bg-gray-200 hover:text-black transition duration-100">
                             Explore
                         </button>
                     </div>
                 </div>
+
                 {/* background-video */}
-                <div className="flex-1 relative">
+                <div className="hidden flex-1 overflow-hidden md:block">
 
                     <video autoPlay
+                        muted
                         loop
                         playsInline
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover scale-140"
                         src="/vd.mp4" type="video/mp4">
                         video doesn't support
                     </video>
                 </div>
             </div>
 
-
-
             {/* qoutes */}
-            <div className="mx-15 flex flex-col min-h-screen md:gap-20 md:flex-row md:mt-20 border-2 border-amber-300">
+            <div className="mt-10 mx-15 flex flex-col gap-10 min-h-fit md:min-h-screen  md:gap-20 md:flex-row md:mt-20">
 
-                <div className="flex-1 flex justify-center items-center h-full box-border">
-                    <div
-                        className="text-center" key={index}
-                    >
-                        <h1 className="text-xl md:text-xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                            {quotes[index].quote}
-                        </h1>
+                <div className="flex-1 flex flex-col items-center justify-center overflow-hidden">
 
-                        <p className="mt-2 text-sm italic text-gray-500">
-                            {`-` + quotes[index].filmmaker}
-                        </p>
-                    </div>
+                    <h1 className={`text-center text-xl md:text-3xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"
+                        }`}>
+                        {quotes[index].quote}
+                    </h1>
+
+                    <p className={`mt-2 text-sm italic text-gray-500 transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"
+                        }`}>
+                        {`-` + quotes[index].filmmaker}
+                    </p>
+
                 </div>
 
-                <div className="flex-1 flex justify-center items-center border-1 border-amber-300">
-
-                    <img src={quotes[index].imgSrc} className="bg-cover object-cover h-full w-full" alt="" />
+                <div className="flex-1 flex justify-center items-center overflow-hidden">
+                    <img src={quotes[index].imgSrc} className={`bg-cover object-cover h-full w-full scale-150 rounded-4xl transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"
+                        }`} alt="" />
                 </div>
             </div>
 

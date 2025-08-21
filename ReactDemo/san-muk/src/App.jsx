@@ -6,13 +6,13 @@ import LoadingSpinner from "./components/LoadingSpinner/Loading";
 const App = () => {
 
   return <>
-    <LoadingSpinner />
-    {/* <Routes>
-      <Route path={'/'} element={<Fixed />} > 
+    {/* <LoadingSpinner /> */}
+    <Routes>
+      <Route path={'/'} element={<Fixed />} >
         <Route index path={'home'} element={<Home />} />
 
       </Route>
-    </Routes> */}
+    </Routes>
   </>
 }
 

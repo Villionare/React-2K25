@@ -10,8 +10,8 @@ const Fixed = () => {
         <Header />
         <Navbar />
         <Aside />
-        <Footer />
         <Outlet />
+        <Footer />
     </>
 }
 

@@ -1,20 +1,42 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
 const NavBar = () => {
+    const [open, setOpen] = useState(false);
 
     return <>
-        <div className="z-2 fixed flex flex-col items-center gap-5 h-full py-15">
-            <div>
-                <button className="bg-[#333333] w-12 h-12 flex items-center justify-center rounded-3xl z-10">
-                    <i className="fa-solid fa-bars" style={{ color: '#ffffff' }}></i>
-                </button>
+        <div className="fixed z-1 flex">
+            {/* Toggle Button */}
+            <button
+                className="p-2 m-2 bg-[#333333] rounded-3xl text-white"
+                onClick={() => setOpen(!open)}
+            >
+                {open ? <X /> : <Menu />}
+            </button>
+
+            {/* Sidebar */}
+            <div
+                className={`fixed top-7 left-0 h-fit mt-24 bg-[#333333] text-white w-64 transform transition-transform duration-300 rounded-tr-3xl rounded-br-3xl ${open ? "translate-x-0" : "-translate-x-full"
+                    }`}
+            >
+                <nav className="flex flex-col p-4 space-y-4">
+                    <a href="#" className="p-2 flex gap-2 items-center ">
+                        <button className="bg-amber-300 p-2 rounded-2xl font-extrabold ">#1 Global</button>
+                    </a>
+                    <a href="#" className="hover:bg-[#505050] p-2 flex gap-2 items-center ">
+                        <i className="sidebar-icons fa-solid fa-magnifying-glass"></i>
+                        Search
+                    </a>
+                    <a href="#" className="hover:bg-[#505050] p-2 flex gap-2 items-center ">
+                        <i className="sidebar-icons fa-solid fa-bookmark"></i>
+                        Bookmarks
+                    </a>
+                    <a href="#" className="hover:bg-[#505050] p-2 flex gap-2 items-center ">
+                        <i className="sidebar-icons fa-solid fa-hourglass-half"></i>
+                        Upcoming
+                    </a>
+                </nav>
             </div>
-            {/* <div className="hidden w-full h-70 md:block bg-[#333333] rounded-tr-3xl rounded-br-3xl">
-                <ul className="flex flex-col items-center justify-around text-white h-full p-2 w-13">
-                    <li><button className="bg-amber-300 p-2 rounded-2xl font-extrabold ">#1</button></li>
-                    <li><i className="sidebar-icons fa-solid fa-magnifying-glass"></i></li>
-                    <li><i className="sidebar-icons fa-solid fa-bookmark"></i></li>
-                    <li><i className="sidebar-icons fa-solid fa-hourglass-half"></i></li>
-                </ul>
-            </div> */}
         </div>
     </>
 }
