@@ -1,22 +1,6 @@
 import { Link } from "react-router-dom";
-import SearchResults from "../SearchResults/SearchResults";
-import { useState } from "react";
-import SearchWindow from "../SearchWindow/window";
 
 const Header = () => {
-    const [value, setValue] = useState('');
-
-    const openWindow = () => {
-        return <SearchWindow />
-    }
-
-    // const submitSearch = (e) => {
-    //     e.preventDefault();
-    //     setValue(e.target.value);
-    //     console.log(value);
-
-    //     <SearchResults searchQuery={value} />
-    // }
 
     return <>
         <div className="flex flex-row p-1 gap-0 items-center fixed top-0 left-0 right-0 pl-2 z-5 h-10 rounded-bl-3xl bg-[#333333] font-[Poppins]">
@@ -30,12 +14,12 @@ const Header = () => {
 
             <div className="hidden md:block md:flex-1 lg:flex-1/4">
                 <ul className="list-none flex px-2 justify-evenly text-white md:gap-2">
-                    <Link to={'/'}><li className="menu-list-item active-bold">Home</li></Link>
-                    <button >
-                        <Link to={'categories'}>
-                            <li className="menu-list-item">Categories</li>
-                        </Link>
-                    </button>
+                    <Link to={'/'}>
+                        <li className="menu-list-item active-bold">Home</li>
+                    </Link>
+                    <Link to={'categories'}>
+                        <li className="menu-list-item">Categories</li>
+                    </Link>
                     <Link to={'accounts'}>
                         <li className="menu-list-item">Account</li>
                     </Link>
@@ -45,7 +29,6 @@ const Header = () => {
                     <Link to={'ranking'}>
                         <li className="menu-list-item">Ranking</li>
                     </Link>
-
                 </ul>
             </div>
 

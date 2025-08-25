@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import Loading from './components/Loading/loading'
 import Categories from './components/Pages/Categories'
 import Layout from './components/Layout/Layout'
-import SearchWindow from './components/SearchWindow/window'
+import SearchWindow from './components/SearchWindow/Searchwindow'
 
 function App() {
 

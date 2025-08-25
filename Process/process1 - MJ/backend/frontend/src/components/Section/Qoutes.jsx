@@ -76,7 +76,7 @@ const Qoutes = () => {
                     <img
                         src={quotes[index].imgSrc}
                         alt="filmmaker"
-                        className={`object-cover w-full h-[400px] md:h-[550px] transform group-hover:scale-105 transition-all duration-700 ease-out ${fade ? "opacity-100" : "opacity-0"
+                        className={`object-cover w-full h-[400px] md:h-[450px] transform group-hover:scale-105 transition-all duration-700 ease-out ${fade ? "opacity-100" : "opacity-0"
                             }`}
                     />
 

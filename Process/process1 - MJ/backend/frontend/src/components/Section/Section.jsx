@@ -4,78 +4,8 @@ import Qoutes from "./Qoutes";
 
 const Section = () => {
 
-    const [index, setIndex] = useState(0);
-    const [fade, setFade] = useState(true);
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setIndex(prev => (prev + 1) % quotes.length);
-    //     }, 5000);
 
-    //     return () => clearInterval(interval);
-    // }, [index]);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // start fade out
-            setFade(false);
-
-            setTimeout(() => {
-                setIndex((prev) => (prev + 1) % quotes.length);
-                setFade(true); // fade in new quote
-            }, 500); // match fade duration
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const quotes = [
-        {
-            quote: "Every time I go to a movie, it's magic, no matter what the movie's about.",
-            filmmaker: "Steven Spielberg",
-            imgSrc: "/steven.jpeg"
-        },
-        {
-            quote: "Cinema is a matter of what's in the frame and what's out.",
-            filmmaker: "Martin Scorsese",
-            imgSrc: "/martin.avif"
-        },
-        {
-            quote: "When people ask me if I went to film school I tell them, 'No, I went to films.'",
-            filmmaker: "Quentin Tarantino",
-            imgSrc: "/QuentinTarantino.jpg"
-        },
-        {
-            quote: "Drama is life with the dull bits cut out.",
-            filmmaker: "Alfred Hitchcock",
-            imgSrc: "/alfred-hitchcock.webp"
-        },
-        {
-            quote: "The role of the artist is to not look away.",
-            filmmaker: "Akira Kurosawa",
-            imgSrc: "/akira.webp"
-        },
-        {
-            quote: "Every film should have its own world, a logic and feel to it that expands beyond the exact image the audience is seeing.",
-            filmmaker: "Christopher Nolan",
-            imgSrc: "/ChristopherNolan.webp"
-        },
-        {
-            quote: "Film lovers are sick people.",
-            filmmaker: "François Truffaut",
-            imgSrc: "/FrançoisTruffaut.jpeg"
-        },
-        {
-            quote: "A film is - or should be - more like music than like fiction.",
-            filmmaker: "Stanley Kubrick",
-            imgSrc: "/StanleyKubrick.jpeg"
-        },
-        {
-            quote: "Movies Makes us More Human",
-            filmmaker: "Abhay Singh",
-            imgSrc: "/ChristopherNolan.webp" // no image found
-        }
-    ];
 
     return <>
         <div className="flex flex-col">
