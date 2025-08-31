@@ -48,7 +48,7 @@ const SearchWindow = () => {
                 </div>
             </div>
 
-            <div>
+            <div className="min-h-screen">
                 {submittedQuery && <FetchQuery searchString={submittedQuery} />}
             </div>
         </>

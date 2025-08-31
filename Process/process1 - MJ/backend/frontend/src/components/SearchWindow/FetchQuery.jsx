@@ -6,7 +6,7 @@ const FetchQuery = ({ searchString }) => {
 
     const apiFetch = async () => {
         try {
-            const urlQuery = encodeURIComponent(searchString); // ✅ fixed
+            const urlQuery = encodeURIComponent(searchString);
             const url = `https://api.themoviedb.org/3/search/movie?query=${urlQuery}&include_adult=true&language=en-US&page=1`;
 
             const options = {
@@ -21,7 +21,8 @@ const FetchQuery = ({ searchString }) => {
             const res = await fetch(url, options);
             const data = await res.json();
             setResponse(data);
-            console.log("Fetched data:", response);
+            console.log(response);
+
 
         } catch (err) {
             console.error(err);
@@ -34,7 +35,7 @@ const FetchQuery = ({ searchString }) => {
 
     return (
         <div>
-            {response ? <ShowResult searchData={response} /> : <p>Loading...</p>}
+            {response ? <ShowResult searchData={response} /> : <p className="text-white text-3xl text-center">Loading...</p>}
         </div>
     );
 };

@@ -1,25 +1,30 @@
 import { Star } from "lucide-react";
 
-export default function Card({ data }) {
+export default function Card({ data, index, checkDetails }) {
+
     return (
-        <div className="flex bg-[#1e1e1e] rounded-2xl shadow-lg overflow-hidden hover:scale-[1.02] transition-transform duration-300 ease-in-out cursor-pointer max-w-md">
+        <div className="flex flex-col bg-[#1e1e1e] rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-300 ease-in-out cursor-pointer w-auto">
             {/* Poster */}
-            <img
-                src={data.backdrop_path
-                    ? `https://image.tmdb.org/t/p/w500${data.backdrop_path}`
-                    : "/no-image.png"} // fallback if no image
-                alt={data.title || "Movie Poster"}
-                className="w-28 md:w-36 h-40 object-cover"
-            />
+
+            <div className="aspect-[2/3] w-full overflow-hidden rounded-xl">
+
+                <img
+                    src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                    onError={(e) => { e.currentTarget.src = "/img_not_Found.svg" }}
+                    alt={data.title || "Movie Poster"}
+                    className=" object-cover object-center"
+                />
+
+            </div>
 
             {/* Content */}
             <div className="flex flex-col justify-between p-4 flex-1">
                 {/* Title + Year */}
                 <div>
-                    <h3 className="text-white font-bold text-lg leading-tight">
+                    <h3 className="text-white font-bold text-sm leading-tight truncate">
                         {data.title || data.name}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-400 text-xs">
                         {data.release_date || "Unknown"} • Sci-Fi / Thriller
                     </p>
                 </div>
@@ -35,8 +40,8 @@ export default function Card({ data }) {
                     </div>
 
                     {/* Watch Button */}
-                    <button className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded-lg text-white text-sm font-semibold transition-colors">
-                        Watch
+                    <button className="px-3 py-1 bg-sky-600 hover:bg-sky-700 rounded-lg text-white text-sm font-semibold transition-colors" onClick={() => { checkDetails(index) }}>
+                        Info
                     </button>
                 </div>
             </div>
