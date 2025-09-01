@@ -1,3 +1,4 @@
+import { UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -19,9 +20,6 @@ const Header = () => {
                     </Link>
                     <Link to={'categories'}>
                         <li className="menu-list-item">Categories</li>
-                    </Link>
-                    <Link to={'accounts'}>
-                        <li className="menu-list-item">Account</li>
                     </Link>
                     <Link to={'charts'}>
                         <li className="menu-list-item">Chart</li>
@@ -50,14 +48,15 @@ const Header = () => {
 
 
                 <div className="text-white flex justify-center items-center">
-                    <Link to={'accounts'}>
-                        <span className="text-sm">Login</span>
-                    </Link>
+                    <span className="text-sm">
+                        <Link to={'login'}>
+                            <UserRound />
+                        </Link>
+                    </span>
                 </div>
 
                 <span className="flex text-white bg-[#3d3d3d] text-sm p-2">
                     <i className="fa-solid fa-sun" style={{ color: "#ffffff" }}></i>
-                    {/* <i className="fa-solid fa-moon"></i> */}
                 </span>
             </div>
         </div>

@@ -14,8 +14,8 @@ export default function Accounts() {
         "password": null
     });
 
-    //adding the value to the json
-    function submitValues(e) {
+    //adding the value to the signup json
+    function handleSignupChange(e) {
         const { name, value } = e.target;
 
         setSignupCredentials(prev => ({
@@ -36,8 +36,8 @@ export default function Accounts() {
         console.log(signInCredentials);
     }, [signInCredentials]);
 
-    //adding the value to the json
-    function submitValues(e) {
+    //adding the value to the signin json
+    function handleSigninChange(e) {
         const { name, value } = e.target;
 
         setSignInCredentials(prev => ({
@@ -45,25 +45,28 @@ export default function Accounts() {
             [name]: value,
         })
         )
-        // console.log(signInCredentials);
     }
 
-    const submitSignup = async () => {
+    const submitSignup = async (e) => {
+        e?.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5135/api/auth/signup', signupCredentials);
-            console.log('server responce' + res.data);
+            // adjust port if your backend runs elsewhere; backend default in this repo is 3000
+            const res = await axios.post('http://localhost:3000/api/auth/signup', signupCredentials);
+            console.log('server response', res.data);
 
-        } catch (e) {
-            console.error('submit signup error:', e.response?.data || e.message);
+        } catch (err) {
+            console.error('submit signup error:', err.response?.data || err.message);
         }
 
     }
 
-    const submitLogIn = () => {
+    const submitLogIn = async (e) => {
+        e?.preventDefault();
         try {
-
-        } catch (e) {
-            console.error('submit signin error' + e);
+            // implement signin request here when ready
+            console.log('signin payload', signInCredentials);
+        } catch (err) {
+            console.error('submit signin error', err.message || err);
         }
     }
 
@@ -87,7 +90,8 @@ export default function Accounts() {
                                 className=" w-full px-3 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
                                 placeholder="Enter your Username"
                                 name="username"
-                                onChange={(e) => submitValues(e)}
+                                onChange={(e) => handleSignupChange(e)}
+                                autoComplete="username"
                             />
                         </div>
                     )}
@@ -99,7 +103,8 @@ export default function Accounts() {
                             className="w-full px-3 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
                             placeholder="Enter your email"
                             name="email"
-                            onChange={(e) => submitValues(e)}
+                            onChange={(e) => isLogin ? handleSigninChange(e) : handleSignupChange(e)}
+                            autoComplete="email"
                         />
                     </div>
 
@@ -110,7 +115,8 @@ export default function Accounts() {
                             className="w-full px-3 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
                             placeholder="Enter your password"
                             name="password"
-                            onChange={(e) => submitValues(e)}
+                            onChange={(e) => isLogin ? handleSigninChange(e) : handleSignupChange(e)}
+                            autoComplete="new-password"
                         />
                     </div>
 
@@ -121,6 +127,7 @@ export default function Accounts() {
                                 type="password"
                                 className="w-full px-3 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
                                 placeholder="Confirm your password"
+                                autoComplete="new-password"
                             />
                         </div>
                     )}

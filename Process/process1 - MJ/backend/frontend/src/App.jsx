@@ -8,6 +8,8 @@ import Loading from './components/Loading/loading'
 import Categories from './components/Pages/Categories'
 import Layout from './components/Layout/Layout'
 import SearchWindow from './components/SearchWindow/Searchwindow'
+import SignUp from './components/Pages/SignUp'
+import LogIn from './components/Pages/LogIn'
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
               <Route path='charts' element={<Charts />} />
               <Route path='ranking' element={<Ranking />} />
               <Route path='search' element={<SearchWindow />} />
+              <Route path='login' element={<LogIn />} />
+              <Route path='signup' element={<SignUp />} />
             </Route>
           </Routes>
         </div>
