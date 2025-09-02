@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const LogIn = () => {
 
@@ -25,17 +25,19 @@ const LogIn = () => {
                 body: JSON.stringify(signInData)
             })
 
+            //fetching the responce
             const data = await res.json()
                 .catch(() => null);
 
-            if (!res.ok) {
-                console.error('Signup failed', res.status, data);
-                // optionally show an error to the user
-                return;
+            if (res.ok && data.success) {
+                alert('welcome ' + data.user.username);
+                Navigate('/');
             }
 
-            console.log('data recieved from server' + data);
-
+            if (!res.ok) {
+                alert('Signup failed ', data.success, data.user.username);
+                // optionally show an error to the user
+            }
 
         } catch (e) {
             console.error('faild to Login: ' + e);
