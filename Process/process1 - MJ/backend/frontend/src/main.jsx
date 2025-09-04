@@ -6,6 +6,7 @@ import { Theme } from '@radix-ui/themes'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+
     <Theme>
       <App />
     </Theme>

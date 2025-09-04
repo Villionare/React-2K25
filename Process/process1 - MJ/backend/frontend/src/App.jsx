@@ -10,6 +10,7 @@ import Layout from './components/Layout/Layout'
 import SearchWindow from './components/SearchWindow/Searchwindow'
 import SignUp from './components/Pages/SignUp'
 import LogIn from './components/Pages/LogIn'
+import { UserAuthContext } from './Context/GlobalContext'
 
 function App() {
 

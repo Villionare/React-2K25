@@ -1,19 +1,24 @@
 import { UserRound } from "lucide-react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserAuthContext } from "../../Context/GlobalContext";
 
-const Header = () => {
+const Header = ({ loginStatus }) => {
+
+    const userContext = useContext(UserAuthContext);
+    console.log('data recieved in header context ' + userContext);
 
     return <>
-        <div className="flex flex-row p-1 gap-0 items-center fixed top-0 left-0 right-0 pl-2 z-5 h-10 rounded-bl-3xl bg-[#333333] font-[Poppins]">
+        <div className="flex flex-row gap-0 items-center fixed top-0 left-0 right-0 pl-2 z-5 h-10 rounded-bl-3xl bg-[#333333] font-[Poppins]">
 
-            <div className="flex items-center lg:flex-1/4">
+            <div className="flex items-center lg:flex-1">
                 <img src="/favicon.png" className="w-10 min-w-[50px]" alt="MJ" />
                 <span className="hidden lg:inline text-xl text-white">
                     <Link to={'/'}>MoviesJournal</Link>
                 </span>
             </div>
 
-            <div className="hidden md:block md:flex-1 lg:flex-1/4">
+            <div className="hidden md:block md:flex-1">
                 <ul className="list-none flex px-2 justify-evenly text-white md:gap-2">
                     <Link to={'/'}>
                         <li className="menu-list-item active-bold">Home</li>
@@ -30,32 +35,27 @@ const Header = () => {
                 </ul>
             </div>
 
-            <div className="flex-1 flex gap-3 flex-row justify-evenly h-full md:flex-1/3 lg:flex-1/4">
+            <div className="flex-1 flex flex-row justify-evenly items-center gap-2 md:flex-1/3 lg:flex-1">
 
-                {/* <div className="flex-1 flex items-center bg-[#3d3d3d] rounded-lg px-3 lg:flex-1/4">
-                    <input type="text" className="flex-1 rounded-md bg-[#3d3d3d] text-[#858585] text-xs h-full mr-2 focus:outline-0 " placeholder="search any movie" />
-                    <Link to={'search'}>
-                        <i className="bg-[#3d3d3d] rounded-3xl fa-solid fa-magnifying-glass" style={{ color: '#ffffff' }}></i>
-                    </Link>
-                </div> */}
                 <Link
                     to="/search"
-                    className="flex-1 flex items-center bg-[#3d3d3d] rounded-lg px-3 lg:flex-1/4 cursor-text"
+                    className="h-8 m-1 flex-1 flex items-center bg-[#3d3d3d] rounded-lg px-3 lg:flex-1/4 cursor-text"
                 >
                     <span className="flex-1 text-[#858585] text-xs">Search any movie</span>
                     <i className="fa-solid fa-magnifying-glass text-white"></i>
                 </Link>
 
 
-                <div className="text-white flex justify-center items-center">
+                <div className="text-white flex gap-2 justify-center items-center">
                     <span className="text-sm">
-                        <Link to={'login'}>
+                        <Link to={'login'} className="flex justify-center items-center">
+                            <span>{(userContext) ? userContext.user.username : "Login"}</span>
                             <UserRound />
                         </Link>
                     </span>
                 </div>
 
-                <span className="flex text-white bg-[#3d3d3d] text-sm p-2">
+                <span className="flex text-white bg-[#3d3d3d] text-sm p-2 mr-1">
                     <i className="fa-solid fa-sun" style={{ color: "#ffffff" }}></i>
                 </span>
             </div>

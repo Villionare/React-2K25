@@ -1,9 +1,18 @@
-import axios from "axios";
+import { Layout } from "lucide-react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast"
+import userContext, { UserAuthContext } from "../../Context/GlobalContext";
+import Header from "../Header/Header";
+import UserContext from "../../Context/GlobalContext";
 
 const LogIn = () => {
+
+    //for context
+    const [userData, setUserData] = useState(null);
+
+    const navigate = useNavigate();
 
     const [signInData, setSignInData] = useState(
         {
@@ -25,18 +34,21 @@ const LogIn = () => {
                 body: JSON.stringify(signInData)
             })
 
-            //fetching the responce
-            const data = await res.json()
-                .catch(() => null);
+            const data = await res.json();
 
             if (res.ok && data.success) {
-                alert('welcome ' + data.user.username);
-                Navigate('/');
+                // redirect to homepage on successful login
+                toast.success('welcome ' + data.user.username);
+
+                setUserData(data);
+                console.log(data);
+                <UserContext value={userData} childern={<Header />} />;
+                navigate("/");
+                return;
             }
 
             if (!res.ok) {
                 alert('Signup failed ', data.success, data.user.username);
-                // optionally show an error to the user
             }
 
         } catch (e) {
@@ -52,7 +64,6 @@ const LogIn = () => {
 
     useEffect(() => {
         console.log(signInData);
-
     }, [signInData]);
 
     return (
@@ -87,6 +98,7 @@ const LogIn = () => {
                                     placeholder="Enter your username or email"
                                     autoComplete="username"
                                     onChange={e => { handleInputChange(e) }}
+                                    required
                                 />
                             </div>
 
@@ -102,6 +114,7 @@ const LogIn = () => {
                                     placeholder="Enter your password"
                                     autoComplete="current-password"
                                     onChange={e => { handleInputChange(e) }}
+                                    required
                                 />
                             </div>
 

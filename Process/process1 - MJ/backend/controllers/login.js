@@ -9,7 +9,7 @@ async function loginUser(req, res) {
     }
 
     try {
-        // find by username or email
+
         const user = await userModel.findOne({ $or: [{ username: userOrEmail }, { email: userOrEmail }] });
 
         if (!user) {
@@ -22,11 +22,10 @@ async function loginUser(req, res) {
             return res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
 
-        // successful login - omit password in response
         return res.status(200).json({
-            success: true,
-            message: 'Signin successful',
-            user: { id: user._id, username: user.username, email: user.email }
+            "success": "true",
+            "message": 'Signin successful',
+            "user": { id: user._id, username: user.username, email: user.email }
         });
     } catch (err) {
         console.error('Login error:', err);
