@@ -1,12 +1,16 @@
 import { UserRound } from "lucide-react";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserAuthContext } from "../../Context/GlobalContext";
+import { UserAuthContext } from "../../Context/AuthContext";
+import { useContext } from "react";
 
-const Header = ({ loginStatus }) => {
+const Header = () => {
 
-    const userContext = useContext(UserAuthContext);
-    console.log('data recieved in header context ' + userContext);
+    const { login, logout, userData } = useContext(UserAuthContext);
+
+    // const handleLogout = () => {
+    // We can also use the setter to log out
+    // setCurrentUser(null);
+    // };
 
     return <>
         <div className="flex flex-row gap-0 items-center fixed top-0 left-0 right-0 pl-2 z-5 h-10 rounded-bl-3xl bg-[#333333] font-[Poppins]">
@@ -49,7 +53,7 @@ const Header = ({ loginStatus }) => {
                 <div className="text-white flex gap-2 justify-center items-center">
                     <span className="text-sm">
                         <Link to={'login'} className="flex justify-center items-center">
-                            <span>{(userContext) ? userContext.user.username : "Login"}</span>
+                            <span>{userData ? userData.user.username : "Login"}</span>
                             <UserRound />
                         </Link>
                     </span>

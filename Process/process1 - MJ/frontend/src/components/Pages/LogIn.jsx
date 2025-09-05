@@ -1,16 +1,12 @@
-import { Layout } from "lucide-react";
-import { useEffect } from "react";
+import { use, useContext, useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"
-import userContext, { UserAuthContext } from "../../Context/GlobalContext";
-import Header from "../Header/Header";
-import UserContext from "../../Context/GlobalContext";
+import { UserAuthContext } from "../../Context/AuthContext";
 
 const LogIn = () => {
 
-    //for context
-    const [userData, setUserData] = useState(null);
+    const { login, logout, userData } = useContext(UserAuthContext);
 
     const navigate = useNavigate();
 
@@ -22,7 +18,6 @@ const LogIn = () => {
     );
 
     const submitLogin = async (e) => {
-
         e.preventDefault();
 
         try {
@@ -39,10 +34,9 @@ const LogIn = () => {
             if (res.ok && data.success) {
                 // redirect to homepage on successful login
                 toast.success('welcome ' + data.user.username);
-
-                setUserData(data);
                 console.log(data);
-                <UserContext value={userData} childern={<Header />} />;
+
+                login(data);
                 navigate("/");
                 return;
             }
@@ -52,9 +46,8 @@ const LogIn = () => {
             }
 
         } catch (e) {
-            console.error('faild to Login: ' + e);
+            console.error('(catch): faild to Login: ' + e);
         }
-
     }
 
     const handleInputChange = (e) => {

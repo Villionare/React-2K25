@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FetchQuery from "./FetchQuery";
+import { UserAuthContext } from "../../Context/AuthContext";
 
 const SearchWindow = () => {
+    const { login, logout, userData } = useContext(UserAuthContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [submittedQuery, setSubmittedQuery] = useState('');
 
     const submitQuery = () => {
-        setSubmittedQuery(searchQuery); // ✅ this will trigger FetchQuery
+        setSubmittedQuery(searchQuery);
         console.log('submitted:', searchQuery);
     };
 
@@ -38,7 +40,7 @@ const SearchWindow = () => {
                         </div>
 
                         <div className="text-white flex justify-center items-center">
-                            <Link to="/accounts"><span className="text-sm">Login</span></Link>
+                            <Link to="/accounts"><span className="text-sm">{userData ? userData.user.username : "Login"}</span></Link>
                         </div>
 
                         <button className="flex text-white bg-[#3d3d3d] text-sm p-2 rounded-md">
