@@ -1,12 +1,13 @@
 import { UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import { UserAuthContext } from "../../Context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Dropdown from "../../UserDropDown/dropDown";
 
 const Header = () => {
 
     const { login, logout, userData } = useContext(UserAuthContext);
-
+    const [dropOptions] = useState(['Profile', 'logout']);
     // const handleLogout = () => {
     // We can also use the setter to log out
     // setCurrentUser(null);
@@ -52,10 +53,16 @@ const Header = () => {
 
                 <div className="text-white flex gap-2 justify-center items-center">
                     <span className="text-sm">
-                        <Link to={'login'} className="flex justify-center items-center">
-                            <span>{userData ? userData.user.username : "Login"}</span>
-                            <UserRound />
-                        </Link>
+
+                        <span>
+                            {userData ?
+                                <Dropdown dropDownName={userData.user.username} options={['Profile', 'Logout']} /> :
+                                <Link to={'login'} className="flex justify-center items-center">
+                                    "Login" <UserRound />
+                                </Link>}
+                        </span>
+                        {/* <span>{userData ? userData.user.username : "Login"}</span> */}
+
                     </span>
                 </div>
 

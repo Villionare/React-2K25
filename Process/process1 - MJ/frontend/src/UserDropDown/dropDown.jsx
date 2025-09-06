@@ -1,139 +1,34 @@
-import * as React from "react";
-import { DropdownMenu } from "radix-ui";
-import {
-    HamburgerMenuIcon,
-    DotFilledIcon,
-    CheckIcon,
-    ChevronRightIcon,
-} from "@radix-ui/react-icons";
+import { Link } from "react-router-dom";
 
-const DropdownMenuDemo = ({ triggerbtn }) => {
-    const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-    const [urlsChecked, setUrlsChecked] = React.useState(false);
-    const [person, setPerson] = React.useState("pedro");
+const Dropdown = ({ dropDownName, options }) => {
 
-    return (
-        <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-                <HamburgerMenuIcon />
-            </DropdownMenu.Trigger>
+    console.log(options);
 
-            <DropdownMenu.Portal>
-                <DropdownMenu.Content
-                    className="min-w-[220px] rounded-md bg-white p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade"
-                    sideOffset={5}
-                >
-                    <DropdownMenu.Item className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                        New Tab{" "}
-                        <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                            ⌘+T
-                        </div>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                        New Window{" "}
-                        <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                            ⌘+N
-                        </div>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item
-                        className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1"
-                        disabled
-                    >
-                        New Private Window{" "}
-                        <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                            ⇧+⌘+N
-                        </div>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Sub>
-                        <DropdownMenu.SubTrigger className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:data-[state=open]:bg-violet9 data-[state=open]:bg-violet4 data-[disabled]:text-mauve8 data-[highlighted]:data-[state=open]:text-violet1 data-[highlighted]:text-violet1 data-[state=open]:text-violet11">
-                            More Tools
-                            <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                                <ChevronRightIcon />
-                            </div>
-                        </DropdownMenu.SubTrigger>
-                        <DropdownMenu.Portal>
-                            <DropdownMenu.SubContent
-                                className="min-w-[220px] rounded-md bg-white p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade"
-                                sideOffset={2}
-                                alignOffset={-5}
-                            >
-                                <DropdownMenu.Item className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                                    Save Page As…{" "}
-                                    <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                                        ⌘+S
-                                    </div>
-                                </DropdownMenu.Item>
-                                <DropdownMenu.Item className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                                    Create Shortcut…
-                                </DropdownMenu.Item>
-                                <DropdownMenu.Item className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                                    Name Window…
-                                </DropdownMenu.Item>
-                                <DropdownMenu.Separator className="m-[5px] h-px bg-violet6" />
-                                <DropdownMenu.Item className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1">
-                                    Developer Tools
-                                </DropdownMenu.Item>
-                            </DropdownMenu.SubContent>
-                        </DropdownMenu.Portal>
-                    </DropdownMenu.Sub>
+    return <>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+            {dropDownName}
+            <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+            </svg>
+        </button>
 
-                    <DropdownMenu.Separator className="m-[5px] h-px bg-violet6" />
+        <div id="dropdown" className="hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
 
-                    <DropdownMenu.CheckboxItem
-                        className="group relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1"
-                        checked={bookmarksChecked}
-                        onCheckedChange={setBookmarksChecked}
-                    >
-                        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
-                            <CheckIcon />
-                        </DropdownMenu.ItemIndicator>
-                        Show Bookmarks{" "}
-                        <div className="ml-auto pl-5 text-mauve11 group-data-[disabled]:text-mauve8 group-data-[highlighted]:text-white">
-                            ⌘+B
-                        </div>
-                    </DropdownMenu.CheckboxItem>
-                    <DropdownMenu.CheckboxItem
-                        className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1"
-                        checked={urlsChecked}
-                        onCheckedChange={setUrlsChecked}
-                    >
-                        <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
-                            <CheckIcon />
-                        </DropdownMenu.ItemIndicator>
-                        Show Full URLs
-                    </DropdownMenu.CheckboxItem>
+                <li>
+                    <Link className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        Profile
+                    </Link>
+                </li>
+                <li >
+                    <Link className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        Logout
+                    </Link>
+                </li>
+            </ul>
+        </div>
 
-                    <DropdownMenu.Separator className="m-[5px] h-px bg-violet6" />
+    </>
+}
 
-                    <DropdownMenu.Label className="pl-[25px] text-xs leading-[25px] text-mauve11">
-                        People
-                    </DropdownMenu.Label>
-                    <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
-                        <DropdownMenu.RadioItem
-                            className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1"
-                            value="pedro"
-                        >
-                            <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
-                                <DotFilledIcon />
-                            </DropdownMenu.ItemIndicator>
-                            Pedro Duarte
-                        </DropdownMenu.RadioItem>
-                        <DropdownMenu.RadioItem
-                            className="relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[5px] text-[13px] leading-none text-violet11 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[disabled]:text-mauve8 data-[highlighted]:text-violet1"
-                            value="colm"
-                        >
-                            <DropdownMenu.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
-                                <DotFilledIcon />
-                            </DropdownMenu.ItemIndicator>
-                            Colm Tuite
-                        </DropdownMenu.RadioItem>
-                    </DropdownMenu.RadioGroup>
-
-                    <DropdownMenu.Arrow className="fill-white" />
-                </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-        </DropdownMenu.Root>
-    );
-};
-
-export default DropdownMenuDemo;
+export default Dropdown;
