@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import userModel from '../models/user.js';
+import session from 'express-session';
 
 async function signUpUser(req, res) {
     try {
@@ -10,6 +11,7 @@ async function signUpUser(req, res) {
         }
 
         const existing = await userModel.findOne({ $or: [{ username }, { email }] });
+
         if (existing) {
             return res.status(409).json({ message: 'username or email already in use' });
         }
@@ -27,6 +29,7 @@ async function signUpUser(req, res) {
         return res.status(201).json({
             message: 'User created',
             user: { id: created._id, username: created.username, email: created.email }
+
         });
 
     } catch (err) {

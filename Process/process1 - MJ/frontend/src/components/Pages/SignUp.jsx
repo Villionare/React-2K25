@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
-
+    const navigate = useNavigate();
 
     const [signUpData, setSignUpData] = useState(
         {
@@ -29,12 +29,16 @@ const SignUp = () => {
             });
 
             // parse JSON (await the promise) and handle non-OK responses
-            const data = await res.json().catch(() => null);
+            const data = await res.json();
 
             if (!res.ok) {
                 console.error('Signup failed', res.status, data);
                 // optionally show an error to the user
                 return;
+            }
+
+            if (res.status = 201) {
+                navigate('/login');
             }
 
             console.log('response from server', data);
