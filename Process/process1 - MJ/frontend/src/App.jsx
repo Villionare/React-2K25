@@ -1,7 +1,7 @@
 import Section from './components/Section/Section'
 import Accounts from './components/Pages/Account'
 import Ranking from './components/Pages/Ranking'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useRoutes } from 'react-router-dom'
 import Charts from './components/Pages/Charts'
 import { useEffect, useMemo, useState } from 'react'
 import Loading from './components/Loading/loading'
@@ -11,6 +11,9 @@ import SearchWindow from './components/SearchWindow/Searchwindow'
 import SignUp from './components/Pages/SignUp'
 import LogIn from './components/Pages/LogIn'
 import { AuthProvider } from './Context/AuthContext'
+import Dynamo from './Process/Dynamic_Routing/dynamo'
+import NotFound from './components/NotFound/notFound'
+
 
 function App() {
 
@@ -43,6 +46,8 @@ function App() {
                 <Route path='login' element={<LogIn />} />
                 <Route path='signup' element={<SignUp />} />
               </Route>
+              <Route path="/dynamic/:id" element={<Dynamo />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
         </div>

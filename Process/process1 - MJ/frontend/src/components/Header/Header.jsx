@@ -2,7 +2,6 @@ import { UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import { UserAuthContext } from "../../Context/AuthContext";
 import { useContext, useState } from "react";
-import Dropdown from "../../UserDropDown/dropDown";
 
 const Header = () => {
 
@@ -55,11 +54,9 @@ const Header = () => {
                     <span className="text-sm">
 
                         <span>
-                            {userData ?
-                                <Dropdown dropDownName={userData.user.username} options={['Profile', 'Logout']} /> :
-                                <Link to={'login'} className="flex justify-center items-center">
-                                    "Login" <UserRound />
-                                </Link>}
+                            <Link to={'login'} className="flex justify-center items-center">
+                                Login <UserRound />
+                            </Link>
                         </span>
                         {/* <span>{userData ? userData.user.username : "Login"}</span> */}
 
