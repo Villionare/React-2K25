@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 
-/**
- * useFetch hook
- * @param {{url: string, options?: RequestInit}} params
- */
-function useFetch({ url, options } = {}) {
+function useFetch({ url, options }) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -22,7 +18,7 @@ function useFetch({ url, options } = {}) {
             setError(null);
 
             try {
-                const res = await fetch(url, { ...options, signal });
+                const res = await fetch(url, { ...options }, signal);
 
                 if (!res.ok) {
                     throw new Error('HTTP error: ' + res.status + ' ' + res.statusText);
@@ -30,7 +26,9 @@ function useFetch({ url, options } = {}) {
 
                 const json = await res.json();
                 if (!mounted) return;
+
                 setData(json);
+
             } catch (e) {
                 if (e.name === 'AbortError') return; // request was cancelled
                 if (!mounted) return;
