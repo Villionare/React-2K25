@@ -1,4 +1,10 @@
+import { useEffect } from "react";
+
 const Categories = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
 
     return <>
         <div className="mt-5" id="categories">

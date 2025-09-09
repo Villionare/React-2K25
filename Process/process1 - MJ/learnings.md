@@ -117,3 +117,33 @@ function Timer() {
                 </p>
             </div>
 ```
+9. **useCallback:** (for performance) Bhai, useCallback hook React mein ek performance optimization tool hai, jo ek function ko memoize karta hai. Iska matlab hai ki jab bhi component re-render hota hai, toh wahi function instance return hota hai jab tak uski dependencies change na ho. Yeh unnecessary re-renders aur function recreation ko rokne mein help karta hai, especially jab functions props ke roop mein child components ko pass kiye jate hain.
+
+```javascript
+import React, { useState, useCallback } from 'react';
+
+function Child({ onClick }) {
+  console.log('Child rendered');
+  return <button onClick={onClick}>Click me</button>;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  // Bina useCallback ke, har render pe naya function banta hai
+  // const handleClick = () => {
+  //   console.log('Button clicked');
+  // };
+
+  // useCallback ke saath, function tab tak same rahega jab tak dependencies change na ho
+  const handleClick = useCallback(() => {
+    console.log('Button clicked');
+  }, []); // Empty dependency array, function kabhi nahi badlega
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increment: {count}</button>
+      <Child onClick={handleClick} />
+    </div>
+  );
+}```

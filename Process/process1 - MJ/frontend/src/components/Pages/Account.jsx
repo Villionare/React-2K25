@@ -4,6 +4,11 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Accounts() {
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
     const [isLogin, setIsLogin] = useState(true);
 
     //SIGNUP

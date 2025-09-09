@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Ranking = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
     // 🎬 Dummy Movies Data
     const [movies] = useState([
         {
@@ -113,8 +118,8 @@ const Ranking = () => {
                     <div
                         key={movie.rank}
                         className={`relative group rounded-xl overflow-hidden shadow-lg ${movie.rank <= 10
-                                ? "border-2 border-yellow-500"
-                                : "border border-gray-700"
+                            ? "border-2 border-yellow-500"
+                            : "border border-gray-700"
                             }`}
                     >
                         {/* Poster */}

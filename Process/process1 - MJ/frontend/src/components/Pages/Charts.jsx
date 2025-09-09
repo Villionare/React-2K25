@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
     PieChart, Pie, Cell,
@@ -12,6 +12,11 @@ import {
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#00C49F", "#FFBB28", "#FF4444"];
 
 const Charts = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
     // Dummy Data for all charts
     const revenueByYear = [
         { year: 2015, revenue: 38 },

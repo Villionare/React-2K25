@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
     const navigate = useNavigate();
 
     const [signUpData, setSignUpData] = useState(

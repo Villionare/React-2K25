@@ -6,6 +6,10 @@ import { UserAuthContext } from "../../Context/AuthContext";
 
 const LogIn = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to top on mount
+    }, []);
+
     const { login, logout, userData } = useContext(UserAuthContext);
 
     const navigate = useNavigate();
