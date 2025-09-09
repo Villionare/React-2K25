@@ -19,7 +19,7 @@
 
 // export default useOutsideClick;
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 /**
  * A custom hook to detect clicks outside of a specific component.

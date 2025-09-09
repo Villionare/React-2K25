@@ -13,6 +13,7 @@ import LogIn from './components/Pages/LogIn'
 import { AuthProvider } from './Context/AuthContext'
 import Dynamo from './Process/Dynamic_Routing/dynamo'
 import NotFound from './components/NotFound/notFound'
+import Testing from './Process/Testing/Testing'
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                 <Route path='signup' element={<SignUp />} />
               </Route>
               <Route path="/dynamic/:id" element={<Dynamo />} />
+              <Route path="/test" element={<Testing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>

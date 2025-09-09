@@ -6,11 +6,15 @@ import useLocalStorage from "../customHooks/use-Local-storage";
 import useSessionStorage from "../customHooks/use-Session-Storage";
 import { useId } from "react";
 import useUId from "../customHooks/use-Id";
+import ExternalForm from "../FormBuilder/form";
+import MemoDoing from "../hooks/useMemo";
 
 const Dynamo = () => {
 
     //using usefetch to get comments form random api
-    const { loading, data, error } = useFetch({ url: 'https://dummyjson.com/comments', options: { method: 'GET' } });
+    const { loading, data, error } = useFetch(
+        'https://dummyjson.com/comments', { options: { method: 'GET' } }
+    );
     console.log('recipes data:', data, 'loading:', loading, 'error:', error);
 
     const params = useParams();
@@ -22,7 +26,7 @@ const Dynamo = () => {
     console.log(location);
     //this location contains an object of all the realted url things like search/path/key/state
 
-    const { width, height } = useWindowResize();
+    // const { width, height } = useWindowResize();
 
     // const { count } = useInterval(2000, 3);
     // console.log(count);
@@ -50,10 +54,12 @@ const Dynamo = () => {
             <p className="text-amber-600">
                 {/* {location} */}
             </p>
-            <p className="text-white">
+            {/* <p className="text-white">
                 width: {width} <br /> height: {height}
             </p>
             <Ref />
+            <ExternalForm />
+            <MemoDoing /> */}
         </div>
     </>
 }

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import FetchQuery from "./FetchQuery";
 import { UserAuthContext } from "../../Context/AuthContext";
 
@@ -7,6 +7,11 @@ const SearchWindow = () => {
     const { login, logout, userData } = useContext(UserAuthContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [submittedQuery, setSubmittedQuery] = useState('');
+    const searchBox = useRef();
+
+    useEffect(() => {
+        searchBox.current.focus();
+    }, []);
 
     const submitQuery = () => {
         setSubmittedQuery(searchQuery);
@@ -29,6 +34,7 @@ const SearchWindow = () => {
                         {/* Search Bar */}
                         <div className="flex-1 flex items-center bg-[#3d3d3d] rounded-lg px-3 lg:flex-1/4">
                             <input
+                                ref={searchBox}
                                 type="text"
                                 className="flex-1 rounded-md bg-[#3d3d3d] text-[#c4c4c4] text-xs h-full mr-2 focus:outline-none truncate"
                                 placeholder="Search"

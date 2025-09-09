@@ -52,7 +52,11 @@ const SignUp = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setSignUpData((prev) => ({ ...prev, [name]: value }))
+        setSignUpData((prev) => ({
+            ...prev,
+            [name]: value
+        }
+        ))
     }
 
     useEffect(() => {

@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 
-function useFetch({ url, options }) {
+/**
+ * useFetch hook
+ * Accepts a single parameter object: { url, options }
+ */
+
+
+function useFetch({ url, options } = {}) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -18,7 +24,7 @@ function useFetch({ url, options }) {
             setError(null);
 
             try {
-                const res = await fetch(url, { ...options }, signal);
+                const res = await fetch(url, { ...(options || {}), signal });
 
                 if (!res.ok) {
                     throw new Error('HTTP error: ' + res.status + ' ' + res.statusText);
@@ -28,7 +34,6 @@ function useFetch({ url, options }) {
                 if (!mounted) return;
 
                 setData(json);
-
             } catch (e) {
                 if (e.name === 'AbortError') return; // request was cancelled
                 if (!mounted) return;
@@ -45,7 +50,7 @@ function useFetch({ url, options }) {
             mounted = false;
             controller.abort();
         };
-        // note: stringify options to allow object comparison in deps
+        // stringify options to compare in deps
     }, [url, options ? JSON.stringify(options) : undefined]);
 
     return { loading, data, error };
