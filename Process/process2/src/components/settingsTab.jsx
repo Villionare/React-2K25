@@ -1,13 +1,16 @@
+import { createRef } from "react";
 import { useTheme } from "../context/theme";
 
-const Settings = (contextThemeMain) => {
+// use createRef so the exported ref is stable and can be used outside
+// of React component hooks (for example by the backdrop utility)
+export const settingsTab = createRef();
+
+const Settings = () => {
 
     const { isDarkMode, toggleTheme } = useTheme();
 
-    console.log(isDarkMode ? 'Light' : 'Dark');
-
     return <>
-        <div className="fixed bottom-10 right-5 ">
+        <div className="fixed bottom-10 right-5" ref={settingsTab}>
             <div className="flex flex-col p-2 gap-2 bg-[#1f1f1f] text-white rounded-lg shadow-lg text-sm">
                 <ul className="list-none">
                     <li>
