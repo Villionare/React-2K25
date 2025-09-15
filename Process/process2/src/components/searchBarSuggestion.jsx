@@ -5,9 +5,9 @@ import Suggestions from "./Suggestions";
 const SuggestionSearchBox = ({ inpText, searchInp, isDarkMode, inpChange, sussData, search }) => {
 
     return <>
-        <div className="gap-2 items-center bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#45494d] h-auto rounded-4xl min-w-[90vw] md:min-w-[50vw] w-[50vw]">
+        <div className="flex flex-col">
+            <div className="flex gap-2 items-center bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#45494d] h-[50px] rounded-4xl min-w-[90vw] md:min-w-[50vw] w-[50vw]">
 
-            <div className="top-0 left-0 right-0 flex border-1 border-amber-300">
                 <div className="flex flex-none items-center pl-3">
                     <span className="w-5">
                         <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -70,6 +70,9 @@ const SuggestionSearchBox = ({ inpText, searchInp, isDarkMode, inpChange, sussDa
                     </div>
                 </div>
 
+            </div>
+
+            <div className=" bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#45494d] h-auto rounded-b-4xl min-w-[90vw] md:min-w-[50vw] w-[50vw]">
                 <Suggestions suggestionsData={sussData} />
             </div>
         </div>

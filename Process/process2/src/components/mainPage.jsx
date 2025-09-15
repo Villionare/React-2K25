@@ -7,7 +7,6 @@ import fetchSuggestions from "../Hooks/Fetch/FetchSuggestions";
 import SearchBar from "./searchBar";
 import SuggestionSearchBox from "./searchBarSuggestion";
 
-//https://www.google.com/complete/search?q=x&cp=1&client=gws-wiz&xssi=t&gs_pcrt=undefined&hl=en-IN
 
 const MainPage = () => {
 
@@ -20,6 +19,7 @@ const MainPage = () => {
     const inpChange = async (value) => {
         const newVal = value ?? inpText.current?.value ?? '';
         setSearchInp(newVal);
+
         // await the async fetchSuggestions and store the result
         const suggestions = await fetchSuggestions(newVal);
         setSussData(suggestions);
@@ -80,13 +80,10 @@ const MainPage = () => {
             </div>
 
             {/* search bar */}
-            <div className="flex items-center justify-center border-1 border-amber-300">
+            <div className="flex items-center justify-center">
 
-                {suss_data ? (
-                    <SuggestionSearchBox inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} sussData={suss_data} search={search} />
-                ) : (
-                    <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={search} />
-                )}
+                <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={suss_data} submit={search()} />
+
             </div>
 
             {/* two buttons */}

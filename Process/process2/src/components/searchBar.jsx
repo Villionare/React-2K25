@@ -1,9 +1,11 @@
 import { SeparatorVertical, X } from "lucide-react";
+import Suggestions from "./Suggestions";
 
-const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange }) => {
+const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }) => {
 
-    return <>
-        <div className="flex gap-2 items-center bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#45494d] h-[50px] rounded-4xl min-w-[90vw] md:min-w-[50vw] w-[50vw]">
+    return <div className="flex flex-col">
+
+        <div className={`flex gap-2 items-center bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#303134]   ${search ? 'h-auto rounded-b-none rounded-4xl' : 'h-[50px] rounded-4xl'} min-w-[90vw] md:min-w-[50vw] w-[50vw]`}>
 
             <div className="flex flex-none items-center pl-3">
                 <span className="w-5">
@@ -20,10 +22,10 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange }) => {
                     onChange={(e) => inpChange(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && typeof search === 'function') {
-                            search();
+                            submit();
                         }
                     }}
-                    className="w-full bg-white dark:bg-[#45494d] text-[#d4d6da] focus:outline-0"
+                    className="w-full bg-white dark:bg-[#303134] text-[#d4d6da] focus:outline-0"
                     name="search_input" />
                 <div>
                     {searchInp == '' ? null :
@@ -67,7 +69,11 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange }) => {
                 </div>
             </div>
         </div>
-    </>
+
+        <div className="bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#303134] h-auto min-w-[90vw] md:min-w-[50vw] w-[50vw]">
+            <Suggestions suggestionsData={search} />
+        </div>
+    </div>
 }
 
 export default SearchBar;

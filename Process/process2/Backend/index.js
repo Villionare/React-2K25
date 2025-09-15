@@ -5,7 +5,7 @@ const app = express();
 
 // Allow CORS only for your frontend origin
 app.use(cors({
-    origin: 'http://localhost:5555' // Restrict to your frontend
+    origin: 'http://localhost:5556' // Restrict to your frontend
 }));
 app.use(express.json());
 
