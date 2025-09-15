@@ -47,9 +47,6 @@ function App() {
                 <Route path='login' element={<LogIn />} />
                 <Route path='signup' element={<SignUp />} />
               </Route>
-              <Route path="/dynamic/:id" element={<Dynamo />} />
-              <Route path="/test" element={<Testing />} />
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
         </div>
