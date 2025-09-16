@@ -5,8 +5,6 @@ import { useTheme } from "../context/theme";
 import backDrop from "../Hooks/BackDrop/backdrop";
 import fetchSuggestions from "../Hooks/Fetch/FetchSuggestions";
 import SearchBar from "./searchBar";
-import SuggestionSearchBox from "./searchBarSuggestion";
-
 
 const MainPage = () => {
 
@@ -35,7 +33,7 @@ const MainPage = () => {
     }, []);
 
     const search = () => {
-        window.location.href = `https://www.google.com/search?q=${searchInp}`
+        // window.location.href = `https://www.google.com/search?q=${searchInp}`
     }
 
     return <div className="flex flex-col bg-[#ffffff] dark:bg-[#202124] min-h-screen box-border m-0">

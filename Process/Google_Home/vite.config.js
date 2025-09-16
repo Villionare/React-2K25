@@ -7,8 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss()
-  ]
-  ,
+  ],
   server: {
     // allowlist hosts for forwarded tunnels (ngrok)
     allowedHosts: ['https://fbab19253e39.ngrok-free.app', 'localhost'],
@@ -16,4 +15,5 @@ export default defineConfig({
     origin: 'https://fbab19253e39.ngrok-free.app',
     host: true,
   }
+
 })

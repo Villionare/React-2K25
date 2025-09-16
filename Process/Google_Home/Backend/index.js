@@ -5,7 +5,7 @@ const app = express();
 
 // Allow CORS only for your frontend origin
 app.use(cors({
-    origin: 'http://localhost:5556' // Restrict to your frontend
+    origin: 'http://localhost:5173' // Restrict to your frontend
 }));
 app.use(express.json());
 
@@ -50,8 +50,13 @@ app.get('/api/search', async (req, res) => {
 
         // Extract suggestions (adjust based on response structure)
         const suggestions = (data[0] || []).map(item =>
-            item[0].replace(/<[^>]+>/g, '').trim() // Strip HTML tags
+            item[0].trim() // Strip HTML tags
         ).filter(s => s);
+
+        // const suggestions = (data[0] || []).map(item =>
+        //     item[0].replace(/<[^>]+>/g, '').trim() // Strip HTML tags
+        // ).filter(s => s);
+        // res.json(suggestions);
 
         res.json(suggestions);
     } catch (error) {

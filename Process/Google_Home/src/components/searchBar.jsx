@@ -1,11 +1,46 @@
 import { SeparatorVertical, X } from "lucide-react";
 import Suggestions from "./Suggestions";
+import { useEffect, useRef, useState } from "react";
+import backDrop from "../Hooks/BackDrop/backdrop";
+
+const temp_suss = [
+    "samsung galaxy",
+    "samurai movies",
+    "sample resume pdf",
+    "sam altman interview",
+    "sam smith songs",
+    "samsung tv 55 inch",
+    "sample java code",
+    "samuel l jackson movies",
+    "samsung washing machine",
+    "sam curran cricket stats"
+];
+
 
 const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }) => {
 
-    return <div className="flex flex-col">
+    const searchBox = useRef();
+    const [showSuggestions, setShowSuggestions] = useState(false);
 
-        <div className={`flex gap-2 items-center bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#303134]   ${search ? 'h-auto rounded-b-none rounded-4xl' : 'h-[50px] rounded-4xl'} min-w-[90vw] md:min-w-[50vw] w-[50vw]`}>
+
+    const handleSearchBoxOutsideClick = () => {
+        setShowSuggestions(false);
+    }
+
+    useEffect(() => {
+        const cleanup = backDrop(handleSearchBoxOutsideClick, searchBox);
+        return cleanup;
+    }, [handleSearchBoxOutsideClick, searchBox]);
+
+
+
+    return <div className="flex flex-col" onClick={() => setShowSuggestions(true)}>
+
+        <div ref={searchBox} className={`py-1 pl-2 flex gap-2 items-center bg-white border-gray-300 shadow-md
+                ${showSuggestions
+                ? 'dark:bg-[#303134] h-auto rounded-b-none rounded-4xl dark:border-b dark:border-[#5f6368] dark:hover:bg-[#303134]'
+                : 'dark:bg-[#4d5156] h-[50px] rounded-4xl dark:border-none'}
+                min-w-[90vw] md:min-w-[50vw] w-[50vw] group dark:hover:bg-[#5f6368]`}>
 
             <div className="flex flex-none items-center pl-3">
                 <span className="w-5">
@@ -17,7 +52,7 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
 
             {/* search input */}
             <div className="flex-1 flex">
-                <input type="text"
+                <input type="text" autoComplete="off"
                     ref={inpText}
                     onChange={(e) => inpChange(e.target.value)}
                     onKeyDown={(e) => {
@@ -25,7 +60,9 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
                             submit();
                         }
                     }}
-                    className="w-full bg-white dark:bg-[#303134] text-[#d4d6da] focus:outline-0"
+                    className={`w-full bg-white dark:bg-[#4d5156] text-[#d4d6da] focus:outline-0 
+                         ${showSuggestions ? 'dark:bg-[#303134]' : 'dark:bg-[#4d5156]'} 
+                        dark:group-hover:bg-transparent`}
                     name="search_input" />
                 <div>
                     {searchInp == '' ? null :
@@ -56,7 +93,9 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
 
             {/* AI mode */}
             <div className="h-full flex items-center justify-center flex-none text-xs mr-2 p-1">
-                <div className="flex justify-center items-center bg-[#F2F2F2] dark:bg-[#535A62] border-1 border-none dark:border-gray-400 w-20 h-9 rounded-4xl">
+                <div className={`flex justify-center items-center bg-[#F2F2F2]
+                 ${showSuggestions ? 'dark:bg-[#303134]' : 'dark:bg-[#4d5156]'} dark:group-hover:bg-transparent
+                border-1 border-gray-300 p-1 dark:border-gray-400 w-20 h-9 rounded-4xl`}>
                     <span>
                         <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"></rect></g><g><g>
                             <path fill={isDarkMode ? "#bfbfbf" : "#474747"} d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
@@ -70,10 +109,16 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
             </div>
         </div>
 
-        <div className="bg-white border-1 border-gray-300 dark:border-none shadow-md dark:bg-[#303134] h-auto min-w-[90vw] md:min-w-[50vw] w-[50vw]">
-            <Suggestions suggestionsData={search} />
+        <div className="bg-white dark:border-none shadow-md dark:bg-[#303134] h-auto min-w-[90vw] md:min-w-[50vw] w-[50vw] rounded-b-4xl">
+
+            {/* <Suggestions suggestionsData={temp_suss} /> */}
+
+            {
+                (showSuggestions) ?
+                    <Suggestions suggestionsData={search} /> : null
+            }
         </div>
-    </div>
+    </div >
 }
 
 export default SearchBar;
