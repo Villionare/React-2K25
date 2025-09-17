@@ -17,7 +17,7 @@ const temp_suss = [
 ];
 
 
-const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }) => {
+const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, handleFocus }) => {
 
     const searchBox = useRef();
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -34,7 +34,7 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
 
 
 
-    return <div className="flex flex-col" onClick={() => setShowSuggestions(true)}>
+    return <div className="flex flex-col caret-white" onClick={() => setShowSuggestions(true)}>
 
         <div ref={searchBox} className={`py-1 pl-2 flex gap-2 items-center bg-white border-gray-300 shadow-md
                 ${showSuggestions
@@ -52,8 +52,10 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit }
 
             {/* search input */}
             <div className="flex-1 flex">
-                <input type="text" autoComplete="off"
+                <input type="text"
+                    autoComplete="off"
                     ref={inpText}
+                    onFocus={handleFocus}
                     onChange={(e) => inpChange(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && typeof search === 'function') {

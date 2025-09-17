@@ -5,22 +5,55 @@ import { useTheme } from "../context/theme";
 import backDrop from "../Hooks/BackDrop/backdrop";
 import fetchSuggestions from "../Hooks/Fetch/FetchSuggestions";
 import SearchBar from "./searchBar";
+import TwoButtons from "./twoButtons";
 
 const MainPage = () => {
 
+    //temp history data
+    const searchHistory = [
+        "when will be the next election in india",
+        "jobs near me",
+        "java 25",
+        "ggsipu",
+        "omegle",
+        "athena hacker house",
+        "delhi metro route",
+        "kotlin",
+        "prisha tuition laxmi nagar",
+        "what a computer operator do"
+    ];
+
+
     const { isDarkMode, toggleTheme } = useTheme();
-    const [triggerSettings, setTriggerSettings] = useState(false);
+
+    //settings trigger
+    const [triggerSettings, setTriggerSettings] = useState(searchHistory);
+
+    //refrence of the search div
     const inpText = useRef();
+
+    //query from input tag
     const [searchInp, setSearchInp] = useState('');
+    const [hasValue, setHasValue] = useState(false);
+
+    //suggestions reacieved
     const [suss_data, setSussData] = useState(null);
 
     const inpChange = async (value) => {
         const newVal = value ?? inpText.current?.value ?? '';
         setSearchInp(newVal);
 
-        // await the async fetchSuggestions and store the result
-        const suggestions = await fetchSuggestions(newVal);
-        setSussData(suggestions);
+        if (newVal.trim() === "") {
+            setHasValue(false);
+            setSussData(searchHistory);
+        } else {
+
+            setHasValue(true);
+
+            // await the async fetchSuggestions and store the result
+            const suggestions = await fetchSuggestions(newVal);
+            setSussData(suggestions);
+        }
     }
 
     useEffect(() => {
@@ -35,6 +68,12 @@ const MainPage = () => {
     const search = () => {
         // window.location.href = `https://www.google.com/search?q=${searchInp}`
     }
+
+    const handleFocus = () => {
+        if (inpText.current.value.trim() === "") {
+            setSussData(searchHistory);
+        }
+    };
 
     return <div className="flex flex-col bg-[#ffffff] dark:bg-[#202124] min-h-screen box-border m-0">
 
@@ -78,21 +117,18 @@ const MainPage = () => {
             </div>
 
             {/* search bar */}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center caret-transparent">
 
-                <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={suss_data} submit={search()} />
+                <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={suss_data} submit={search()} handleFocus={handleFocus} />
 
             </div>
 
             {/* two buttons */}
-            <div className="flex justify-center gap-3 mt-7 text-sm text-black dark:text-[#e8eaed]">
-                <button className="bg-[#f8f9fa] dark:bg-[#303134] rounded-md px-3 py-2">
-                    Google Search
-                </button>
-                <button className="bg-[#f8f9fa] dark:bg-[#303134] rounded-md px-3 py-2">
-                    I'm Feeling Lucky
-                </button>
-            </div>
+
+            {
+                suss_data ? null :
+                    <TwoButtons />
+            }
 
             {/* languages */}
             <div className="flex justify-center gap-1 text-[12px] dark:text-white mt-10">
