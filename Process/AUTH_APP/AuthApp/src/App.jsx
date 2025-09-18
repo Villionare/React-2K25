@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import { WhatsAppSignup } from "./pages/SIgnUp"
 import { WhatsAppLogin } from "./pages/Login"
 import ProfilePage from "./pages/profile"
+import { AuthProvider } from "./context"
 
 function App() {
 
@@ -11,9 +12,11 @@ function App() {
         <Route path="/" element={<WhatsAppSignup />} />
         <Route path="/login" element={<WhatsAppLogin />} />
         <Route path="/profile" element={
-          <AuthContext >
-            <ProfilePage />
-          </AuthContext>
+          <>
+            <AuthProvider >
+              <ProfilePage />
+            </AuthProvider>
+          </>
         } />
       </Routes>
 

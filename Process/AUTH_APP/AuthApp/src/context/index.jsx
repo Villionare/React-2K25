@@ -1,17 +1,23 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 
-const authContext = createContext(null);
+// create the context
+const AuthContext = createContext(null);
 
-export const AuthContext = ({ children }) => {
+// provider component
+export const AuthProvider = ({ children }) => {
     const [flag, setFlag] = useState(false);
 
-    //functions to implement and get some value
+    const value = { flag, setFlag };
 
-    return <AuthContext >
-        {children}
-    </AuthContext>
-}
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
 
-export const usingContext = () => {
-    return authContext;
-}
+// hook to consume the context
+export const useAuth = () => useContext(AuthContext);
+
+// also export the context object if someone needs it
+export default AuthContext;

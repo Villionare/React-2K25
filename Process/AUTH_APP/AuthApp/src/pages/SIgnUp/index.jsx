@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { } from "firebase/auth";
 
 export function WhatsAppSignup() {
     const [showPassword, setShowPassword] = useState(false);
@@ -17,10 +18,8 @@ export function WhatsAppSignup() {
     const submit = (e) => {
         e.preventDefault();
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            alert(`Signed up as ${form.name}`);
-        }, 800);
+        console.log(form);
+
     };
 
     return (
@@ -42,7 +41,6 @@ export function WhatsAppSignup() {
                             <div>
                                 <label className="block text-xs text-gray-300 mb-2">Email</label>
                                 <div className="flex gap-2">
-                                    <div className="px-3 py-2 rounded-xl bg-[#0b1a17] border border-gray-800 text-gray-200 flex items-center text-sm">+91</div>
                                     <input
                                         type="email"
                                         value={form.email}
