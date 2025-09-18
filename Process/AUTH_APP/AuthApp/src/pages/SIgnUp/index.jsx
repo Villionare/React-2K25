@@ -18,7 +18,6 @@ export function WhatsAppSignup() {
     const submit = (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(form);
 
     };
 
