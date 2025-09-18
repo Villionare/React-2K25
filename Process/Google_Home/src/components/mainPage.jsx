@@ -9,25 +9,13 @@ import TwoButtons from "./twoButtons";
 
 const MainPage = () => {
 
-    //temp history data
-    const searchHistory = [
-        "when will be the next election in india",
-        "jobs near me",
-        "java 25",
-        "ggsipu",
-        "omegle",
-        "athena hacker house",
-        "delhi metro route",
-        "kotlin",
-        "prisha tuition laxmi nagar",
-        "what a computer operator do"
-    ];
-
-
     const { isDarkMode, toggleTheme } = useTheme();
 
+    //showsuggestions
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
     //settings trigger
-    const [triggerSettings, setTriggerSettings] = useState(searchHistory);
+    const [triggerSettings, setTriggerSettings] = useState(false);
 
     //refrence of the search div
     const inpText = useRef();
@@ -43,17 +31,11 @@ const MainPage = () => {
         const newVal = value ?? inpText.current?.value ?? '';
         setSearchInp(newVal);
 
-        if (newVal.trim() === "") {
-            setHasValue(false);
-            setSussData(searchHistory);
-        } else {
+        setHasValue(true);
 
-            setHasValue(true);
-
-            // await the async fetchSuggestions and store the result
-            const suggestions = await fetchSuggestions(newVal);
-            setSussData(suggestions);
-        }
+        // await the async fetchSuggestions and store the result
+        const suggestions = await fetchSuggestions(newVal);
+        setSussData(suggestions);
     }
 
     useEffect(() => {
@@ -66,42 +48,54 @@ const MainPage = () => {
     }, []);
 
     const search = () => {
-        // window.location.href = `https://www.google.com/search?q=${searchInp}`
+        window.open(`https://www.google.com/search?q=${searchInp}`);
     }
 
-    const handleFocus = () => {
-        if (inpText.current.value.trim() === "") {
-            setSussData(searchHistory);
-        }
-    };
+    const XclearInputQuery = () => {
+        console.log('clear clicked');
+
+        inpChange("");   // clears state
+        // optional: also clear ref directly if needed
+        if (inpText.current) inpText.current.value = "";
+    }
 
     return <div className="flex flex-col bg-[#ffffff] dark:bg-[#202124] min-h-screen box-border m-0">
 
         <div className="flex-[60vh]">
             {/* header */}
-            <header className="flex items-center text-black dark:text-white text-[13px] p-3 ">
+            <header className="flex items-center text-black dark:text-white text-[13px] p-2">
                 <div className="flex-1 flex gap-5 ml-3">
                     <div className="flex">
-                        <p><Link to={'https://about.google/?fg=1&utm_source=google-IN&utm_medium=referral&utm_campaign=hp-header'}>About</Link></p>
+                        <p className="hover:underline cursor-pointer"><Link to={'https://about.google/?fg=1&utm_source=google-IN&utm_medium=referral&utm_campaign=hp-header'}>About</Link></p>
                     </div>
-                    <div className="flex">
+                    <div className="flex hover:underline cursor-pointer">
                         <Link to={'https://store.google.com/IN?utm_source=hp_header&utm_medium=google_ooo&utm_campaign=GS100042&hl=en-IN'}>
                             Store
                         </Link>
                     </div>
                 </div>
 
-                <div className="flex-1 flex items-center justify-end gap-3">
-                    <p>Gmail</p>
-                    <p>Images</p>
-                    <div>
+                <div className="flex flex-1 items-center justify-end gap-3">
+                    <p className="hidden md:flex hover:underline cursor-pointer">
+                        <Link to={'https://mail.google.com/mail/?authuser=0&ogbl'}>
+                            Gmail
+                        </Link>
+                    </p>
+                    <p className="hidden md:flex hover:underline cursor-pointer">
+                        <Link to={'https://www.google.com/imghp?hl=en&authuser=0&ogbl'}>
+                            Images
+                        </Link>
+                    </p>
+                    <div className="hover:bg-[#2f3033] transition delay-100 cursor-pointer rounded-4xl p-2">
                         <svg focusable="false" height="24px" viewBox="0 -960 960 960" width="24px"> <path fill={isDarkMode ? "#bfbfbf" : "#474747"} d="M209-120q-42 0-70.5-28.5T110-217q0-14 3-25.5t9-21.5l228-341q10-14 15-31t5-34v-110h-20q-13 0-21.5-8.5T320-810q0-13 8.5-21.5T350-840h260q13 0 21.5 8.5T640-810q0 13-8.5 21.5T610-780h-20v110q0 17 5 34t15 31l227 341q6 9 9.5 20.5T850-217q0 41-28 69t-69 28H209Zm221-660v110q0 26-7.5 50.5T401-573L276-385q-6 8-8.5 16t-2.5 16q0 23 17 39.5t42 16.5q28 0 56-12t80-47q69-45 103.5-62.5T633-443q4-1 5.5-4.5t-.5-7.5l-78-117q-15-21-22.5-46t-7.5-52v-110H430Z"></path> </svg>
                     </div>
-                    <div>
+                    <div className="hover:bg-[#2f3033] transition delay-100 cursor-pointer rounded-4xl p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-grip-icon lucide-grip"><circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle cx="5" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="19" cy="19" r="1" /><circle cx="5" cy="19" r="1" /></svg>
                     </div>
                     <div>
-                        <button className="bg-[#b3d7ef] p-2 text-black rounded-4xl cursor-pointer">Sign in</button>
+                        <Link to={'https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/&ec=futura_exp_og_so_72776762_e'}>
+                            <button className="bg-[#b3d7ef] p-2 text-black rounded-4xl cursor-pointer">Sign in</button>
+                        </Link>
                     </div>
                 </div>
             </header>
@@ -119,47 +113,53 @@ const MainPage = () => {
             {/* search bar */}
             <div className="flex items-center justify-center caret-transparent">
 
-                <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={suss_data} submit={search()} handleFocus={handleFocus} />
+                <SearchBar inpText={inpText} searchInp={searchInp} isDarkMode={isDarkMode} inpChange={inpChange} search={suss_data} submit={search} showSuggestions={showSuggestions} setShowSuggestions={setShowSuggestions} XclearInputQuery={XclearInputQuery} />
 
             </div>
 
             {/* two buttons */}
-
             {
-                suss_data ? null :
-                    <TwoButtons />
+                showSuggestions ? null : <TwoButtons />
             }
 
             {/* languages */}
-            <div className="flex justify-center gap-1 text-[12px] dark:text-white mt-10">
-                <p className=" text-black dark:text-[#b9b9b9]">Google offered in:</p>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=hi&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCU">
-                    हिन्दी
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=bn&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCY">
-                    বাংলা
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=te&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCc">
-                    తెలుగు
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=mr&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCg">
-                    मराठी
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=ta&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCk">
-                    தமிழ்
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=gu&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCo">
-                    ગુજરાતી
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=kn&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCs">
-                    ಕನ್ನಡ
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=ml&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCw">
-                    മലയാളം
-                </a>
-                <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=pa&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCC0">
-                    ਪੰਜਾਬੀ
-                </a>
+            <div className="flex-col text-center flex md:flex-row justify-center gap-1 text-[12px] dark:text-white mt-10">
+                <div>
+                    <p className=" text-black dark:text-[#b9b9b9]">
+                        Google offered in:
+                    </p>
+                </div>
+
+                <div>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=hi&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCU">
+                        हिन्दी
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=bn&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCY">
+                        বাংলা
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=te&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCc">
+                        తెలుగు
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=mr&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCg">
+                        मराठी
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=ta&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCk">
+                        தமிழ்
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=gu&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCo">
+                        ગુજરાતી
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=kn&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCs">
+                        ಕನ್ನಡ
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=ml&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCw">
+                        മലയാളം
+                    </a>
+                    <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=pa&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCC0">
+                        ਪੰਜਾਬੀ
+                    </a>
+                </div>
+
 
             </div>
         </div>

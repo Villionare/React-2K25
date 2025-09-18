@@ -16,12 +16,9 @@ const temp_suss = [
     "sam curran cricket stats"
 ];
 
-
-const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, handleFocus }) => {
+const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, showSuggestions, setShowSuggestions, XclearInputQuery }) => {
 
     const searchBox = useRef();
-    const [showSuggestions, setShowSuggestions] = useState(false);
-
 
     const handleSearchBoxOutsideClick = () => {
         setShowSuggestions(false);
@@ -52,29 +49,31 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
 
             {/* search input */}
             <div className="flex-1 flex">
+
                 <input type="text"
                     autoComplete="off"
+                    name="search_input"
                     ref={inpText}
-                    onFocus={handleFocus}
+                    // onFocus={handleFocus}
                     onChange={(e) => inpChange(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter' && typeof search === 'function') {
+                        if (e.key === 'Enter') {
                             submit();
                         }
                     }}
                     className={`w-full bg-white dark:bg-[#4d5156] text-[#d4d6da] focus:outline-0 
                          ${showSuggestions ? 'dark:bg-[#303134]' : 'dark:bg-[#4d5156]'} 
-                        dark:group-hover:bg-transparent`}
-                    name="search_input" />
+                        dark:group-hover:bg-transparent`} />
                 <div>
-                    {searchInp == '' ? null :
-                        <div className="flex justify-center items-center">
+
+                    {searchInp === "" ? null : (
+                        <div
+                            className="flex justify-center items-center border-r-1 border-gray-400 cursor-pointer h-full"
+                            onClick={() => XclearInputQuery()}
+                        >
                             <X color={isDarkMode ? "#bfbfbf" : "#474747"} />
-                            <span className="text-3xl text-black dark:text-[#bfbfbf]" >
-                                |
-                            </span>
                         </div>
-                    }
+                    )}
                 </div>
             </div>
 

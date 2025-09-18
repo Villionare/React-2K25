@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 const TwoButtons = () => {
 
     return <>
@@ -6,7 +8,9 @@ const TwoButtons = () => {
                 Google Search
             </button>
             <button className="bg-[#f8f9fa] dark:bg-[#303134] rounded-md px-3 py-2">
-                I'm Feeling Lucky
+                <a href={'https://doodles.google/'}>
+                    I'm Feeling Lucky
+                </a>
             </button>
         </div>
     </>
