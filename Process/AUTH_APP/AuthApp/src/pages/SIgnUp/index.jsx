@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function WhatsAppSignup() {
     const [showPassword, setShowPassword] = useState(false);
-    const [form, setForm] = useState({ name: '', phone: '', password: '' });
+    const [form, setForm] = useState({ name: '', email: '', password: '' });
     const [loading, setLoading] = useState(false);
     const accent = 'bg-emerald-500';
 
-    const onChange = (k) => (e) => setForm((s) => ({ ...s, [k]: e.target.value }));
+    const onChange = (k) => (e) => setForm((s) => (
+        {
+            ...s,
+            [k]: e.target.value
+        }
+    ));
 
     const submit = (e) => {
         e.preventDefault();
@@ -34,15 +40,16 @@ export function WhatsAppSignup() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs text-gray-300 mb-2">Phone</label>
+                                <label className="block text-xs text-gray-300 mb-2">Email</label>
                                 <div className="flex gap-2">
                                     <div className="px-3 py-2 rounded-xl bg-[#0b1a17] border border-gray-800 text-gray-200 flex items-center text-sm">+91</div>
                                     <input
-                                        value={form.phone}
-                                        onChange={onChange('phone')}
-                                        placeholder="Enter phone number"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={onChange('email')}
+                                        placeholder="Enter your email"
                                         className="flex-1 rounded-xl px-4 py-2 bg-[#0b1a17] border border-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                        inputMode="tel"
+                                        inputMode="email"
                                     />
                                 </div>
                             </div>
@@ -68,6 +75,17 @@ export function WhatsAppSignup() {
                             >
                                 {loading ? 'Please wait...' : 'Create account'}
                             </button>
+
+                            <div className="text-white text-center">
+                                <span className="mr-2 underline">
+                                    Don't have Account?
+                                </span>
+                                <span>
+                                    <Link to={'login'}>
+                                        Login Here
+                                    </Link>
+                                </span>
+                            </div>
                         </form>
                     </div>
                 </div>
