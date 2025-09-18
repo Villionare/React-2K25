@@ -31,9 +31,9 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
 
 
 
-    return <div className="flex flex-col caret-white" onClick={() => setShowSuggestions(true)}>
+    return <div ref={searchBox} className="flex flex-col caret-white" onClick={() => setShowSuggestions(true)}>
 
-        <div ref={searchBox} className={`py-1 pl-2 flex gap-2 items-center bg-white border-gray-300 shadow-md
+        <div className={`py-1 pl-2 flex gap-2 items-center bg-white border-gray-300 shadow-md
                 ${showSuggestions
                 ? 'dark:bg-[#303134] h-auto rounded-b-none rounded-4xl dark:border-b dark:border-[#5f6368] dark:hover:bg-[#303134]'
                 : 'dark:bg-[#4d5156] h-[50px] rounded-4xl dark:border-none'}
@@ -116,7 +116,7 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
 
             {
                 (showSuggestions) ?
-                    <Suggestions suggestionsData={search} /> : null
+                    <Suggestions suggestionsData={search} handleSearchBoxOutsideClick={setShowSuggestions} /> : null
             }
         </div>
     </div >

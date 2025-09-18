@@ -130,7 +130,7 @@ const MainPage = () => {
                     </p>
                 </div>
 
-                <div>
+                <div className="flex gap-1">
                     <a className="text-[#1a0dab] dark:text-[#99c3ff] hover:underline visited:text-[#681da8] dark:visited:text-[#c58af9]" href="https://www.google.com/setprefs?sig=0_QQ8dMJIbeQ77YJ0zk_IgI2aCdmw%3D&amp;hl=hi&amp;source=homepage&amp;sa=X&amp;ved=0ahUKEwjev7qe182PAxX8RmwGHdylH_YQ2ZgBCCU">
                         हिन्दी
                     </a>
