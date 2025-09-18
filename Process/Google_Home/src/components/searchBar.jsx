@@ -31,12 +31,14 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
 
 
 
-    return <div ref={searchBox} className="flex flex-col caret-white" onClick={() => setShowSuggestions(true)}>
+    return <div ref={searchBox} className="flex flex-col caret-black dark:caret-white" onClick={() => setShowSuggestions(true)}>
 
-        <div className={`py-1 pl-2 flex gap-2 items-center bg-white border-gray-300 shadow-md
+        <div className={`py-1 pl-2 flex gap-2 items-center bg-white
                 ${showSuggestions
-                ? 'dark:bg-[#303134] h-auto rounded-b-none rounded-4xl dark:border-b dark:border-[#5f6368] dark:hover:bg-[#303134]'
-                : 'dark:bg-[#4d5156] h-[50px] rounded-4xl dark:border-none'}
+                ?
+                'dark:bg-[#303134] h-auto rounded-b-none rounded-4xl dark:border-b dark:border-[#5f6368] dark:hover:bg-[#303134] inset-shadow-2xs'
+                :
+                'dark:bg-[#4d5156] h-[50px] rounded-4xl dark:border-none border-1 border-gray-300 shadow-md'}
                 min-w-[90vw] md:min-w-[50vw] w-[50vw] group dark:hover:bg-[#5f6368]`}>
 
             <div className="flex flex-none items-center pl-3">
@@ -61,17 +63,32 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
                             submit();
                         }
                     }}
-                    className={`w-full bg-white dark:bg-[#4d5156] text-[#d4d6da] focus:outline-0 
+                    className={`w-full bg-white dark:bg-[#4d5156] text-black dark:text-[#d4d6da] focus:outline-0 
                          ${showSuggestions ? 'dark:bg-[#303134]' : 'dark:bg-[#4d5156]'} 
                         dark:group-hover:bg-transparent`} />
                 <div>
 
                     {searchInp === "" ? null : (
                         <div
-                            className="flex justify-center items-center border-r-1 border-gray-400 cursor-pointer h-full"
+                            className="flex justify-center items-center p-2 border-r-1 border-gray-400 cursor-pointer h-full"
                             onClick={() => XclearInputQuery()}
                         >
-                            <X color={isDarkMode ? "#bfbfbf" : "#474747"} />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke={isDarkMode ? "#bfbfbf" : "#474747"} // 👈 stroke instead of fill
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-x-icon lucide-x"
+                            >
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
+
                         </div>
                     )}
                 </div>
@@ -96,7 +113,7 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
             <div className="h-full flex items-center justify-center flex-none text-xs mr-2 p-1">
                 <div className={`flex justify-center items-center bg-[#F2F2F2]
                  ${showSuggestions ? 'dark:bg-[#303134]' : 'dark:bg-[#4d5156]'} dark:group-hover:bg-transparent
-                border-1 border-gray-300 p-1 dark:border-gray-400 w-20 h-9 rounded-4xl`}>
+                ${isDarkMode ? 'border-1' : null} border-gray-300 p-1 dark:border-gray-400 w-20 h-9 rounded-4xl`}>
                     <span>
                         <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"></rect></g><g><g>
                             <path fill={isDarkMode ? "#bfbfbf" : "#474747"} d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
@@ -110,10 +127,7 @@ const SearchBar = ({ inpText, searchInp, isDarkMode, inpChange, search, submit, 
             </div>
         </div>
 
-        <div className="bg-white dark:border-none shadow-md dark:bg-[#303134] h-auto min-w-[90vw] md:min-w-[50vw] w-[50vw] rounded-b-4xl">
-
-            {/* <Suggestions suggestionsData={temp_suss} /> */}
-
+        <div className="dark:border-none dark:bg-[#303134] h-auto min-w-[90vw] md:min-w-[50vw] w-[50vw] rounded-b-4xl">
             {
                 (showSuggestions) ?
                     <Suggestions suggestionsData={search} handleSearchBoxOutsideClick={setShowSuggestions} /> : null
