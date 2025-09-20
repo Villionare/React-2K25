@@ -11,9 +11,6 @@ import SearchWindow from './components/SearchWindow/Searchwindow'
 import SignUp from './components/Pages/SignUp'
 import LogIn from './components/Pages/LogIn'
 import { AuthProvider } from './Context/AuthContext'
-import Dynamo from './Process/Dynamic_Routing/dynamo'
-import NotFound from './components/NotFound/notFound'
-import Testing from './Process/Testing/Testing'
 
 
 function App() {

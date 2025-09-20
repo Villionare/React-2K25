@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 export function WhatsAppSignup() {
     const [showPassword, setShowPassword] = useState(false);
@@ -18,7 +20,7 @@ export function WhatsAppSignup() {
     const submit = (e) => {
         e.preventDefault();
         setLoading(true);
-
+        return CreateUserWithEmailAndPassword();
     };
 
     return (
