@@ -6,5 +6,9 @@ const port = process.env.PORT || 5555;
 
 const app = express();
 
-app.get('/', (req, res) => res.send('Hello World!'))
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.get('/api/test', (req, res) => res.send('Server is running....'));
+app.get('/api/message/recieve', (req, res) => res.send('Server is running....'));
+app.post('/api/message/send', (req, res) => res.send('Server is running....'));
+
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
