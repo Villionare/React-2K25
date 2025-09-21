@@ -3,4 +3,4 @@ const handleCheckAdmin = (req, res, next) => {
     next();
 }
 
-export default handleCheckAdmin
+export default handleCheckAdmin;
