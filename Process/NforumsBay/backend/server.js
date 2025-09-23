@@ -5,15 +5,16 @@ import threadRouter from "./Routes/threadRoutes.js";
 import boardsRoutes from "./Routes/boardsRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
 import os from "os";
+import mongoConnect from "./Controllers/mongoConnect.js";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5555;
 
 app.set("view engine", "ejs");
-app.set(express.static('./public'));
+app.use(express.static('./public'));
 
-app.get('/test/:id', (req, res) => {
+app.get('/test/:id', async (req, res) => {
 
     const serverInfo = {
         system: {
@@ -48,15 +49,15 @@ app.get('/test/:id', (req, res) => {
 });
 
 //admin login
-app.use('/admin', adminRoutes);
-
+app.use('/api/admin', adminRoutes);
 //boards
 app.use('/api/boards', boardsRoutes);
-
 //threads
 app.use('/api/boards/:board_id/threads', threadRouter);
-
 //posts
 app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => {
+    console.log(`🛜 ` + ` Server listening on port ${port}!`)
+    mongoConnect(process.env.MONGO_CONNECT);
+});

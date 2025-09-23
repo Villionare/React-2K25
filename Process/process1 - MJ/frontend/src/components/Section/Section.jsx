@@ -1,12 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import Categories from "../Pages/Categories";
 import Qoutes from "./Qoutes";
 
 const Section = () => {
-
-
-
-
     return <>
         <div className="flex flex-col caret-transparent">
             <div className="flex flex-col gap-0 min-h-fit md:min-h-screen md:flex-row">

@@ -4,7 +4,6 @@ import dotenv from "dotenv"
 import cors from 'cors'
 import loginUser from "./controllers/login.js";
 import signUpUser from "./controllers/signUp.js";
-
 dotenv.config();
 
 const app = express();
