@@ -22,6 +22,7 @@ const handleCreateNewAdmin = async (req, res) => {
 
     //.find() - list all the docs
     //.findOne - find any doc
+    //.findOneAndDelete - delete any doc.
     const createStatus = await AdminModel.create({
         username: "sbh23ay",
         password: "nu456lla",
