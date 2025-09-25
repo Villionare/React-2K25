@@ -8,6 +8,7 @@ import os from "os";
 import mongoConnect from "./Controllers/mongoConnect.js";
 import expressSession from "express-session";
 import cookieparser from "cookie-parser";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -15,6 +16,7 @@ const port = process.env.PORT || 5555;
 
 app.set("view engine", "ejs");
 
+app.use(cors())
 app.use(cookieparser());
 
 //for session management
@@ -88,7 +90,6 @@ app.get('/checksession', (req, res) => {
 })
 
 app.get('/setcookie', async (req, res) => {
-
     //creating and saving the cookie to the client
     res.cookie("setcookie", "haan done");
     res.send("cookie has been set");
@@ -102,7 +103,6 @@ app.get('/deletecookie', async (req, res) => {
 });
 
 app.get('/checkcookies', (req, res) => {
-
     console.log(req.cookies);
     res.send("cookie has been sent to the server");
 })
