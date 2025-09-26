@@ -1,4 +1,7 @@
+import useFetch from "../custom/fetch";
+
 const Home = () => {
+
 
     return <>
         <div className="text-white">

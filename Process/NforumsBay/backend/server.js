@@ -9,6 +9,7 @@ import mongoConnect from "./Controllers/mongoConnect.js";
 import expressSession from "express-session";
 import cookieparser from "cookie-parser";
 import cors from "cors";
+import anonymousRouter, { anonymousRouterget } from "./Controllers/anonymousRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -29,7 +30,7 @@ app.use(cors({
 app.use(cookieparser());
 
 //for session management
-app.use(expressSession({
+const adminSession = Session({
     secret: "baySecret", //creates a hash of the session id to be used in the cookie
     resave: false, //if the value is unchanged so the server won't save again (cause load)
     saveUninitialized: false, //agar koi uninitialised data aa raha hai to use save mat karo server pe (cause load)
@@ -39,7 +40,7 @@ app.use(expressSession({
         secure: false,            // set to true in production (HTTPS only)
         sameSite: 'lax'           // adjust as needed; for cross-site requests you may need 'none' + secure:true
     }
-}));
+});
 
 app.use(express.static('./public'));
 
@@ -73,7 +74,6 @@ app.get('/test/:id', async (req, res) => {
             test_params: req.params.id
         },
     };
-
     res.render("test_index", { serverInfo });
 });
 
@@ -86,7 +86,8 @@ app.use('/api/boards/:board_id/threads', threadRouter);
 //posts
 app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
 //anonymous
-app.post('/api/anonymous', postsRouter);
+app.post('/api/anonymous', anonymousRouter);
+app.get('/api/anonymous', anonymousRouterget);
 
 //session security
 // app.get('/dashboard', (req, res) => {
