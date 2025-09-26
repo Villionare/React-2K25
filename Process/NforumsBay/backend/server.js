@@ -16,14 +16,29 @@ const port = process.env.PORT || 5555;
 
 app.set("view engine", "ejs");
 
-app.use(cors())
+app.use(express.json());
+// Allow CORS from the frontend and allow credentials (cookies) to be sent.
+// Replace the origin below with your frontend origin in production.
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
+// app.use(cors());
+
+
 app.use(cookieparser());
 
 //for session management
 app.use(expressSession({
-    secret: "this_is_the_secret",
+    secret: "baySecret", //creates a hash of the session id to be used in the cookie
     resave: false, //if the value is unchanged so the server won't save again (cause load)
     saveUninitialized: false, //agar koi uninitialised data aa raha hai to use save mat karo server pe (cause load)
+    cookie: {
+        maxAge: 1000 * 60 * 30,  // 30 minutes
+        httpOnly: true,           // prevents client-side JS from accessing cookie
+        secure: false,            // set to true in production (HTTPS only)
+        sameSite: 'lax'           // adjust as needed; for cross-site requests you may need 'none' + secure:true
+    }
 }));
 
 app.use(express.static('./public'));
@@ -62,51 +77,6 @@ app.get('/test/:id', async (req, res) => {
     res.render("test_index", { serverInfo });
 });
 
-app.get('/session', (req, res) => {
-
-    // creating the session on the server
-    req.session.user = {
-        name: "temp_baba",
-        age: "+999"
-    };
-
-    console.log(req.session);
-    res.send("cookie has been generated for you")
-})
-
-app.get('/deletesession', (req, res) => {
-
-    // this will destroy the session from ther server
-    req.session.destroy();
-    res.send("session has been destroyed");
-});
-
-app.get('/checksession', (req, res) => {
-    if (req.session?.user?.name === "temp_baba" ?? null) {
-        res.send(`welcome ${req.session.user.name}`)
-    } else {
-        res.send("can't confirm you");
-    }
-})
-
-app.get('/setcookie', async (req, res) => {
-    //creating and saving the cookie to the client
-    res.cookie("setcookie", "haan done");
-    res.send("cookie has been set");
-});
-
-app.get('/deletecookie', async (req, res) => {
-
-    //creating and saving the cookie to the client
-    res.clearCookie("setcookie");
-    res.send("cookie has been deleated");
-});
-
-app.get('/checkcookies', (req, res) => {
-    console.log(req.cookies);
-    res.send("cookie has been sent to the server");
-})
-
 //admin login
 app.use('/api/admin', adminRoutes);
 //boards
@@ -115,6 +85,18 @@ app.use('/api/boards', boardsRoutes);
 app.use('/api/boards/:board_id/threads', threadRouter);
 //posts
 app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
+//anonymous
+app.post('/api/anonymous', postsRouter);
+
+//session security
+// app.get('/dashboard', (req, res) => {
+//     if (req.session.user) {
+//         res.send(`Hello ${req.session.user.username}, welcome to your dashboard`);
+//     } else {
+//         res.status(401).send('You must log in first');
+//     }
+// });
+
 
 app.listen(port, () => {
     console.log(`🛜 ` + ` Server listening on port ${port}!`)

@@ -1,5 +1,14 @@
 const handleSeeThread = (req, res) => {
-    res.send("this is for opening one thread only");
+
+    if (req.session.user) {
+        res.send("this threads page is opened by the admin");
+    } else {
+
+        console.log(req.session.user ?? null);
+
+        res.send("this threads page is opened by the anoynymous");
+    }
+
 }
 
 export default handleSeeThread

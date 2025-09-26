@@ -1,9 +1,9 @@
-import { useState } from "react";
-import UseFetch from "../custom/fetch";
+import { useEffect, useState } from "react";
+import useFetch from "../custom/fetch";
 
 const AuthComponent = () => {
     const [isLogin, setInLogin] = useState(true);
-    const { data, isError, isLoading } = UseFetch('https://dummyjson.com/products');
+    const { fetchData, loading, error, data } = useFetch();
 
     const [inpSignUpChange, setInpSignUpChange] = useState({
         signUpName: "",
@@ -14,17 +14,33 @@ const AuthComponent = () => {
     });
 
     const [inpSignInChange, setInpSignInChange] = useState({
-        loginUsername: "",
-        loginEmail: "",
-        LoginPassword: ""
+        loginIdentifier: "",
+        loginPassword: ""
     });
 
-    const SubmitForm = (e) => {
+    const SubmitForm = async (e) => {
         e.preventDefault();
-        console.log("Form submitted");
 
-        console.log("data: " + data + " isError: " + isError + " isLoading: " + isLoading);
+        const fetchurl = isLogin ?
+            'http://localhost:9999/api/admin/admin_login' :
+            'http://localhost:9999/api/admin/admin_signup';
 
+        try {
+            const fetchdata = await fetchData(fetchurl, {
+                method: 'POST',
+                credentials: 'include', // very important to send cookies
+                headers: {
+                    'Content-Type': 'application/json', // tell server we are sending JSON
+                },
+                body: JSON.stringify(isLogin ? inpSignInChange : inpSignUpChange)
+            })
+
+            console.log(fetchdata);
+
+        } catch (e) {
+            console.log(e);
+            console.log(error);
+        }
     };
     const handleSignUpchange = (e) => {
         const { name, value } = e.target;
@@ -54,85 +70,94 @@ const AuthComponent = () => {
                     {isLogin ? (
                         <>
                             <input
+                                required
                                 type="text"
-                                name="loginUsername"
-                                placeholder="Enter your username"
-                                value={inpSignInChange.loginUsername}
+                                name="loginIdentifier"
+                                placeholder="username or email"
+                                value={inpSignInChange.loginIdentifier}
                                 onChange={handleSignInchange}
+                                autoComplete="username"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
-                                type="email"
-                                name="loginEmail"
-                                placeholder="Enter your email address"
-                                value={inpSignInChange.loginEmail}
-                                onChange={handleSignInchange}
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
-                            />
-
-                            <input
+                                required
                                 type="password"
-                                name="LoginPassword"
+                                name="loginPassword"
                                 placeholder="Enter your password"
-                                value={inpSignInChange.LoginPassword}
+                                value={inpSignInChange.loginPassword}
                                 onChange={handleSignInchange}
+                                autoComplete="current-password"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
+
                         </>
                     ) : (
                         <>
                             <input
+                                required
                                 type="text"
                                 name="signUpName"
                                 value={inpSignUpChange.signUpName}
                                 placeholder="Enter your full name"
                                 onChange={handleSignUpchange}
+                                autoComplete="name"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
+                                required
                                 type="number"
                                 name="signUpAge"
                                 value={inpSignUpChange.signUpAge}
                                 placeholder="Enter your age"
                                 onChange={handleSignUpchange}
+                                autoComplete="bday-year"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
+                                required
                                 type="text"
                                 name="signUpUsername"
                                 value={inpSignUpChange.signUpUsername}
                                 placeholder="Choose a username"
                                 onChange={handleSignUpchange}
+                                autoComplete="username"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
+                                required
                                 type="email"
                                 name="signUpEmail"
                                 value={inpSignUpChange.signUpEmail}
                                 placeholder="Enter your email address"
                                 onChange={handleSignUpchange}
+                                autoComplete="email"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
+                                required
                                 type="password"
                                 name="signUptypePassword"
                                 value={inpSignUpChange.signUptypePassword}
                                 placeholder="Create a strong password"
                                 onChange={handleSignUpchange}
+                                autoComplete="new-password"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
 
                             <input
+                                required
                                 type="password"
                                 name="signUpretypePassword"
                                 placeholder="Re-enter your password"
+                                autoComplete="new-password"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
+
                         </>
                     )}
 
@@ -140,7 +165,12 @@ const AuthComponent = () => {
                         type="submit"
                         className="w-full py-3 mt-4 rounded-lg bg-violet-600 hover:bg-violet-700 transition-colors text-white font-semibold shadow-md"
                     >
-                        {isLogin ? "Login" : "Sign Up"}
+
+                        {isLogin ?
+                            loading ? "Signing in..." : "Sign In"
+                            :
+                            loading ? "Signing Up..." : "Sign Up"
+                        }
                     </button>
                 </form>
 
