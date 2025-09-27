@@ -1,11 +1,12 @@
-import useFetch from "../custom/fetch";
+import { useState } from "react";
 
 const Home = () => {
 
+    const [isAdmin, setIsAdmin] = useState(false);
 
     return <>
-        <div className="text-white">
-            <p>
+        <div className="text-white min-h-screen bg-amber-700">
+            <p className="text-5xl text-amber-950">
                 this is the start page
                 <br />
                 threads
@@ -13,6 +14,10 @@ const Home = () => {
                 boards
                 <br />
                 posts
+            </p>
+
+            <p>
+                {isAdmin ? <p>Admin</p> : <p>Anonymous</p>}
             </p>
         </div>
     </>

@@ -4,66 +4,53 @@ import postsRouter from "./Routes/postsRoutes.js";
 import threadRouter from "./Routes/threadRoutes.js";
 import boardsRoutes from "./Routes/boardsRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
-import os from "os";
-import session from "express-session";
 import mongoConnect from "./Controllers/mongoConnect.js";
 import cors from "cors";
 import anonymousRouter from "./Routes/anonymousRoutes.js";
-import userSession from "./SessionControl/anonymous.js";
-import adminSession from "./SessionControl/adminSession.js";
 import test from "./Controllers/test.js";
+import adminSession from "./SessionControl/adminSession.js";
+import sessionForBothUsers from "./SessionControl/adminSession.js";
+import adminCheck from "./Middlewares/adminCheck.js";
+import userCheck from "./Controllers/userCheck.js";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5555;
 
-
-app.set("view engine", "ejs");
-app.set('trust proxy', true); //this is used to get the ip of client
-app.use(express.json());
 // Allow CORS from the frontend and allow credentials (cookies) to be sent.
 // Replace the origin below with your frontend origin in production.
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true, //only this way cookies can be recieved
 }));
+
+
+app.set("view engine", "ejs");
+app.set('trust proxy', true); //this is used to get the ip of client
+app.use(express.json());
 app.use(express.static('./public'));
 
 //SESSIONS
-app.use('/api/admin', adminSession);
-app.use('/api/anonymous', userSession);
-
+app.use(sessionForBothUsers); //this session is created globally for any route
 
 //ROUTES
-app.get('/checkuser', (req, res) => {
-
-    req.session.user = { id: user._id, role: "admin" };
-
-    console.log(req.session);
-
-    res.json({
-        message: "no idea"
-    })
-
-})
-
-app.get("/login", (req, res) => {
-    req.session.user = { id: "123", role: "admin" };
-    res.send("Logged in!");
-});
-
-app.get("/dashboard", (req, res) => {
+app.get("/api/dashboard", (req, res) => {
     if (req.session.user) {
         res.send(`Hello ${req.session.user.role}`);
+        console.log(req.session);
+
     } else {
         res.status(401).send("Not logged in");
     }
 });
 
-app.get('/test/:id', test);
+app.get('/test', test);
+
+//frontend access to user type
+app.get('/api/me', userCheck);
 
 //admin login
-app.use('/api/admin', adminRoutes);
+app.use('/api/admin', adminCheck, adminRoutes);
 
 //anonymous
 app.use('/api/anonymous', anonymousRouter);

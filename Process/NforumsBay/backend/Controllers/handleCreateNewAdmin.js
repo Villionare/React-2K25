@@ -1,20 +1,4 @@
 import AdminModel from "../Models/admin.js"
-import expressSession from "express-session";
-
-//for admin session management
-// const adminSession = expressSession({
-//     name: "admin.sid",
-//     secret: "baySecret", //creates a hash of the session id to be used in the cookie
-//     resave: false, //if the value is unchanged so the server won't save again (cause load)
-//     saveUninitialized: false, //agar koi uninitialised data aa raha hai to use save mat karo server pe (cause load)
-//     cookie: {
-//         maxAge: 1000 * 60 * 30,  // 30 minutes
-//         httpOnly: true,           // prevents client-side JS from accessing cookie
-//         secure: false,            // set to true in production (HTTPS only)
-//         sameSite: 'lax'           // adjust as needed; for cross-site requests you may need 'none' + secure:true
-//     }
-// });
-
 
 const handleCreateNewAdmin = async (req, res) => {
 
@@ -48,16 +32,29 @@ const handleCreateNewAdmin = async (req, res) => {
         const { password, ...userWithoutPassword } = newUser.toObject();
 
         //now that everything is okay we will create a session for the admin
-        // adminSession(req, res, () => {
-        //     req.session.user = {
-        //         id: user._id.toString(),
-        //         username: user.username,
-        //         role: 'admin'
-        //     }
-        // });
+        req.session.user = {
+            role: 'admin',
+            username: newUser.username,
+            ip: req.ip
+        }
 
-        console.log(newUser);
-        res.status(200).json({ "success": userWithoutPassword });
+        req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour in ms
+
+        // Ensure session is saved before sending response so the Set-Cookie header is sent
+        req.session.save(err => {
+            if (err) {
+                console.error('Session save error:', err);
+                return res.status(500).json({ message: 'Failed to save session' });
+            }
+
+            console.log('Signup Session saved:', req.session);
+            console.log('Session saved:', req.session);
+            res.status(201).json({
+                "success": userWithoutPassword,
+                forward: true,
+            });
+        });
+
 
     } catch (e) {
         console.error(e);

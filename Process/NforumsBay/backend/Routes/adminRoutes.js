@@ -7,6 +7,9 @@ const adminRoutes = express.Router();
 //admin login
 adminRoutes.post('/admin_login', handleLoginAdmin);
 adminRoutes.post('/admin_signup', handleCreateNewAdmin);
-adminRoutes.get('/admin_logout', handleLogoutAdmin);
+adminRoutes.post('/admin_logout', handleLogoutAdmin);
+adminRoutes.get('/dashboard', (req, res) => {
+    res.json({ "message": "this is the admin dashboard" })
+});
 
 export default adminRoutes;

@@ -30,28 +30,28 @@ const handleLoginAdmin = async (req, res) => {
 
 
         //now that everything is okay we will create a session for the user
-        // req.session.user = {
-        //     id: user._id.toString(),
-        //     username: user.username,
-        //     role: 'admin'
-        // }
+        req.session.user = {
+            type: 'admin',
+            username: loginIdentifier,
+            ip: req.ip
+        };
+
+        req.session.cookie.maxAge = 60 * 60 * 1000; //saving the max time for admin session
 
         // Ensure session is saved before sending response so the Set-Cookie header is sent
-        // req.session.save(err => {
-        //     if (err) {
-        //         console.error('Session save error:', err);
-        //         return res.status(500).json({ message: 'Failed to save session' });
-        //     }
+        req.session.save(err => {
+            if (err) {
+                console.error('Session save error:', err);
+                return res.status(500).json({ message: 'Failed to save session' });
+            }
 
-        //     console.log('Session saved:', req.session);
-        //     return res.status(200).json({ "success": restWithoutPassword });
-        // });
-
-
-        //req.session.destroy();
-
-        // console.log('Session saved:', req.session);
-        return res.status(200).json({ "success": restWithoutPassword });
+            console.log('Session saved:', req.session);
+            console.log('Signin Session saved:', req.session);
+            return res.status(201).json({
+                "message": restWithoutPassword,
+                forward: true,
+            });
+        });
 
     } catch (e) {
         console.error(e);

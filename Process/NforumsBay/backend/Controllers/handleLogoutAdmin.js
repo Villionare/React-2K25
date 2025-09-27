@@ -6,7 +6,7 @@ const handleLogoutAdmin = (req, res) => {
         }
 
         // Clear cookie on client
-        res.clearCookie('connect.sid');
+        res.clearCookie('user.sid');
         res.send('Logged out successfully ');
 
     });

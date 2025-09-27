@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import useFetch from "../custom/fetch";
+import { useNavigate } from "react-router-dom";
 
 const AuthComponent = () => {
     const [isLogin, setInLogin] = useState(true);
     const { fetchData, loading, error, data } = useFetch();
+
+    const navigate = useNavigate();
 
     const [inpSignUpChange, setInpSignUpChange] = useState({
         signUpName: "",
@@ -36,6 +39,8 @@ const AuthComponent = () => {
             })
 
             console.log(fetchdata);
+
+            navigate('home');
 
         } catch (e) {
             console.log(e);

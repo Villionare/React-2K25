@@ -1,21 +1,4 @@
 import anonymousModel from "../Models/anonymous.js";
-import expressSession from "express-session";
-
-
-// for anonymous session management
-// const anonymousSession = expressSession({
-//     name: "anonymous.sid",
-//     secret: "anonymousOne",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         maxAge: 1000 * 60 * 60 * 24, // 24 hours
-//         httpOnly: true,
-//         secure: false,  // set true in production
-//         sameSite: "lax",
-//     },
-// });
-
 
 const handleCreateAnonymous = async (req, res) => {
     try {
@@ -43,23 +26,28 @@ const handleCreateAnonymous = async (req, res) => {
             username,
         });
 
-        // ✅ session only after DB success
-        // anonymousSession(req, res, () => {
-        // req.session.user = {
-        //     id: newAnonymous._id.toString(),
-        //     username: newAnonymous.username,
-        //     role: "anonymous",
-        // };
+        // create session for the anonymous user AFTER DB success
+        req.session.user = {
+            role: 'anonymous',
+            username: newAnonymous.username,
+            ip: req.ip,
+        };
+        req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
 
+        // save session before sending response so Set-Cookie is sent
+        req.session.save(err => {
+            if (err) {
+                console.error('Failed to save session for anonymous:', err);
+                return res.status(500).json({ message: 'Failed to create session' });
+            }
 
-        // console.log();
-
-        // ✅ response INSIDE callback (so cookie is set)
-        res.status(200).json({
-            success: `Welcome ${newAnonymous.username}`,
-            forward: true,
+            // response INSIDE callback (so cookie is set)
+            return res.status(200).json({
+                success: `Welcome ${newAnonymous.username}`,
+                forward: true,
+            });
         });
-        // });
+
     } catch (error) {
         console.error(error);
         next(error);
