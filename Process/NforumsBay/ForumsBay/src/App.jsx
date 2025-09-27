@@ -11,20 +11,26 @@ const App = () => {
   }
 
   const startAnonymous = async () => {
-    try {
-      const responce = await fetchData('http://localhost:9999/api/anonymous', {
-        method: 'GET',
-        credentials: 'include', // very important to send cookies
-        headers: {
-          'Content-Type': 'application/json', // tell server we are sending JSON
-        },
-      });
-      console.log(responce);
-    } catch (e) {
-      console.log('catch :' + e);
-    }
+    const data = { username: "check again" };
 
-  }
+    try {
+      const response = await fetch('http://localhost:9999/api/anonymous/create', {
+        method: 'POST',
+        credentials: 'include', // important to send cookies
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data) // ✅ use 'body', not 'data'
+      });
+
+      const result = await response.json(); // parse JSON from server
+      console.log(result);
+
+    } catch (e) {
+      console.error('Error:', e);
+    }
+  };
+
 
 
 

@@ -1,9 +1,14 @@
-const adminCheck = (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.json({ message: 'access available to admins, please login to continue' })
-    }
-}
+//whenever there is a page for admins only use this middleware
 
-export default adminCheck
+const adminCheck = (req, res, next) => {
+    if (!req.session.user || req.session.user.role !== "admin") {
+        return res.status(403).json({
+            message: "You are not authorized to access this page"
+        });
+    }
+
+    // User is admin → allow access to next route handler
+    next();
+};
+
+export default adminCheck;

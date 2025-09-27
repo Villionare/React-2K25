@@ -30,11 +30,11 @@ const handleLoginAdmin = async (req, res) => {
 
 
         //now that everything is okay we will create a session for the user
-        req.session.user = {
-            id: user._id.toString(),
-            username: user.username,
-            role: 'admin'
-        }
+        // req.session.user = {
+        //     id: user._id.toString(),
+        //     username: user.username,
+        //     role: 'admin'
+        // }
 
         // Ensure session is saved before sending response so the Set-Cookie header is sent
         // req.session.save(err => {
@@ -50,7 +50,7 @@ const handleLoginAdmin = async (req, res) => {
 
         //req.session.destroy();
 
-        console.log('Session saved:', req.session);
+        // console.log('Session saved:', req.session);
         return res.status(200).json({ "success": restWithoutPassword });
 
     } catch (e) {

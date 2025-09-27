@@ -1,25 +1,24 @@
 import AdminModel from "../Models/admin.js"
+import expressSession from "express-session";
+
+//for admin session management
+// const adminSession = expressSession({
+//     name: "admin.sid",
+//     secret: "baySecret", //creates a hash of the session id to be used in the cookie
+//     resave: false, //if the value is unchanged so the server won't save again (cause load)
+//     saveUninitialized: false, //agar koi uninitialised data aa raha hai to use save mat karo server pe (cause load)
+//     cookie: {
+//         maxAge: 1000 * 60 * 30,  // 30 minutes
+//         httpOnly: true,           // prevents client-side JS from accessing cookie
+//         secure: false,            // set to true in production (HTTPS only)
+//         sameSite: 'lax'           // adjust as needed; for cross-site requests you may need 'none' + secure:true
+//     }
+// });
+
 
 const handleCreateNewAdmin = async (req, res) => {
 
-    // 1 - check that we have got every required query in the url
-    // if (req.body.username && req.body.password) {
-    //     console.log(req.body.username);
-    // } else {
-    //     res.json('fill the details properly');
-    // }
-    // (req.body.username && req.body.name && req.body.password && req.body.username) ?
-    //     null : res.json('fill the details properly');
-    // 2 - check if the username, email, or unique property already exists in the db
-    // const alreadyExists = AdminModel.findOne();
-    // 3 - hash the password and create session or token for the admin 
-    // 4 - create the entry and return the status and responce
-    //.find() - list all the docs
-    //.findOne - find any doc
-    //.findOneAndDelete - delete any doc.
-
     try {
-
         const { signUpName, signUpAge, signUpUsername, signUpEmail, signUptypePassword } = req.body || {};
 
         // 1 - check that we have got every required query in the url
@@ -38,7 +37,6 @@ const handleCreateNewAdmin = async (req, res) => {
             return res.status(409).json({ message: "Username already in use, find another unique one" });
         }
 
-
         const newUser = await AdminModel.create({
             name: signUpName,
             username: signUpUsername,
@@ -48,6 +46,15 @@ const handleCreateNewAdmin = async (req, res) => {
         });
 
         const { password, ...userWithoutPassword } = newUser.toObject();
+
+        //now that everything is okay we will create a session for the admin
+        // adminSession(req, res, () => {
+        //     req.session.user = {
+        //         id: user._id.toString(),
+        //         username: user.username,
+        //         role: 'admin'
+        //     }
+        // });
 
         console.log(newUser);
         res.status(200).json({ "success": userWithoutPassword });

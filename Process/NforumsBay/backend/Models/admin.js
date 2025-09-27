@@ -25,6 +25,8 @@ const adminSchema = mongoose.Schema({
         type: String,
         required: true,
     }
+}, {
+    timestamps: true
 });
 
 //this is just used to create a collection
