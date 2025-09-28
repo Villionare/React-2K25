@@ -1,52 +1,85 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { createContext, useContext } from "react";
 
-export const UserContext = createContext({});
+// Initial context shape
+const UserContext = createContext({
+    user: null,               // initially no user
+    loading: true,            // initially loading is true
+    login: (userData) => { },  // dummy function
+    logout: async () => { }   // dummy async function
+});
 
-export const UserTypeContext = ({ childern }) => {
-
-    //this is the root where the user is store for the whole fontend
-    const [user, setUser] = useState();
+export const UserProvider = ({ children }) => {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const Login = (user) => {
-        setUser(user)
-    }
-
-    const Logout = () => {
-        setUser(null);
-    }
-
+    // Poll session every 5 mins
     useEffect(() => {
-        const checkSession = () => {
+        const checkSession = async () => {
             try {
-                const fetchUser = fetch('http://localhost:9999/api/me', {
-                    method: 'GET',
-                    credentials: 'include',
+                const res = await fetch("http://localhost:9999/api/me", {
+                    method: "GET",
+                    credentials: "include",
                 });
 
-                const responce = fetchUser.json();
-                setUser(responce);
-                console.log(user);
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        // session expired
+                        setUser(null);
+                        navigate("/");
+                    }
+                    throw new Error("Session check failed");
+                }
 
-            } catch (e) {
-                setUser(null);
-                console.log(e);
+                const { message, user: fetchedUser } = await res.json(); // Renamed to avoid shadowing
+                console.log("session check:", message);
+                setUser(fetchedUser || null);
+            } catch (err) {
+                console.error("Session check error:", err);
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
+        // initial check
         checkSession();
-    },
-        []);
 
-    //from wherever the login is occuring from there seruser(user);
+        // interval check
+        const interval = setInterval(checkSession, 5 * 60 * 1000); // every 5 mins
+        return () => clearInterval(interval);
+    }, [navigate]);
 
-    //logout will basically serUser(null)
+    const login = useCallback((userData) => {
+        setUser(userData);
+    }, []);
 
-    return <>
-        <UserContext value={{ user, loading, Login, Logout }}>
-            {childern}
-        </UserContext>
-    </>
-}
+    const logout = useCallback(async () => {
+        try {
+            const res = await fetch("http://localhost:9999/api/admin/admin_logout", {
+                method: "POST",
+                credentials: "include",
+            });
+
+            const data = await res.json();
+            console.log("logout response:", data);
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            setUser(null);
+            setLoading(false);
+        }
+    }, []);
+
+    return (
+        <UserContext.Provider value={{ user, loading, login, logout }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+/* eslint-disable-next-line react-refresh/only-export-components */
+export const useUser = () => useContext(UserContext);
+
+export default UserProvider;

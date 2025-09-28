@@ -1,10 +1,20 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/user";
+import useUserContext from "../../context/useuser";
 
 const EnterAdminName = () => {
-    const { user, loading, Login, Logout } = useContext(UserContext);
+    const { user, loading, login, logout } = useUserContext();
     const [username, setUsername] = useState('');
+
+    // {
+    //     "success": "Welcome mogga",
+    //     "session_data": {
+    //         "role": "anonymous",
+    //         "username": "mogga",
+    //         "ip": "::1"
+    //     }
+    // }
+
 
     const navigate = useNavigate();
 
@@ -22,9 +32,11 @@ const EnterAdminName = () => {
             });
 
             const result = await response.json(); // parse JSON from server
-            Login(result.user);
-            console.log(result);
+            console.log('create anon result:', result);
 
+            // server returns session data under `session_data`
+            login(result.session_data);
+            console.log('user Context data:', JSON.stringify(user));
             navigate('home')
 
         } catch (e) {
@@ -32,14 +44,25 @@ const EnterAdminName = () => {
         }
     };
     return <>
-        <div className="bg-amber-400 h-20">
-            <input type="text" className="h-full mr-2 border-1 border-amber-800" placeholder="Enter your username..." value={username} onChange={(e) => setUsername(e.target.value)} />
-            <button type="submit" className="cursor-pointer bg-blue-700 h-full" onClick={() => startAnonymous()}>
+        <div className="bg-amber-400 p-4 flex flex-col sm:flex-row items-center justify-center gap-3 rounded-lg shadow-md">
+            <input
+                type="text"
+                className="flex-1 w-full sm:w-auto px-4 py-2 rounded-md border border-amber-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your username..."
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+
+            <button
+                type="submit"
+                className="bg-blue-700 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-600 transition cursor-pointer"
+                onClick={startAnonymous}
+            >
                 Start Session (24hrs)
             </button>
         </div>
+
     </>
 }
-
 
 export default EnterAdminName;

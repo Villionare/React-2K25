@@ -44,12 +44,13 @@ const handleLoginAdmin = async (req, res) => {
                 console.error('Session save error:', err);
                 return res.status(500).json({ message: 'Failed to save session' });
             }
-
-            console.log('Session saved:', req.session);
             console.log('Signin Session saved:', req.session);
+
+
             return res.status(201).json({
-                "message": restWithoutPassword,
-                forward: true,
+                "message": "Admin login Successfull",
+                "data": restWithoutPassword,
+                "session_data": req.session.user,
             });
         });
 

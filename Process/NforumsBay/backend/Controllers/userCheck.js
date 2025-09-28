@@ -4,11 +4,11 @@ const userCheck = (req, res) => {
 
     if (req.session.user) {
         res.status(200).json({
-            message: 'sent the user',
-            user: req.session.user
+            message: 'Session Exists',
+            data: req.session.user
         })
     } else {
-        res.status(400).json({
+        res.status(200).json({
             message: "session dosen/'t exist"
         })
     }

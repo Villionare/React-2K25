@@ -24,7 +24,6 @@ app.use(cors({
     credentials: true, //only this way cookies can be recieved
 }));
 
-
 app.set("view engine", "ejs");
 app.set('trust proxy', true); //this is used to get the ip of client
 app.use(express.json());
@@ -48,9 +47,13 @@ app.get('/test', test);
 
 //frontend access to user type
 app.get('/api/me', userCheck);
+// {
+//     message: 'Session Exists',
+//     data: req.session.user
+// }
 
-//admin login
-app.use('/api/admin', adminCheck, adminRoutes);
+//admin
+app.use('/api/admin', adminRoutes);
 
 //anonymous
 app.use('/api/anonymous', anonymousRouter);

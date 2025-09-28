@@ -1,48 +1,58 @@
 import { useState } from "react";
-import { createBrowserRouter, Outlet, RouterProvider, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EnterAdminName from "./components/auth/anonymousEnter";
 
 const App = () => {
   const [showForm, setShowForm] = useState(false);
-
   const navigate = useNavigate();
 
   const startAdmin = () => {
-    navigate('auth');
-  }
+    navigate("auth");
+  };
 
+  return (
+    <div className="flex flex-col gap-6 bg-black items-center justify-center min-h-screen text-center px-4">
 
+      {/* App Title */}
+      <h1 className="text-5xl md:text-6xl font-bold text-violet-600 drop-shadow-lg">
+        forumsBay
+      </h1>
 
-  return <>
-    <div className="flex flex-col gap-3 bg-black items-center justify-center min-h-screen">
-      <div className="">
-        <p className="text-5xl text-violet-700">
-          forumsBay
-        </p>
-      </div>
-      <div>
-        <p className="text-amber-800">
-          Gereetings, ip
-        </p>
-      </div>
-      <div>
-        <p className="text-blue-50">
-          Choose Yourself
-        </p>
-      </div>
-      <div className="flex gap-3 justify-center items-center">
-        <button className="bg-red-900 p-3 text-yellow-300 cursor-pointer rounded-3xl min-w-sm" onClick={() => setShowForm(true)}>
-          anonymous
+      {/* Greeting */}
+      <p className="text-lg text-amber-500">
+        Greetings, <span className="font-semibold">Guest</span>
+      </p>
+
+      {/* Subtitle */}
+      <p className="text-blue-100 text-sm md:text-base">
+        Choose your path to continue
+      </p>
+
+      {/* Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 mt-4">
+        <button
+          className="bg-red-900 px-6 py-3 rounded-3xl text-yellow-300 font-semibold hover:bg-red-800 transition"
+          onClick={() => setShowForm(true)}
+        >
+          Anonymous
         </button>
-        <button className="bg-red-900 p-3 text-yellow-300 cursor-pointer rounded-3xl min-w-sm" onClick={e => startAdmin(e)}>admin</button>
+
+        <button
+          className="bg-red-900 px-6 py-3 rounded-3xl text-yellow-300 font-semibold hover:bg-red-800 transition"
+          onClick={startAdmin}
+        >
+          Admin
+        </button>
       </div>
-      {
-        showForm ?
-          <EnterAdminName /> :
-          null
-      }
+
+      {/* Conditional Form */}
+      {showForm && (
+        <div className="mt-6 w-full max-w-md">
+          <EnterAdminName />
+        </div>
+      )}
     </div>
-  </>
-}
+  );
+};
 
 export default App;

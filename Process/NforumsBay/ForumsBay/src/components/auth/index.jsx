@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import useFetch from "../custom/fetch";
 import { useNavigate } from "react-router-dom";
+import useUser from "../../context/useuser";
 
 const AuthComponent = () => {
+    const { user, login, logout } = useUser();
     const [isLogin, setInLogin] = useState(true);
-    const { fetchData, loading, error, data } = useFetch();
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+
 
     const [inpSignUpChange, setInpSignUpChange] = useState({
         signUpName: "",
@@ -24,29 +27,42 @@ const AuthComponent = () => {
     const SubmitForm = async (e) => {
         e.preventDefault();
 
-        const fetchurl = isLogin ?
-            'http://localhost:9999/api/admin/admin_login' :
-            'http://localhost:9999/api/admin/admin_signup';
+        const fetchUrl = isLogin
+            ? 'http://localhost:9999/api/admin/admin_login'
+            : 'http://localhost:9999/api/admin/admin_signup';
 
         try {
-            const fetchdata = await fetchData(fetchurl, {
+            const response = await fetch(fetchUrl, {
                 method: 'POST',
-                credentials: 'include', // very important to send cookies
+                credentials: 'include', // Very important to send cookies
                 headers: {
-                    'Content-Type': 'application/json', // tell server we are sending JSON
+                    'Content-Type': 'application/json', // Tell server we are sending JSON
                 },
                 body: JSON.stringify(isLogin ? inpSignInChange : inpSignUpChange)
-            })
+            });
 
-            console.log(fetchdata);
+            const data = await response.json();
+            console.log('Response:', data);
 
-            navigate('home');
+            // Handle non-OK responses (e.g., 4xx/5xx errors)
+            if (!response.ok) {
+                throw new Error(data.message || `HTTP error! status: ${response.status}`);
+            }
 
-        } catch (e) {
-            console.log(e);
-            console.log(error);
+            if (isLogin) {
+                login(data.data); // Assuming data.data contains user info
+                await navigate('/home'); // Use absolute path for safety
+            } else {
+                await navigate('/adminsubmitted'); // Use absolute path for safety
+            }
+        } catch (error) {
+            setLoading(false);
+            console.error('Login/Signup error:', error);
+            // Optionally set error state for UI feedback, e.g., setError(error.message)
         }
     };
+
+
     const handleSignUpchange = (e) => {
         const { name, value } = e.target;
         setInpSignUpChange((prev) => ({
@@ -65,26 +81,28 @@ const AuthComponent = () => {
 
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-gray-900 text-gray-100">
-            <div className="bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold text-violet-400 text-center mb-6">
-                    {isLogin ? "admin login" : "admin creation"}
+        <div className="min-h-screen flex justify-center items-center bg-gray-900 text-gray-100 px-4">
+            <div className="bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg rounded-3xl p-8 w-full max-w-md">
+
+                {/* Title */}
+                <h2 className="text-3xl font-bold text-violet-400 text-center mb-6">
+                    {isLogin ? "Admin Login" : "Admin Creation"}
                 </h2>
 
-                <form className="flex flex-col gap-4" onSubmit={SubmitForm}>
+                {/* Form */}
+                <form className="flex flex-col space-y-3" onSubmit={SubmitForm}>
                     {isLogin ? (
                         <>
                             <input
                                 required
                                 type="text"
                                 name="loginIdentifier"
-                                placeholder="username or email"
+                                placeholder="Username or Email"
                                 value={inpSignInChange.loginIdentifier}
                                 onChange={handleSignInchange}
                                 autoComplete="username"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="password"
@@ -95,7 +113,6 @@ const AuthComponent = () => {
                                 autoComplete="current-password"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                         </>
                     ) : (
                         <>
@@ -109,10 +126,10 @@ const AuthComponent = () => {
                                 autoComplete="name"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="number"
+                                min="13"
                                 name="signUpAge"
                                 value={inpSignUpChange.signUpAge}
                                 placeholder="Enter your age"
@@ -120,7 +137,6 @@ const AuthComponent = () => {
                                 autoComplete="bday-year"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="text"
@@ -131,7 +147,6 @@ const AuthComponent = () => {
                                 autoComplete="username"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="email"
@@ -142,7 +157,6 @@ const AuthComponent = () => {
                                 autoComplete="email"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="password"
@@ -151,34 +165,38 @@ const AuthComponent = () => {
                                 placeholder="Create a strong password"
                                 onChange={handleSignUpchange}
                                 autoComplete="new-password"
+                                minLength={6}
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                             <input
                                 required
                                 type="password"
                                 name="signUpretypePassword"
+                                // value={inpSignUpChange.signUpretypePassword}
                                 placeholder="Re-enter your password"
+                                // onChange={handleSignUpchange}
                                 autoComplete="new-password"
                                 className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
                             />
-
                         </>
                     )}
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full py-3 mt-4 rounded-lg bg-violet-600 hover:bg-violet-700 transition-colors text-white font-semibold shadow-md"
                     >
-
-                        {isLogin ?
-                            loading ? "Signing in..." : "Sign In"
-                            :
-                            loading ? "Signing Up..." : "Sign Up"
-                        }
+                        {isLogin
+                            ? loading
+                                ? "Signing in..."
+                                : "Sign In"
+                            : loading
+                                ? "Signing Up..."
+                                : "Sign Up"}
                     </button>
                 </form>
 
+                {/* Toggle Link */}
                 <div className="text-center mt-6">
                     {isLogin ? (
                         <p className="text-gray-400">
@@ -204,6 +222,7 @@ const AuthComponent = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 
