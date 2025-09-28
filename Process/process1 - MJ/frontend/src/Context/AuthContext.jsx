@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 //steps in Context
 //context decalration
@@ -8,7 +8,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 //Child components wrapping
 
 //context Decalration:
-export const UserAuthContext = createContext(null);
+// export const UserAuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
 
