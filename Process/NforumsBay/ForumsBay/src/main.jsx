@@ -4,17 +4,17 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AuthComponent from './components/auth/index.jsx'
 import Home from './components/home/home.jsx'
-import UserProvider from './context/user.jsx'
 import LayoutBay from './layout/layout.jsx'
 import AdminRequestSubmitted from './components/adminConfirmation/confirmation.jsx'
+import SessionProvider from './context/userData.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <UserProvider>
+      <SessionProvider>
         <LayoutBay />
-      </UserProvider>
+      </SessionProvider>
     ), // Wrap UserProvider around LayoutBay (and its <Outlet /> for children)
     children: [
       { index: true, element: <App /> }, // default route for '/'

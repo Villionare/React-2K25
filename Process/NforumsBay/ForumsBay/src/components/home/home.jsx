@@ -1,9 +1,9 @@
-import useUser from "../../context/useuser";
+import useSessionContext from "../../context/useContext";
 
 const Home = () => {
 
-    const { user, loading, login, logout } = useUser();
-    const { role, username } = user;
+    const { user, loading, login, logout } = useSessionContext();
+    const { success = false, session_data = {} } = user ?? {};
 
     console.log('context data: ' + user);
     return <>
@@ -19,12 +19,12 @@ const Home = () => {
             </p>
 
             <p>
-                {(role === "admin") ? "Admin" : "Anonymous"}
+                {(session_data.role === "admin") ? "Admin" : "Anonymous"}
             </p>
 
             <div>
                 {
-                    (role === "admin") ?
+                    (session_data.role === "admin") ?
                         <button className="bg-cyan-600 p-4 rounded-2xl" onClick={() => logout()}>
                             Admin Logout
                         </button>

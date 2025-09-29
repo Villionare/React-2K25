@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+* {
+  font-family: 'Candara';
+}
+
+::selection {
+  color: aqua;
+}

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useUserContext from "../../context/useuser";
+import useSessionContext from "../../context/useContext";
 
 const EnterAdminName = () => {
-    const { user, loading, login, logout } = useUserContext();
+    // const { user, loading, login, logout } = useUserContext();
+    const { user, login, logout } = useSessionContext();
     const [username, setUsername] = useState('');
 
     // {
@@ -14,7 +15,6 @@ const EnterAdminName = () => {
     //         "ip": "::1"
     //     }
     // }
-
 
     const navigate = useNavigate();
 
@@ -32,11 +32,11 @@ const EnterAdminName = () => {
             });
 
             const result = await response.json(); // parse JSON from server
-            console.log('create anon result:', result);
+            // console.log('create anon result:', result);
 
             // server returns session data under `session_data`
-            login(result.session_data);
-            console.log('user Context data:', JSON.stringify(user));
+            login(result);
+            // console.log('user Context data server:', user);
             navigate('home')
 
         } catch (e) {

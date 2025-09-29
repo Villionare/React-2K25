@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import useFetch from "../custom/fetch";
 import { useNavigate } from "react-router-dom";
-import useUser from "../../context/useuser";
+import useSessionContext from "../../context/useContext";
 
 const AuthComponent = () => {
-    const { user, login, logout } = useUser();
+    const { user, login, logout } = useSessionContext();
     const [isLogin, setInLogin] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -50,7 +49,7 @@ const AuthComponent = () => {
             }
 
             if (isLogin) {
-                login(data.data); // Assuming data.data contains user info
+                login(data); // Assuming data.data contains user info
                 await navigate('/home'); // Use absolute path for safety
             } else {
                 await navigate('/adminsubmitted'); // Use absolute path for safety
