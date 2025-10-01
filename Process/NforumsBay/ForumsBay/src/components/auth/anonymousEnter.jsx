@@ -4,7 +4,7 @@ import useSessionContext from "../../context/useContext";
 
 const EnterAdminName = () => {
     // const { user, loading, login, logout } = useUserContext();
-    const { user, login, logout } = useSessionContext();
+    const { user, setUser, login, logout, setFromServer } = useSessionContext();
     const [username, setUsername] = useState('');
 
     // {
@@ -19,7 +19,8 @@ const EnterAdminName = () => {
     const navigate = useNavigate();
 
     //when we will be starting as an user we will first create db for it and cookies will be recieved the only we will 
-    //redirect them to the home
+    //redirect them to the home.
+
     const startAnonymous = async () => {
         try {
             const response = await fetch('http://localhost:9999/api/anonymous/create', {
@@ -32,11 +33,14 @@ const EnterAdminName = () => {
             });
 
             const result = await response.json(); // parse JSON from server
-            // console.log('create anon result:', result);
-
-            // server returns session data under `session_data`
-            login(result);
-            // console.log('user Context data server:', user);
+            // store the raw server response into the context (session_data or whole object)
+            if (setFromServer) setFromServer(result);
+            else {
+                const sessionData = result.session_data || result;
+                if (login) login(sessionData);
+                else setUser(sessionData);
+            }
+            console.log('user Context data server:', result);
             navigate('home')
 
         } catch (e) {

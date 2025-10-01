@@ -5,7 +5,8 @@ const Home = () => {
     const { user, loading, login, logout } = useSessionContext();
     const { success = false, session_data = {} } = user ?? {};
 
-    console.log('context data: ' + user);
+    const { message } = user;
+    console.log('context data: ', message);
     return <>
         <div className="text-white min-h-screen bg-amber-700">
             <p className="text-5xl text-amber-950">

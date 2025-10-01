@@ -20,7 +20,7 @@ const port = process.env.PORT || 5555;
 // Allow CORS from the frontend and allow credentials (cookies) to be sent.
 // Replace the origin below with your frontend origin in production.
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:5174',
     credentials: true, //only this way cookies can be recieved
 }));
 

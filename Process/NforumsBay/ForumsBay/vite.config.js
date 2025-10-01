@@ -8,4 +8,10 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    host: 'localhost',
+    port: 5174,
+    strictPort: true,
+    origin: 'http://localhost:5174/'
+  }
 })
