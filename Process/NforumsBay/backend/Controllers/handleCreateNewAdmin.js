@@ -49,10 +49,12 @@ const handleCreateNewAdmin = async (req, res) => {
 
             console.log('Signup Session saved:', req.session);
             console.log('Session saved:', req.session);
+
             res.status(201).json({
-                "message": "Admin SIgnUp Successfull",
-                "data": userWithoutPassword,
-                "session_data": req.session.user,
+                message: "Admin SIgnUp Successfull",
+                success: true,
+                data: userWithoutPassword,
+                session_data: req.session.user,
             });
         });
 

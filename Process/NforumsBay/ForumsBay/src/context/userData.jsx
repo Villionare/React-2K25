@@ -1,57 +1,67 @@
 import { useEffect, useState } from "react";
 import SessionContext from "./createContext";
+import useFetchSession from "../hooks/fetchSession";
 
 export const SessionProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    // Check session on mount
-    useEffect(() => {
-        const checkSession = async () => {
-            try {
-                setLoading(true);
-                const resp = await fetch('http://localhost:9999/api/me', {
-                    method: 'GET',
-                    credentials: 'include',
-                });
-
-                if (resp.ok) {
-                    const json = await resp.json();
-                    // backend may return the session under `session_data` or the whole object
-                    const sessionObj = json.session_data || json;
-                    setUser(sessionObj);
-                } else {
-                    setUser(null);
-                }
-            } catch (error) {
-                console.error('failed to fetch session:', error);
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        checkSession();
-    }, []);
+    const [isLoading, setLoading] = useState(true);
+    // useFetchSession(login);
 
     const login = (userReceived) => {
         setUser(userReceived);
+
+        //if there is any use existing already
+        localStorage.clear();
+        localStorage.setItem("user", JSON.stringify(userReceived));
     };
 
-    // Accept a raw server response and store whatever payload it contains
-    const setFromServer = (serverResp) => {
-        if (!serverResp) return setUser(null);
-        // If server wraps session under `session_data`, use that. Otherwise store the whole response.
-        const payload = serverResp.session_data ?? serverResp;
-        setUser(payload);
-    };
+    //setting everychange that happens to the userContext.
+    useEffect(() => {
+        const userString = localStorage.getItem("user");
+        try {
+            if (userString) {
+                localStorage.setItem("user", JSON.stringify(user));
+            } else {
+                null;
+            }
+        } catch (w) {
+            console.log(w);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        fetchUser();
+    }, [])
+
+    //when ever we refresh user will be set from the localStorage.
+    const fetchUser = () => {
+        const userString = localStorage.getItem("user");
+        console.log('retrived from the local storage: ', { userString });
+
+        if (userString) {
+            try {
+                const user = JSON.parse(userString);
+                setUser(user);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        setLoading(false);
+    }
 
     const logout = async () => {
         try {
-            await fetch('http://localhost:9999/api/admin/admin_logout', {
+            const logoutFetch = await fetch('http://localhost:9999/api/admin/admin_logout', {
                 method: 'POST',
                 credentials: 'include',
             });
+
+            const resp = logoutFetch.json();
+            console.log(resp);
+
+            localStorage.removeItem("user");
+            setUser(null);
+
         } catch (e) {
             console.error('logout failed', e);
         } finally {
@@ -59,12 +69,15 @@ export const SessionProvider = ({ children }) => {
         }
     };
 
+    if (isLoading) {
+        return null;
+    }
+
     return (
-        <SessionContext.Provider value={{ user, setUser, login, logout, loading, setFromServer }}>
+        <SessionContext.Provider value={{ user, login, logout }}>
             {children}
         </SessionContext.Provider>
     );
 };
 
 export default SessionProvider;
-

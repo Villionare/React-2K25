@@ -48,9 +48,10 @@ const handleLoginAdmin = async (req, res) => {
 
 
             return res.status(201).json({
-                "message": "Admin login Successfull",
-                "data": restWithoutPassword,
-                "session_data": req.session.user,
+                message: "Admin login Successfull",
+                success: true,
+                data: restWithoutPassword,
+                session_data: req.session.user,
             });
         });
 

@@ -43,8 +43,9 @@ const handleCreateAnonymous = async (req, res) => {
 
             // response INSIDE callback (so cookie is set)
             return res.status(200).json({
-                success: `Welcome ${newAnonymous.username}`,
-                "session_data": req.session.user,
+                success: true,
+                message: `Welcome ${newAnonymous.username}`,
+                session_data: req.session.user,
             });
         });
 

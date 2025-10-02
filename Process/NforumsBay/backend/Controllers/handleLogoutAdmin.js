@@ -12,7 +12,7 @@ const handleLogoutAdmin = (req, res) => {
         res.clearCookie('user.sid');
         res.json({
             message: 'Logged out successfully ',
-            data: true
+            success: true
         });
 
     });

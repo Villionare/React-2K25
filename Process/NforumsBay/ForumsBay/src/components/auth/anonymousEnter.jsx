@@ -4,49 +4,35 @@ import useSessionContext from "../../context/useContext";
 
 const EnterAdminName = () => {
     // const { user, loading, login, logout } = useUserContext();
-    const { user, setUser, login, logout, setFromServer } = useSessionContext();
+    const { user, login, logout } = useSessionContext();
     const [username, setUsername] = useState('');
-
-    // {
-    //     "success": "Welcome mogga",
-    //     "session_data": {
-    //         "role": "anonymous",
-    //         "username": "mogga",
-    //         "ip": "::1"
-    //     }
-    // }
-
     const navigate = useNavigate();
-
-    //when we will be starting as an user we will first create db for it and cookies will be recieved the only we will 
-    //redirect them to the home.
 
     const startAnonymous = async () => {
         try {
             const response = await fetch('http://localhost:9999/api/anonymous/create', {
                 method: 'POST',
-                credentials: 'include', // important to send cookies
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 'username': username })
             });
 
-            const result = await response.json(); // parse JSON from server
-            // store the raw server response into the context (session_data or whole object)
-            if (setFromServer) setFromServer(result);
-            else {
-                const sessionData = result.session_data || result;
-                if (login) login(sessionData);
-                else setUser(sessionData);
+            if (!response.ok) {
+                throw new Error('Responce from server is not OK: ', response.statusText);
             }
-            console.log('user Context data server:', result);
+
+            const result = await response.json(); // parse JSON from server
+            await login(result);
+            console.log('just after storing the result: ', user);
             navigate('home')
 
         } catch (e) {
             console.error('Error:', e);
         }
     };
+
     return <>
         <div className="bg-amber-400 p-4 flex flex-col sm:flex-row items-center justify-center gap-3 rounded-lg shadow-md">
             <input
@@ -65,7 +51,6 @@ const EnterAdminName = () => {
                 Start Session (24hrs)
             </button>
         </div>
-
     </>
 }
 

@@ -49,7 +49,7 @@ const AuthComponent = () => {
             }
 
             if (isLogin) {
-                login(data); // Assuming data.data contains user info
+                await login(data); // Assuming data.data contains user info
                 await navigate('/home'); // Use absolute path for safety
             } else {
                 await navigate('/adminsubmitted'); // Use absolute path for safety

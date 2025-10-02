@@ -7,15 +7,18 @@ import Home from './components/home/home.jsx'
 import LayoutBay from './layout/layout.jsx'
 import AdminRequestSubmitted from './components/adminConfirmation/confirmation.jsx'
 import SessionProvider from './context/userData.jsx'
+import useSessionContext from './context/useContext.jsx'
+
+// const { user } = useSessionContext();
+// debugger;
+const check = localStorage.getItem("user");
+// const CheckUser = () ? <Home /> : <App />
+console.log(check);
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <SessionProvider>
-        <LayoutBay />
-      </SessionProvider>
-    ), // Wrap UserProvider around LayoutBay (and its <Outlet /> for children)
+    element: <LayoutBay />, // parent layout with <Outlet />
     children: [
       { index: true, element: <App /> }, // default route for '/'
       { path: 'auth', element: <AuthComponent /> },
@@ -27,5 +30,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <SessionProvider>
+    <RouterProvider router={router} />
+  </SessionProvider>
 )
