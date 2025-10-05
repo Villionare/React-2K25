@@ -1,23 +1,32 @@
 import { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
-import useSessionContext from "../../context/useContext";
-import createAnonymousUser from "../../api/services/Anonymous";
+import useSessionContext from "../context/use";
 
-const EnterAdminName = () => {
+const AnonForm = () => {
+    // const { user, loading, login, logout } = useUserContext();
     const { user, login, logout } = useSessionContext();
     const [username, setUsername] = useState('');
-    const navigate = useNavigate();
 
     const startAnonymous = async () => {
         try {
-            const response = await createAnonymousUser(username);
-            await login(response);
+            const response = await fetch('http://localhost:9999/api/anonymous/create', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'username': username })
+            });
 
+            if (!response.ok) {
+                throw new Error('Responce from server is not OK: ', response.statusText);
+            }
+
+            const result = await response.json(); // parse JSON from server
+            await login(result);
             console.log('just after storing the result: ', user);
 
-            navigate('home')
         } catch (e) {
-            console.error('Error:', e.response?.data?.message || e.message);
+            console.error('Error:', e);
         }
     };
 
@@ -38,8 +47,15 @@ const EnterAdminName = () => {
             >
                 Start Session (24hrs)
             </button>
+            <button
+                type="submit"
+                className="bg-blue-700 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-600 transition cursor-pointer"
+                onClick={logout}
+            >
+                Logout
+            </button>
         </div>
     </>
 }
 
-export default EnterAdminName;
+export default AnonForm;

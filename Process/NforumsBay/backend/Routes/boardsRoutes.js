@@ -7,5 +7,8 @@ const boardsRoutes = express.Router();
 //boards
 boardsRoutes.get('/', handleListBoards); //listing all the boards
 boardsRoutes.post('/', handleCheckAdmin, handlCreateBoard); //creating a board
+boardsRoutes.post('/', handleCheckAdmin); //deleting a board
 
 export default boardsRoutes;
+
+//handlDeleteBoard
