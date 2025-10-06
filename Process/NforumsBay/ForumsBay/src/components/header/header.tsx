@@ -1,5 +1,3 @@
-import "./style.css";
-
 const Header = () => {
     return (
         <header className="bg-violet-500 text-white py-4 shadow-md">

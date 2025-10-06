@@ -1,8 +1,0 @@
-import { useContext } from "react";
-import SessionContext from "./createContext";
-
-const useSessionContext = () => {
-    return useContext(SessionContext)
-}
-
-export default useSessionContext;

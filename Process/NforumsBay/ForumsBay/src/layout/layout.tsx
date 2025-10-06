@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/header/header";
-import Footer from "../components/footer/footer";
+import Header from "../components/header/header.js";
+import Footer from "../components/footer/footer.js";
 
-const LayoutBay = () => {
+const LayoutBay: React.FC = () => {
     return <div className="min-h-screen">
         <Header />
         <Outlet />

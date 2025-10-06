@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EnterAdminName from "./components/auth/anonymousEnter";
-import axios from "axios";
+import EnterAdminName from "./components/auth/anonymousEnter.js";
 
-
-const App = () => {
-  const [showForm, setShowForm] = useState(false);
+const App: React.FC = () => {
+  const [showForm, setShowForm] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const startAdmin = () => {
+  const startAdmin = (): void => {
     navigate("auth");
   };
 

@@ -1,18 +1,13 @@
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AuthComponent from './components/auth/index.jsx'
 import Home from './components/home/home.jsx'
 import LayoutBay from './layout/layout.jsx'
-import AdminRequestSubmitted from './components/adminConfirmation/confirmation.jsx'
 import SessionProvider from './context/userData.jsx'
-import useSessionContext from './context/useContext.jsx'
+import AdminRequestSubmitted from './components/adminConfirmation/confirmation.js'
 
-// const { user } = useSessionContext();
-// debugger;
 const check = localStorage.getItem("user");
-// const CheckUser = () ? <Home /> : <App />
 console.log(check);
 
 const router = createBrowserRouter([
@@ -29,7 +24,7 @@ const router = createBrowserRouter([
   }
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <SessionProvider>
     <RouterProvider router={router} />
   </SessionProvider>

@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
-import SessionContext from "./createContext";
-import useFetchSession from "../hooks/fetchSession";
+import SessionContext, { type UserContextProps, type UserData, type UserProviderProps } from "./createContext.js";
 
-export const SessionProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    // useFetchSession(login);
+export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
 
-    const login = (userReceived) => {
+    const [user, setUser] = useState<UserData | null>(null);
+    const [isLoading, setLoading] = useState<boolean>(true);
+
+    const login = (userReceived: UserData) => {
         setUser(userReceived);
 
-        //if there is any use existing already
         localStorage.clear();
         localStorage.setItem("user", JSON.stringify(userReceived));
     };
 
-    //setting everychange that happens to the userContext.
     useEffect(() => {
         const userString = localStorage.getItem("user");
         try {

@@ -1,16 +1,7 @@
-import { useContext } from "react";
-import useSessionContext from "../../context/useContext";
-import SessionContext from "../../context/createContext";
+import useSessionContext from "../../context/useContext.js";
 
 const Home = () => {
-
     const { user, login, logout } = useSessionContext();
-    // const { user } = useSessionContext();
-
-    console.log('in the home: ', user);
-
-    const { session_data, message, success } = localStorage.getItem("user");
-    // const { ip, type, username } = session_data;
 
     return <>
         <div className="text-white min-h-screen bg-amber-700">
@@ -25,18 +16,16 @@ const Home = () => {
             </p>
 
             <p>
-                {(session_data.type === "admin") ? "Admin" : "Anonymous"}
+                {(user?.session_data?.role === "admin") ? "Admin" : "Anonymous"}
             </p>
 
             <div>
                 {
-                    (session_data.type === "admin") ?
+                    (user?.session_data?.role === "admin") ?
                         <button className="bg-cyan-600 p-4 rounded-2xl" onClick={() => logout()}>
                             Admin Logout
                         </button>
-                        : <button className="bg-cyan-600 p-4 rounded-2xl" onClick={() => logout()}>
-                            anonymous Logout
-                        </button>
+                        : null
                 }
             </div>
         </div>
