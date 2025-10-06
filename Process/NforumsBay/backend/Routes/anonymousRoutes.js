@@ -3,6 +3,7 @@ import handleCreateAnonymous from "../Controllers/handleCreateAnonymous.js";
 const anonymousRouter = express.Router();
 
 anonymousRouter.post("/create", handleCreateAnonymous);
+// adminRoutes.post('/anon_logout');
 // {
 //     "success": "Welcome mogga",
 //     "session_data": {

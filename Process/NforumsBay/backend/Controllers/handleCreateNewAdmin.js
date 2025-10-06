@@ -33,7 +33,7 @@ const handleCreateNewAdmin = async (req, res) => {
 
         //now that everything is okay we will create a session for the admin
         req.session.user = {
-            role: 'admin',
+            type: 'admin',
             username: newUser.username,
             ip: req.ip
         }
@@ -51,7 +51,7 @@ const handleCreateNewAdmin = async (req, res) => {
             console.log('Session saved:', req.session);
 
             res.status(201).json({
-                message: "Admin SIgnUp Successfull",
+                message: "Admin SignUp Successfull",
                 success: true,
                 data: userWithoutPassword,
                 session_data: req.session.user,
@@ -61,6 +61,7 @@ const handleCreateNewAdmin = async (req, res) => {
 
     } catch (e) {
         console.error(e);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 

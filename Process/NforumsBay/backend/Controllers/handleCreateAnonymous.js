@@ -4,9 +4,6 @@ const handleCreateAnonymous = async (req, res) => {
     try {
         const { username } = req.body;
 
-        // console.log(username);
-
-        // validation
         if (!username) {
             return res.status(400).json({ message: "Fill your credentials properly" });
         }
@@ -43,15 +40,15 @@ const handleCreateAnonymous = async (req, res) => {
 
             // response INSIDE callback (so cookie is set)
             return res.status(200).json({
-                success: true,
                 message: `Welcome ${newAnonymous.username}`,
+                success: true,
                 session_data: req.session.user,
             });
         });
 
     } catch (error) {
-        console.error(error);
-        next(error);
+        console.error(e);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 

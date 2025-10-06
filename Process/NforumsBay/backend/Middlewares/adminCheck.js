@@ -8,6 +8,7 @@ const adminCheck = (req, res, next) => {
     }
 
     // User is admin → allow access to next route handler
+    console.log('admin middleware check passed');
     next();
 };
 
