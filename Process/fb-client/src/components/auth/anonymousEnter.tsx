@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { data, useNavigate } from "react-router-dom";
-import useSessionContext from "../../context/useContext";
+import useSessionContext from "../../context/useContext.tsx";
 import createAnonymousUser from "../../api/services/Anonymous.tsx";
 
 const EnterAdminName = () => {

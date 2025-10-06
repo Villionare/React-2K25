@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUserContext } from "../../context/useUserContext";
+import type React from "react";
 
 const AnonLogin = () => {
     const [nameValue, setNameValue] = useState<string>('');
@@ -55,8 +56,6 @@ const AnonLogin = () => {
             <p>loading</p>
             :
             <p>here is the responce: {user?.message}</p>}
-
-
     </>
 }
 
