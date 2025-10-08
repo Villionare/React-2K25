@@ -1,48 +1,40 @@
-import useSessionContext from "../../context/useContext";
+import LogoutBtns from "./logoutBtn";
 
 const Header = () => {
 
-    const { user, logout } = useSessionContext();
 
     return (
-        <header className="bg-violet-500 text-white py-4 shadow-md">
-            <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <header>
+            <div className="flex flex-col md:flex-row flex-nowrap justify-between px-4 bg-slate-900 font-extrabold gap-1 border-b-2 border-slate-700">
 
-                {/* Left - Branding */}
                 <div className="flex items-center">
-                    <h1 className="text-4xl font-bold tracking-wide">forumsBay.</h1>
+                    <h1 className="text-slate-50 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight">
+                        forumsBay
+                    </h1>
                 </div>
 
-                {/* Middle - Stats */}
-                <div className="flex gap-8 text-center text-sm md:text-base">
-                    <div>
-                        <p className="font-semibold">Active Users</p>
-                        <p className="opacity-80">120</p>
+                <div className="flex flex-row items-center justify-between gap-2 py-1">
+
+                    <div className="flex flex-row text-slate-400 justify-center items-center text-xs sm:text-sm md:text-lg gap-2">
+
+                        <div className="flex flex-row justify-center items-center gap-1">
+                            <p className="hidden md:block">Active Users:</p>
+                            <p className="md:hidden">Active:</p>
+                            <p className="text-slate-50">120</p>
+                        </div>
+
+                        <div className="flex flex-row justify-center items-center gap-1">
+                            <p className="hidden md:block">Total Users:</p>
+                            <p className="md:hidden">Total:</p>
+                            <p className="text-slate-50">4,500</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="font-semibold">Total Users</p>
-                        <p className="opacity-80">4,500</p>
+
+                    <div className="flex flex-row gap-2">
+                        <LogoutBtns />
                     </div>
                 </div>
 
-                {/* Right - Controls */}
-
-                <div className="flex flex-col text-xs md:text-sm text-center md:text-right">
-                    <button className="hover:underline">
-                        {user?.session_data?.username}
-                    </button>
-                    <p className="opacity-80">
-                        {
-                            user?.session_data?.type === "admin" ?
-                                <button className="bg-violet-700 p-2 rounded-md cursor-pointer hover:bg-violet-900 transition delay-75" onClick={() => logout()}>
-                                    Admin Logout
-                                </button>
-                                : <button className="bg-violet-700 p-2 rounded-md cursor-pointer hover:bg-violet-900 transition delay-75" onClick={() => logout()}>
-                                    Anonymous goodbye?
-                                </button>
-                        }
-                    </p>
-                </div>
             </div>
         </header>
     );

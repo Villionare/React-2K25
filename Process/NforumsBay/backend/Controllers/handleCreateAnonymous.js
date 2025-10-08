@@ -25,7 +25,7 @@ const handleCreateAnonymous = async (req, res) => {
 
         // create session for the anonymous user AFTER DB success
         req.session.user = {
-            role: 'anonymous',
+            type: 'anonymous',
             username: newAnonymous.username,
             ip: req.ip,
         };

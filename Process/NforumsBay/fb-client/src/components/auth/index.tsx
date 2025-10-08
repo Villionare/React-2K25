@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useSessionContext from "../../context/useContext";
+import useSessionContext from "../../context/useContext.jsx"; // FIX: Added .jsx extension to resolve import path
 
 const AuthComponent = () => {
-    const { user, login, logout } = useSessionContext();
+    const { login } = useSessionContext();
     const [isLogin, setInLogin] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -23,8 +23,20 @@ const AuthComponent = () => {
         loginPassword: ""
     });
 
-    const SubmitForm = async (e) => {
+    // --- Midnight Edition Color Palette Usage ---
+    // Base Background: Deep Inkwell (#1A1C1E)
+    // Card Background: Dark News Block (#232527)
+    // Primary Text: Aged Paper White (#EAE4D9)
+    // Secondary Text: Faded Newsprint (#A9A296)
+    // Input BG: Deep Inkwell (#1A1C1E) - Slightly darker than card for input field depth
+    // Input Focus Ring: Journalist's Blue (#5CA0D3)
+    // Button BG: Journalist's Blue (#5CA0D3)
+    // Button Hover: Pressed Ink Blue (#8BCFF2)
+
+
+    const SubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
 
         const fetchUrl = isLogin
             ? 'http://localhost:9999/api/admin/admin_login'
@@ -61,8 +73,7 @@ const AuthComponent = () => {
         }
     };
 
-
-    const handleSignUpchange = (e) => {
+    const handleSignUpchange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setInpSignUpChange((prev) => ({
             ...prev,
@@ -70,7 +81,7 @@ const AuthComponent = () => {
         }));
     };
 
-    const handleSignInchange = (e) => {
+    const handleSignInchange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setInpSignInChange((prev) => ({
             ...prev,
@@ -80,11 +91,13 @@ const AuthComponent = () => {
 
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-gray-900 text-gray-100 px-4">
-            <div className="bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg rounded-3xl p-8 w-full max-w-md">
+        // Outer Background: Deep Inkwell (#1A1C1E)
+        <div className="min-h-screen flex justify-center items-center bg-[#1A1C1E] text-[#EAE4D9] px-4">
+            {/* Form Container Background: Dark News Block (#232527) */}
+            <div className="bg-[#232527] shadow-xl rounded-lg border-2 border-[#424549] p-8 w-full max-w-md">
 
-                {/* Title */}
-                <h2 className="text-3xl font-bold text-violet-400 text-center mb-6">
+                {/* Title: Aged Paper White (#EAE4D9) */}
+                <h2 className="text-3xl font-bold text-[#EAE4D9] text-center mb-6 tracking-tight">
                     {isLogin ? "Admin Login" : "Admin Creation"}
                 </h2>
 
@@ -100,7 +113,8 @@ const AuthComponent = () => {
                                 value={inpSignInChange.loginIdentifier}
                                 onChange={handleSignInchange}
                                 autoComplete="username"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                // Input BG: Deep Inkwell, Text: Aged Paper White, Placeholder: Faded Newsprint, Focus: Journalist's Blue
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
@@ -110,7 +124,7 @@ const AuthComponent = () => {
                                 value={inpSignInChange.loginPassword}
                                 onChange={handleSignInchange}
                                 autoComplete="current-password"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                         </>
                     ) : (
@@ -123,7 +137,7 @@ const AuthComponent = () => {
                                 placeholder="Enter your full name"
                                 onChange={handleSignUpchange}
                                 autoComplete="name"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
@@ -134,7 +148,7 @@ const AuthComponent = () => {
                                 placeholder="Enter your age"
                                 onChange={handleSignUpchange}
                                 autoComplete="bday-year"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
@@ -144,7 +158,7 @@ const AuthComponent = () => {
                                 placeholder="Choose a username"
                                 onChange={handleSignUpchange}
                                 autoComplete="username"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
@@ -154,7 +168,7 @@ const AuthComponent = () => {
                                 placeholder="Enter your email address"
                                 onChange={handleSignUpchange}
                                 autoComplete="email"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
@@ -165,25 +179,26 @@ const AuthComponent = () => {
                                 onChange={handleSignUpchange}
                                 autoComplete="new-password"
                                 minLength={6}
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                             <input
                                 required
                                 type="password"
                                 name="signUpretypePassword"
-                                // value={inpSignUpChange.signUpretypePassword}
+                                // value={inpSignUpChange.signUpretypePassword} // Not defined in state, commented out
                                 placeholder="Re-enter your password"
-                                // onChange={handleSignUpchange}
+                                // onChange={handleSignUpchange} // Not defined in state, commented out
                                 autoComplete="new-password"
-                                className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                className="w-full p-3 rounded-md bg-[#1A1C1E] text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-[#5CA0D3] transition-shadow"
                             />
                         </>
                     )}
 
-                    {/* Submit Button */}
+                    {/* Submit Button BG: Journalist's Blue (#5CA0D3), Hover: Pressed Ink Blue (#8BCFF2), Text: Aged Paper White (#EAE4D9) */}
                     <button
                         type="submit"
-                        className="w-full py-3 mt-4 rounded-lg bg-violet-600 hover:bg-violet-700 transition-colors text-white font-semibold shadow-md"
+                        className="w-full py-3 mt-4 rounded-md bg-[#5CA0D3] hover:bg-[#8BCFF2] transition-colors text-[#EAE4D9] font-semibold shadow-md"
+                        disabled={loading}
                     >
                         {isLogin
                             ? loading
@@ -198,21 +213,25 @@ const AuthComponent = () => {
                 {/* Toggle Link */}
                 <div className="text-center mt-6">
                     {isLogin ? (
-                        <p className="text-gray-400">
+                        <p className="text-[#A9A296]">
+                            {/* Secondary Text: Faded Newsprint (#A9A296) */}
                             New User?{" "}
                             <button
                                 onClick={() => setInLogin((prev) => !prev)}
-                                className="text-violet-400 hover:underline cursor-pointer"
+                                // Link Text: Journalist's Blue (#5CA0D3)
+                                className="text-[#5CA0D3] hover:underline cursor-pointer font-medium"
                             >
                                 Sign Up
                             </button>
                         </p>
                     ) : (
-                        <p className="text-gray-400">
+                        <p className="text-[#A9A296]">
+                            {/* Secondary Text: Faded Newsprint (#A9A296) */}
                             Already a User?{" "}
                             <button
                                 onClick={() => setInLogin((prev) => !prev)}
-                                className="text-violet-400 hover:underline cursor-pointer"
+                                // Link Text: Journalist's Blue (#5CA0D3)
+                                className="text-[#5CA0D3] hover:underline cursor-pointer font-medium"
                             >
                                 Sign In
                             </button>

@@ -15,9 +15,9 @@ const Threads: React.FC = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto bg-gray-100 min-h-screen p-4">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Threads</h2>
-            <div className="space-y-0">
+        <div className="max-w-3xl mx-auto bg-slate-900 min-h-screen p-6 text-slate-50">
+            <h2 className="text-3xl font-bold mb-6 text-slate-50">Threads</h2>
+            <div className="space-y-2">
                 {temporaryThreads.map((thread) => (
                     <ThreadItem key={thread.id} thread={thread} onDelete={handleDelete} />
                 ))}

@@ -8,13 +8,12 @@ import LayoutBay from './layout/layout.tsx'
 import SessionProvider from './context/userData.js'
 import AdminRequestSubmitted from './components/adminConfirmation/confirmation.js'
 
-const check = localStorage.getItem("user");
-console.log(check);
+//if noting is prensent in the ls then only the main app component can be accessible.
 
-const router = createBrowserRouter([  
+const router = createBrowserRouter([
   {
     path: '/',
-    element: <LayoutBay />, // parent layout with <Outlet />
+    element: <SessionProvider> <LayoutBay /> </SessionProvider>, // parent layout with <Outlet />
     children: [
       { index: true, element: <App /> }, // default route for '/'
       { path: 'auth', element: <AuthComponent /> },
@@ -25,8 +24,9 @@ const router = createBrowserRouter([
   }
 ]);
 
+
 createRoot(document.getElementById('root')!).render(
-  <SessionProvider>
-    <RouterProvider router={router} />
-  </SessionProvider>
+
+  <RouterProvider router={router} />
+
 )

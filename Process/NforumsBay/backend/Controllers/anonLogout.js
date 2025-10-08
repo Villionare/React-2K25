@@ -1,6 +1,5 @@
-const handleLogoutAdmin = (req, res) => {
+const anonLogout = (req, res) => {
 
-    const adminUsername = req.session.user.username;
     req.session.destroy(err => {
         if (err) {
             console.error('Session destroy error:', err);
@@ -10,15 +9,13 @@ const handleLogoutAdmin = (req, res) => {
             });
         }
 
+        // Clear cookie on client
         res.clearCookie('user.sid');
-        res.status(200).json({
-            message: 'Logged out successfully ',
+        res.json({
+            message: 'Goodbye Anonymous-Chan',
             success: true
         });
-
-
     });
-
 }
 
-export default handleLogoutAdmin;
+export default anonLogout

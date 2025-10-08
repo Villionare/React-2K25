@@ -1,1 +1,104 @@
 @import "tailwindcss";
+
+/* EtherealDemo-Thin.otf (Weight 100) */
+@font-face {
+    font-family: 'EtherealDemo Thin';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Thin.otf") format("opentype");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-ExtraLight.otf (Weight 200) */
+@font-face {
+    font-family: 'EtherealDemo ExtraLight';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-ExtraLight.otf") format("opentype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-Light.otf (Weight 300) */
+@font-face {
+    font-family: 'EtherealDemo Light';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Light.otf") format("opentype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-Regular.otf (Weight 400) */
+@font-face {
+    font-family: 'EtherealDemo Regular';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-Medium.otf (Weight 500) */
+@font-face {
+    font-family: 'EtherealDemo Medium';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-SemiBold.otf (Weight 600) */
+@font-face {
+    font-family: 'EtherealDemo SemiBold';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-SemiBold.otf") format("opentype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-Bold.otf (Weight 700) */
+@font-face {
+    font-family: 'EtherealDemo Bold';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-ExtraBold.otf (Weight 800) */
+@font-face {
+    font-family: 'EtherealDemo ExtraBold';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-ExtraBold.otf") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* EtherealDemo-Black.otf (Weight 900) */
+@font-face {
+    font-family: 'EtherealDemo Black';
+    /* Unique Family Name */
+    src: url("/fonts/EtherealDemo-Black.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@theme {
+    --font-thin: "EtherealDemo Thin", sans-serif;
+    --font-extralight: "EtherealDemo ExtraLight", sans-serif;
+    --font-light: "EtherealDemo Light", sans-serif;
+    --font-regular: "EtherealDemo Regular", sans-serif;
+    --font-medium: "EtherealDemo Medium", sans-serif;
+    --font-semibold: "EtherealDemo SemiBold", sans-serif;
+    --font-bold: "EtherealDemo Bold", sans-serif;
+    --font-extrabold: "EtherealDemo ExtraBold", sans-serif;
+    --font-black: "EtherealDemo Black", sans-serif;
+}

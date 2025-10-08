@@ -1,4 +1,17 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const AdminRequestSubmitted = () => {
+    const navigate = useNavigate();
+
+    //if no user Exists then redirect
+    useEffect(() => {
+        const check: string | null = localStorage.getItem("user");
+
+        if (!check) {
+            navigate('/')
+        }
+    }, []);
     return (
         <div className="min-h-screen flex justify-center items-center bg-gray-900 text-gray-100 px-4">
             <div className="bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-md text-center">

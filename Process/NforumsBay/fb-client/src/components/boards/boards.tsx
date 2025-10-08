@@ -15,9 +15,9 @@ const Boards: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto bg-gray-100 min-h-screen p-4">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Boards</h2>
-            <div className="space-y-0">
+        <div className="max-w-3xl mx-auto bg-slate-900 min-h-screen p-6 text-slate-50">
+            <h2 className="text-3xl font-bold mb-6 text-slate-50">Boards</h2>
+            <div className="space-y-2">
                 {temporaryBoards.map((board) => (
                     <BoardItem key={board.id} board={board} onDelete={handleDelete} />
                 ))}
