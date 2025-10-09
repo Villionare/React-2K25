@@ -1,4 +1,6 @@
 const anonymousCheck = (req, res, next) => {
+    console.log(req.session);
+
     if (req.session.user && req.session.user.type === "anonymous") {
         console.log("anonymous middleware check pass");
         return next();

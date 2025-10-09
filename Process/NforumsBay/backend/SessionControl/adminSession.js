@@ -5,8 +5,8 @@ dotenv.config();
 const sessionForBothUsers = session({
     name: "user.sid",
     secret: process.env.SESSION_SECURITY_KEY,
-    saveUninitialized: false,
-    resave: false,
+    saveUninitialized: true,
+    resave: true,
     cookie: {
         secure: false, // Set to true in production with HTTPS
         httpOnly: true, // Prevents client-side JS access for security
