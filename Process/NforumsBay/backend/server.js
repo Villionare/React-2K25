@@ -8,9 +8,7 @@ import mongoConnect from "./Controllers/mongoConnect.js";
 import cors from "cors";
 import anonymousRouter from "./Routes/anonymousRoutes.js";
 import test from "./Controllers/test.js";
-import adminSession from "./SessionControl/adminSession.js";
 import sessionForBothUsers from "./SessionControl/adminSession.js";
-import adminCheck from "./Middlewares/adminCheck.js";
 import userCheck from "./Controllers/userCheck.js";
 dotenv.config();
 

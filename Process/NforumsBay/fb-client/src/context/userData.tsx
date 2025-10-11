@@ -10,7 +10,6 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
         if (user?.session_data?.type === "admin") {
             return 'http://localhost:9999/api/admin/admin_logout';
         }
-
         return 'http://localhost:9999/api/anonymous/anon_logout';
     }, [user]);
 
@@ -66,7 +65,6 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
             }
         } catch (e) {
             console.error('Logout failed:', e);
-
         }
     };
 

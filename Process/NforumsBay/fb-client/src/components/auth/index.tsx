@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSessionContext from "../../context/useContext.jsx"; // FIX: Added .jsx extension to resolve import path
 
 const AuthComponent = () => {
-    const { login } = useSessionContext();
+    const { user, login } = useSessionContext();
     const [isLogin, setInLogin] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -22,17 +22,6 @@ const AuthComponent = () => {
         loginIdentifier: "",
         loginPassword: ""
     });
-
-    // --- Midnight Edition Color Palette Usage ---
-    // Base Background: Deep Inkwell (#1A1C1E)
-    // Card Background: Dark News Block (#232527)
-    // Primary Text: Aged Paper White (#EAE4D9)
-    // Secondary Text: Faded Newsprint (#A9A296)
-    // Input BG: Deep Inkwell (#1A1C1E) - Slightly darker than card for input field depth
-    // Input Focus Ring: Journalist's Blue (#5CA0D3)
-    // Button BG: Journalist's Blue (#5CA0D3)
-    // Button Hover: Pressed Ink Blue (#8BCFF2)
-
 
     const SubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -61,8 +50,9 @@ const AuthComponent = () => {
             }
 
             if (isLogin) {
-                await login(data); // Assuming data.data contains user info
-                await navigate('/home'); // Use absolute path for safety
+                login(data);
+                console.log("here storing the data in context: ", login, data);
+                await navigate('/home');
             } else {
                 await navigate('/adminsubmitted'); // Use absolute path for safety
             }
@@ -72,6 +62,11 @@ const AuthComponent = () => {
             // Optionally set error state for UI feedback, e.g., setError(error.message)
         }
     };
+
+    useEffect(() => {
+        console.log(user);
+
+    }, [login]);
 
     const handleSignUpchange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

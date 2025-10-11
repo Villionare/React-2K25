@@ -1,51 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Removed explicit '.tsx' file extensions as they often cause resolution issues in sandbox environments
 import useSessionContext from "../../context/useContext";
-// import createAnonymousUser from "../../api/services/Anonymous";
+import createAnonymousUser from "../../api/services/Anonymous";
 
-const EnterAdminName = () => {
-    // Note: The 'user' object is likely updated asynchronously by the context's login function.
-    // Reading it immediately after 'login(response)' might show the old state.
+const EnterAnonymousName = () => {
     const { login } = useSessionContext();
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
-    // --- Midnight Edition Color Palette Usage ---
-    // Inner Container BG: Dark News Block (#232527)
-    // Primary Text: Aged Paper White (#EAE4D9)
-    // Secondary Text/Placeholder: Faded Newsprint (#A9A296)
-    // Input BG: Deep Inkwell (#1A1C1E) - For visual depth
-    // Input Border/Focus: Journalist's Blue (#5CA0D3)
-    // Divider/Border: Column Rule (#424549)
-    // Button BG: Journalist's Blue (#5CA0D3)
-    // Button Hover: Pressed Ink Blue (#8BCFF2)
-
     const startAnonymous = async () => {
-        try {
-            // Placeholder/mock implementation for context functions to ensure compilation outside of a full project structure
-            // In a real app, these would be defined in your context provider and API service files.
+        const res = await createAnonymousUser(username);
 
-            // Mocking data retrieval and login
-            const mockResponse = { data: { type: 'anonymous', username: username || 'Guest' } };
-            const response = await Promise.resolve(mockResponse);
-            // Mocking login function if it's not available
-            if (typeof login === 'function') {
-                login(response);
-            } else {
-                console.warn("Login function not available in this environment.");
-            }
-
-            console.log('User session started for:', username);
-
-            // Mocking navigation
-            if (typeof navigate === 'function') {
-                navigate('home');
-            } else {
-                console.warn("Navigate function not available in this environment.");
-            }
-        } catch (e) {
-            console.error('Error during anonymous login:', e);
+        if (res.success) {
+            console.log("session has been stored after success: ", res);
+            login(res);
+            navigate('/');
+        } else {
+            console.log("failed to login anonymous:", res);
         }
     };
 
@@ -73,4 +44,4 @@ const EnterAdminName = () => {
     );
 }
 
-export default EnterAdminName;
+export default EnterAnonymousName;

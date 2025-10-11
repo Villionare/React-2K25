@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EnterAdminName from "./components/auth/anonymousEnter";
-// import { useNavigate } from "react-router-dom"; // Commented out to prevent compilation error in single-file environment
-// import EnterAdminName from "./components/auth/anonymousEnter.js"; // Commented out to prevent compilation error
+import EnterAnonymousName from "./components/auth/anonymousEnter";
 
 const App = () => {
   const [showForm, setShowForm] = useState(false);
@@ -30,7 +28,7 @@ const App = () => {
 
       {/* App Title */}
       {/* Primary Text: Aged Paper White (#EAE4D9) */}
-      <h1 className="text-5xl md:text-6xl font-extrabold text-[#EAE4D9] border-b-4 border-[#424549] pb-2 font-serif tracking-tight">
+      <h1 className="text-5xl md:text-6xl text-[#EAE4D9] border-b-4 border-[#424549] pb-2 font-serif tracking-tight">
         forumsBay
       </h1>
 
@@ -69,7 +67,7 @@ const App = () => {
       {showForm && (
         <div className="mt-6 w-full max-w-md bg-[#232527] p-6 rounded-lg border border-[#424549]">
           <p className="text-[#EAE4D9]">Anonymous Name Entry Form goes here...</p>
-          <EnterAdminName />
+          <EnterAnonymousName />
         </div>
       )}
     </div>
