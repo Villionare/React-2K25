@@ -3,6 +3,7 @@ import { createContext, type ReactNode } from "react";
 export interface UserData {
     message: string;
     success?: boolean;
+    logouted?: boolean;
     data?: {
         name: string,
         username: string,

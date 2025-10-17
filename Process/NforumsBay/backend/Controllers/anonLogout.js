@@ -13,7 +13,8 @@ const anonLogout = (req, res) => {
         res.clearCookie('user.sid');
         res.json({
             message: 'Goodbye Anonymous-Chan',
-            success: true
+            success: true,
+            logouted: true
         });
     });
 }

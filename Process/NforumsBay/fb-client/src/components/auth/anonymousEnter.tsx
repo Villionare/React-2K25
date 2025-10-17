@@ -14,7 +14,7 @@ const EnterAnonymousName = () => {
         if (res.success) {
             console.log("session has been stored after success: ", res);
             login(res);
-            navigate('/');
+            navigate('home');
         } else {
             console.log("failed to login anonymous:", res);
         }

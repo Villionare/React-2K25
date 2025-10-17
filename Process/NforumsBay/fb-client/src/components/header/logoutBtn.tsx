@@ -4,12 +4,17 @@ const LogoutBtns = () => {
 
     const { user, logout } = useSessionContext();
 
+    // const handleLogout = () => {
+    //     logout();
+
+    // }
+
     const baseTextClass = "text-xs sm:text-sm md:text-base lg:text-lg font-sans";
 
     const logoutBtnClass = "px-3 py-1 rounded-md cursor-pointer transition-colors duration-200 bg-slate-700 text-slate-50 hover:bg-slate-600 font-bold border border-slate-600";
     const loginBtnClass = "px-3 py-1 rounded-md cursor-pointer transition-colors duration-200 bg-cyan-600 text-slate-50 hover:bg-cyan-500 font-semibold";
 
-    if (user) {
+    if (user?.session_data) {
         const userType = user.session_data?.type;
         const username = user.session_data?.username;
 

@@ -36,7 +36,6 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
         // Use the memoized URL
         const currentUrl = logoutUrl;
 
-
         try {
             const response = await fetch(currentUrl, {
                 method: 'POST',
@@ -50,12 +49,12 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
             //     throw new Error(`Logout request failed with status: ${response.status}`);
             // }
 
-
             const data = await response.json();
             console.log('server responce: ', data);
 
             if (data?.success) {
-                setUser(null);
+                //setting this this way so that we can show logout toast
+                setUser(data);
                 localStorage.clear();
                 navigate('/');
                 console.log('logout process compleated');
