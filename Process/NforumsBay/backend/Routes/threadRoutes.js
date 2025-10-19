@@ -1,7 +1,7 @@
 import express from "express";
-import handleGetAllThreads from "../Controllers/handleGetAllThreads.js";
-import handleSeeThread from "../Controllers/handleSeeThread.js";
-import handleCreateThread from "../Controllers/handleCreateThread.js";
+import handleGetAllThreads from "../Controllers/threads/handleGetAllThreads.js";
+import handleSeeThread from "../Controllers/threads/handleSeeThread.js";
+import handleCreateThread from "../Controllers/threads/handleCreateThread.js";
 const threadRouter = express.Router();
 
 //threads

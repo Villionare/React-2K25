@@ -1,8 +1,8 @@
 import express from "express";
-import handleLoginAdmin from "../Controllers/handleLoginAdmin.js";
 import handleCreateNewAdmin from "../Controllers/handleCreateNewAdmin.js";
 import handleLogoutAdmin from "../Controllers/handleLogoutAdmin.js";
 import adminCheck from "../Middlewares/adminCheck.js";
+import handleLoginAdmin from "../Controllers/handleLoginAdmin.js";
 const adminRoutes = express.Router();
 
 

@@ -1,4 +1,4 @@
-import AdminModel from "../Models/admin.js";
+import AdminModel from "../Models/users/admin.js";
 
 const handleLoginAdmin = async (req, res) => {
 

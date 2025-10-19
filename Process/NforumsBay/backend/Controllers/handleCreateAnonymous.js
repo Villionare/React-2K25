@@ -1,4 +1,4 @@
-import anonymousModel from "../Models/anonymous.js";
+import anonymousModel from "../Models/users/anonymous.js";
 
 const handleCreateAnonymous = async (req, res) => {
     try {

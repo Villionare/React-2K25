@@ -31,24 +31,11 @@ app.use(express.static('./public'));
 app.use(sessionForBothUsers); //this session is created globally for any route
 
 //ROUTES
-app.get("/api/dashboard", (req, res) => {
-    if (req.session.user) {
-        res.send(`Hello ${req.session.user.role}`);
-        console.log(req.session);
-
-    } else {
-        res.status(401).send("Not logged in");
-    }
-});
 
 app.get('/test', test);
 
 //frontend access to user type
 app.get('/api/me', userCheck);
-// {
-//     message: 'Session Exists',
-//     data: req.session.user
-// }
 
 //admin
 app.use('/api/admin', adminRoutes);

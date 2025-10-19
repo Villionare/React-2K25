@@ -10,6 +10,8 @@ const b_categoriesSchema = mongoose.Schema({
         ref: 'boards'
     }],
     maxNumber: Number
+}, {
+    timestamps: true
 });
 
 const boardCategoryModel = mongoose.model('boardCategory', b_categoriesSchema);
