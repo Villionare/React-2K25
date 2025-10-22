@@ -50,7 +50,7 @@ app.use('/api/boards', boardsRoutes);
 app.use('/api/boards/:board_id/threads', threadRouter);
 
 //posts
-app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
+// app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
 
 
 app.listen(port, () => {
