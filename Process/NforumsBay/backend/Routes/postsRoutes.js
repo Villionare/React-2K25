@@ -1,5 +1,5 @@
 import express from "express";
-import handleListAllPosts from "../Controllers/handleListAllPosts.js";
+import handleListAllPosts from "../Controllers/posts/handleListAllPosts.js";
 const postsRouter = express.Router();
 
 //posts

@@ -29,14 +29,9 @@ const boardsItems = new mongoose.Schema({
     },
 
     threads: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId, //initially empty array
         ref: 'threadModel'
     }],
-
-    maxThreads: {
-        type: Number,
-        required: false,
-    }
 
 }, {
     timestamps: true,

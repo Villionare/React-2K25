@@ -1,12 +1,10 @@
-import AdminModel from "../Models/users/admin.js";
+import AdminModel from '../../../Models/users/admin.js';
 
 const handleLoginAdmin = async (req, res) => {
-
     const { loginIdentifier, loginPassword } = req.body || {};
 
     try {
-
-        //check if all the data is here
+        // check required fields
         if (!loginIdentifier || !loginPassword) {
             return res.status(400).json({ message: "server: Fill the fealds properly" });
         }
@@ -20,35 +18,31 @@ const handleLoginAdmin = async (req, res) => {
             return res.status(401).json({ message: "User not found" });
         }
 
-        // Check password
+        // Check password (TODO: replace with bcrypt compare)
         if (user.password !== loginPassword) {
             return res.status(401).json({ message: "Incorrect password" });
         }
-        console.log(user);
 
         const { password, ...restWithoutPassword } = user.toObject();
 
-
-        //now that everything is okay we will create a session for the user
+        // create a session for the user
         req.session.user = {
             type: 'admin',
-            username: loginIdentifier,
+            username: user.username,
             ip: req.ip
         };
 
-        req.session.cookie.maxAge = 60 * 60 * 1000; //saving the max time for admin session
+        req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour
 
-        // Ensure session is saved before sending response so the Set-Cookie header is sent
+        // Ensure session is saved before sending response so Set-Cookie is sent
         req.session.save(err => {
             if (err) {
                 console.error('Session save error:', err);
                 return res.status(500).json({ message: 'Failed to save session' });
             }
-            console.log('Signin Session saved:', req.session);
 
-
-            return res.status(201).json({
-                message: "Admin login Successfull",
+            return res.status(200).json({
+                message: "Admin login Successful",
                 success: true,
                 data: restWithoutPassword,
                 session_data: req.session.user,
@@ -59,6 +53,6 @@ const handleLoginAdmin = async (req, res) => {
         console.error(e);
         return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 export default handleLoginAdmin;

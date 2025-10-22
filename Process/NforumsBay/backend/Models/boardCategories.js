@@ -1,19 +1,32 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const b_categoriesSchema = mongoose.Schema({
-    id: Number,
-    name: String,
-    description: String,
+const { Schema } = mongoose;
+
+const b_categoriesSchema = new Schema({
+    id: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
     boards: [{
-        _id: ObjectId, //this will be linked to the boards id documents.
-        name: String,
-        ref: 'boards'
+        type: Schema.Types.ObjectId,
+        ref: 'boards' 
     }],
-    maxNumber: Number
+    maxNumber: {
+        type: Number
+    }
 }, {
     timestamps: true
 });
 
-const boardCategoryModel = mongoose.model('boardCategory', b_categoriesSchema);
+const boardCategoryModel = mongoose.model('BoardCategory', b_categoriesSchema);
 
 export default boardCategoryModel;

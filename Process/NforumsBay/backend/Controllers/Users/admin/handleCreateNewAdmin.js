@@ -1,4 +1,4 @@
-import AdminModel from "../Models/users/admin.js"
+import AdminModel from "../../../Models/users/admin.js"
 
 const handleCreateNewAdmin = async (req, res) => {
 

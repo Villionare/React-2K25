@@ -24,7 +24,7 @@ const postSchema = new Schema({
         required: false,
     },
 
-    media: [{ file_id, file_name, mime_type, thumbnail }],
+    media: [],
 
     category: {
         type: Schema.Types.ObjectId,

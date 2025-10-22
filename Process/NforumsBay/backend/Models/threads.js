@@ -1,32 +1,21 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const threadSchema = mongoose.Schema({
-
-    thread_id: {
-        type: Number
-    },
-
-    name: {
-        type: String,
-    },
-
-    description: {
-        type: String,
-    },
-
+const threadSchema = new Schema({
+    thread_id: Number,
+    name: String,
+    description: String,
     op_post: {
-        name: {
-            type: String,
-            description: String,
-            user: String,
-            date: new Date(),
-            file: null,
-            url: [],
-            replies: [{
-                type: reftoposts,  //these are the repiles to the op post, that will potencially create a thead.
-                unique: true,
-            }],
-        }
+        name: String,
+        description: String,
+        user: String,
+        date: { type: Date, default: Date.now },
+        file: Schema.Types.Mixed,
+        url: [String],
+        replies: [{
+            type: Schema.Types.ObjectId,
+            ref: 'posts'
+        }]
     }
 });
 

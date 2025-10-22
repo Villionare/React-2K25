@@ -11,7 +11,7 @@ const boardsRoutes = express.Router();
 boardsRoutes.post('/create_category',adminCheck, handleCreateBoardCategory);
 boardsRoutes.post('/create',adminCheck, handlCreateBoard);
 boardsRoutes.delete('/delete',adminCheck, handleDeleteBoard); 
-boardsRoutes.patch('/update',adminCheck, handleUpdateBoard); 
+boardsRoutes.patch('/update',adminCheck, handleUpdateBoard);
 boardsRoutes.get('/', handleListBoards); //listing all the boards
 boardsRoutes.post('/', adminCheck, handlCreateBoard); //creating a board
 boardsRoutes.post('/', adminCheck); //deleting a board

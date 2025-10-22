@@ -9,7 +9,7 @@ import cors from "cors";
 import anonymousRouter from "./Routes/anonymousRoutes.js";
 import test from "./Controllers/test.js";
 import sessionForBothUsers from "./SessionControl/adminSession.js";
-import userCheck from "./Controllers/userCheck.js";
+import userCheck from "./Controllers/Users/userCheck.js";
 dotenv.config();
 
 const app = express();
