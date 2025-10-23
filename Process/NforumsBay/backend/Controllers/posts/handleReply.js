@@ -1,5 +1,6 @@
 import op_postModel from "../../Models/op_posts.js";
 import repliesModel from "../../Models/replies.js";
+import threadsModel from "../../Models/threads.js";
 
 const handleReplyOP = async (req,res) => {
     
@@ -31,15 +32,38 @@ const handleReplyOP = async (req,res) => {
         thread_id,
     })    
 
-    //linking the reply to the original post
-    const gettingTO = await op_postModel.findById(to);
-    if(!gettingTO){
-        return res.status(404).json({message: "Original Post not found"});
-    }    
+    // now there are 3 scenerios where a reply can be made to op or to an existing reply.
 
-    gettingTO.replies.push(newReply._id);
-    await gettingTO.save();
-    await newReply.save();
+    // 1 -if the reply made is to an OP post
+    // 2 -if the reply made is to an existing reply
+    // 3 -if their is no post found to reply to.
+    
+    //linking the reply to the original post
+    const gettingTO_op = await op_postModel.findById(to);
+    
+    if(gettingTO_op){
+        const gettingThread = await threadsModel.findById(thread_id);
+        
+        gettingThread.replies.push(newReply._id);
+        gettingTO_op.replies.push(newReply._id);
+
+        await gettingTO_op.save();
+        await newReply.save();    
+        await gettingThread.save();
+    }
+    
+    // 2 -if the reply made is to an existing reply
+    const gettingTO_reply = await repliesModel.findById(to);
+    
+    if(gettingTO_reply){
+        gettingTO_reply.replies.push(newReply._id);
+        await gettingTO_reply.save();
+        await newReply.save();
+    }
+
+    if(gettingTO_op === null && gettingTO_reply === null){
+        return res.status(400).json({message: "The post you are replying to does not exist"});
+    }
 
     return res.json({
        "message": "Reply made successfully", 

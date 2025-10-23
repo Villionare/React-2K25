@@ -44,10 +44,10 @@ const repliesSchema = mongoose.Schema({
     },
 
     //the sub replies to this reply
-    replies: {
+    replies: [{
         type: mongoose.Types.ObjectId,
         ref: 'replies'
-    },
+    }],
 
     media: {
         type: String
