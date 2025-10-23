@@ -18,9 +18,10 @@ const handleCreateBoardCategory = async (req, res) => {
 
         //this will count the number of existing board categories to assign a new id
         const noOfBoardsCategories = await boardCategoryModel.countDocuments();
-        
+        const boardCategoryId = `BC_${noOfBoardsCategories + 1}`;
+
         const newCategory = await boardCategoryModel.create({
-            id: noOfBoardsCategories + 1,
+            id: boardCategoryId,
             name,
             description,
             maxNumber,

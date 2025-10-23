@@ -29,7 +29,7 @@ const handleCreateThread = async (req, res) => {
         
         //generate thread_id
         const getAllThreadsNumbers = await threadsModel.countDocuments();
-        const new_thread_id = `TH/${getAllThreadsNumbers + 1}`;
+        const new_thread_id = `TH_${getAllThreadsNumbers + 1}`;
         
         //after the post is successfully created, we can create the thread using the OP_post id.
         const createThread = await threadsModel.create({
@@ -41,7 +41,7 @@ const handleCreateThread = async (req, res) => {
         if(createThread){
             //getting the number of posts to generate a new post ID
             const getAllPostsNumbers = await op_postModel.countDocuments();
-            const new_OP_post_id = `OP/${getAllPostsNumbers + 1}`;
+            const new_OP_post_id = `OP_${getAllPostsNumbers + 1}`;
             
             const createOP_post = await op_postModel.create({
                 postNumber: new_OP_post_id,

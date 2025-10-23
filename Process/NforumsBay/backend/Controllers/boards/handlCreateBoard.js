@@ -33,7 +33,8 @@ const handlCreateBoard = async (req, res) => {
     }
 
     //board_id will be auto generated as the last board's id + 1 
-    const board_id = await boardsItemsModel.countDocuments() + 1;
+    const totalBoards = await boardsItemsModel.countDocuments() + 1;
+    const board_id = `BOARD_${totalBoards}`;
 
     const board = await boardsItemsModel.create({
         board_id,

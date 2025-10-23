@@ -41,10 +41,10 @@ const postSchema = new Schema({
         ref: 'threadModel',
         required: true,
     },
-    replies: {
+    replies: [{
         type: mongoose.Types.ObjectId,
         ref: 'replies'
-    },
+    }],
 
     media: {
         type: String
