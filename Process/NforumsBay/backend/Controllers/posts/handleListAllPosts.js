@@ -1,5 +1,3 @@
-import postsModel from '../../Models/posts.js';
-
 const handleListAllPosts = async (req, res) => {
     try {
         // Implementation needed

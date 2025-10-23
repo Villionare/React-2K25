@@ -2,12 +2,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const threadSchema = new Schema({
-    thread_id: Number,
+    thread_id: String,
     name: String, //thread name is the same as the op post title
     
     op_post: {
        type: Schema.Types.ObjectId,
-       required: true
     },
     
     replies: [{
