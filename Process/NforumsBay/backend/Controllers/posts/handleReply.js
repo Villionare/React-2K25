@@ -6,8 +6,8 @@ const handleReplyOP = async (req,res) => {
     
     try {    
     
-    const { username, textContent, to, media} = req.body; 
-    const thread_id = req.params.thread_id;
+        const { username, textContent, to, media} = req.body; 
+        const thread_id = req.params.thread_id;
 
     if(thread_id === undefined){
         return res.status(400).json({message: "Thread ID is required"});
@@ -30,7 +30,7 @@ const handleReplyOP = async (req,res) => {
         to,
         media,
         thread_id,
-    })    
+    })
 
     // now there are 3 scenerios where a reply can be made to op or to an existing reply.
 
