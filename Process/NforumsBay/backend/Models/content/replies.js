@@ -33,7 +33,7 @@ const repliesSchema = mongoose.Schema({
     //Thread id will be the same throughout - weather a reply to op post or reply to a reply. 
     thread_id: {
         type: Schema.Types.ObjectId,
-        ref: 'threadModel',
+        ref: 'threadModels',
         required: true,
     },
 

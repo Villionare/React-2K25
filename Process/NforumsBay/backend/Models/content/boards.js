@@ -30,7 +30,7 @@ const boardsItems = new mongoose.Schema({
 
     threads: [{
         type: Schema.Types.ObjectId, //initially empty array
-        ref: 'threadModel'
+        ref: 'threadModels'
     }],
 
 }, {
@@ -40,6 +40,25 @@ const boardsItems = new mongoose.Schema({
 const boardsItemsModel = mongoose.model("boards", boardsItems);
 
 export default boardsItemsModel;
+
+    '0': ObjectId('68fbbf745f1861e68c03effc'),
+    '1': ObjectId('68fbbf745f1861e68c03effd'),
+    '2': ObjectId('68fbbf745f1861e68c03effe'),
+    '3': ObjectId('68fbbf745f1861e68c03efff'),
+    '4': ObjectId('68fbbf745f1861e68c03f000'),
+    '5': ObjectId('68fbbf745f1861e68c03f001'),
+    '6': ObjectId('68fbbf745f1861e68c03f002'),
+    '7': ObjectId('68fbbf745f1861e68c03f003'),
+    '8': ObjectId('68fbbf745f1861e68c03f004'),
+    '9': ObjectId('68fbbf745f1861e68c03f005'),
+    '10': ObjectId('68fbbf745f1861e68c03f006'),
+    '11': ObjectId('68fbbf745f1861e68c03f007'),
+    '12': ObjectId('68fbbf745f1861e68c03f008'),
+    '13': ObjectId('68fbbf745f1861e68c03f009'),
+    '14': ObjectId('68fbbf745f1861e68c03f00a'),
+    '15': ObjectId('68fbbf1d5f1861e68c03efc7'),
+    '16': ObjectId('68fbbf1d5f1861e68c03efc8'),
+    '17': ObjectId('68fbbf1d5f1861e68c03efc9'),
 
 const data = {
     "Japanese Culture": [

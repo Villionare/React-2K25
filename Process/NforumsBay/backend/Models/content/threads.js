@@ -25,6 +25,6 @@ const threadSchema = new Schema({
     }]
 });
 
-const threadsModel = mongoose.model('threadModel', threadSchema);
+const threadsModel = mongoose.model('threadModels', threadSchema);
 
 export default threadsModel;

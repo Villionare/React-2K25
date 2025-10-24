@@ -43,7 +43,7 @@ const postSchema = new Schema({
     //refrence to the thread
     thread_id: {
         type: Schema.Types.ObjectId,
-        ref: 'threadModel',
+        ref: 'threadModels',
         required: true,
     },
 

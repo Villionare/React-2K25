@@ -46,7 +46,7 @@ app.use('/api/anonymous', anonymousRouter);
 app.use('/api/boards', boardsRoutes);
 
 //threads
-app.use('/api/boards/:board_id/threads', threadRouter);
+app.use('/api/boards/:slug/threads', threadRouter);
 
 //posts
 // app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);

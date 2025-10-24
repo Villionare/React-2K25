@@ -1,10 +1,11 @@
-import threadsModel from "../../Models/content/threads.js";
+import boardsItemsModel from "../../Models/content/boards.js";
 
 const handleGetAllThreads = async (req, res) => {
 
-    const board_id = await req.params.board_id;
+    const slug = await req.params.slug;
 
-    const fetchBoard = await threadsModel.find({ board_id: board_id }).populate('op_posts');
+    const fetchBoard = await boardsItemsModel.find({ slug: slug }).populate('threads');
+    const threads = fetchBoard[0].threads;
 
     if (!fetchBoard) {
         return res.status(404).json({
@@ -12,11 +13,9 @@ const handleGetAllThreads = async (req, res) => {
         });
     }
 
-    const allThreads = await threadsModel.threads;
-
     return res.status(200).json({
-        allThreads,
-        fetchBoard
+        "success": true,
+        threads
     });
 }
 
