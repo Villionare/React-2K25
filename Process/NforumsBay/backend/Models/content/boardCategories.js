@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-
 const { Schema } = mongoose;
 
 const b_categoriesSchema = new Schema({
-    id: {
-        type: Number,
+    category_id: {
+        type: String,
         required: true,
         unique: true
     },
@@ -18,7 +17,7 @@ const b_categoriesSchema = new Schema({
     },
     boards: [{
         type: Schema.Types.ObjectId,
-        ref: 'boards' 
+        ref: 'boards'
     }],
     maxNumber: {
         type: Number

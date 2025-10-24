@@ -1,8 +1,0 @@
-so the process will start when a single post will be created, that post is the op post.
-
-if someone replies to it.
-
-it will become a thread. and if someone dosen't it will just be there.
-
-EVERY OTHER OP POST WILL HAVE A LIFE LINE OF 24 HRS IF SOMEONE REPLIES OR MAKES AN ACTIVIY IN THAT THREAD OR POST,
-THE COUNTDOWN WILL BE RESTARTED ELSE THE OP POST WILL BE AUTOMATICALLY DELETED FROM THE DB.

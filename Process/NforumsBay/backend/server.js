@@ -1,13 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import postsRouter from "./Routes/postsRoutes.js";
 import threadRouter from "./Routes/threadRoutes.js";
 import boardsRoutes from "./Routes/boardsRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
-import mongoConnect from "./Controllers/mongoConnect.js";
+import mongoConnect from "./Controllers/others/mongoConnect.js";
 import cors from "cors";
 import anonymousRouter from "./Routes/anonymousRoutes.js";
-import test from "./Controllers/test.js";
+import test from "./Controllers/others/test.js";
 import sessionForBothUsers from "./SessionControl/adminSession.js";
 import userCheck from "./Controllers/Users/userCheck.js";
 dotenv.config();
@@ -54,6 +53,6 @@ app.use('/api/boards/:board_id/threads', threadRouter);
 
 
 app.listen(port, () => {
-    console.log(`🛜 ` + ` Server listening on port ${port}!`)
+    console.log(`🛜 ` + ` Server listening on port ${port}!!!`)
     mongoConnect(process.env.MONGO_CONNECT);
 });

@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const boardsItems = new mongoose.Schema({
 
@@ -24,12 +24,12 @@ const boardsItems = new mongoose.Schema({
     },
 
     board_category: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'boardCategory',
     },
 
     threads: [{
-        type: mongoose.Schema.Types.ObjectId, //initially empty array
+        type: Schema.Types.ObjectId, //initially empty array
         ref: 'threadModel'
     }],
 

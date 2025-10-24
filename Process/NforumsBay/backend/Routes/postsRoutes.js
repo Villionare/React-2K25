@@ -1,5 +1,5 @@
 import express from "express";
-import handleListAllPosts from "../Controllers/posts/handleListAllPosts.js";
+import handleListAllPosts from "../Controllers/threads/op_posts/handleListAllPosts.js";
 // mergeParams:true allows access to params from parent routers (board_id, thread_id)
 const postsRouter = express.Router({ mergeParams: true });
 

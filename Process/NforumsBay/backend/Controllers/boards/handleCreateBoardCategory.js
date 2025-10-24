@@ -1,4 +1,4 @@
-import boardCategoryModel from "../../Models/boardCategories.js";
+import boardCategoryModel from "../../Models/content/boardCategories.js";
 
 //when we will be creating a board category there are no already defined boards for the category so we will add it afterwads
 //whenever we will be create a board category it will have 0 boards associated with it.
@@ -7,12 +7,12 @@ import boardCategoryModel from "../../Models/boardCategories.js";
 
 const handleCreateBoardCategory = async (req, res) => {
     try {
-        const {name, description, maxNumber} = req.body;
-        
+        const { name, description, maxNumber } = req.body;
+
         if (!name || !description || !maxNumber) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 message: "Missing required fields",
-                success: false 
+                success: false
             });
         }
 
@@ -21,7 +21,7 @@ const handleCreateBoardCategory = async (req, res) => {
         const boardCategoryId = `BC_${noOfBoardsCategories + 1}`;
 
         const newCategory = await boardCategoryModel.create({
-            id: boardCategoryId,
+            category_id: boardCategoryId,
             name,
             description,
             maxNumber,
@@ -29,7 +29,7 @@ const handleCreateBoardCategory = async (req, res) => {
 
         console.log(`board has been created by the admin ${req.session.user.username}: `, newCategory);
 
-        res.status(201).json({ 
+        res.status(201).json({
             message: "Board category created successfully",
             success: true,
             data: newCategory
@@ -37,7 +37,7 @@ const handleCreateBoardCategory = async (req, res) => {
 
     } catch (error) {
         console.error('Error creating board category:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             message: "Error creating board category",
             success: false
         });
