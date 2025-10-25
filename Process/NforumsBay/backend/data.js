@@ -1,7 +1,7 @@
 //checks
 //boardCategories: CREATE READ UPDATE DELETE - done.
 //boards: CREATE READ UPDATE DELETE - done.
-//threads: CREATE READ UPDATE DELETE
+//threads: CREATE READ UPDATE DELETE - 
 //posts: CREATE READ UPDATE DELETE
 //replies: CREATE READ UPDATE DELETE
 
