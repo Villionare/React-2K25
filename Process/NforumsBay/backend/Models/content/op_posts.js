@@ -44,7 +44,6 @@ const postSchema = new Schema({
     thread_id: {
         type: Schema.Types.ObjectId,
         ref: 'threadModels',
-        required: true,
     },
 
     replies: [{

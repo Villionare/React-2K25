@@ -1,4 +1,4 @@
-import threadsModel from "../../Models/content/threads";
+import threadsModel from "../../Models/content/threads.js";
 
 const handleSeeThread = async (req, res) => {
     try {

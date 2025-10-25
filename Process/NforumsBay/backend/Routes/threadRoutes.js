@@ -8,9 +8,9 @@ import handleReplyOP from "../Controllers/threads/op_posts/handleReply.js";
 const threadRouter = express.Router({ mergeParams: true });
 
 //threads
-threadRouter.get('/',allowAnonymousOrAdmin, handleGetAllThreads); //getting all the threads
-threadRouter.get('/:thread_id',allowAnonymousOrAdmin, handleSeeThread); //showing one thread
-threadRouter.post('/:thread_id/reply',allowAnonymousOrAdmin, handleReplyOP); //showing one thread
-threadRouter.post('/create_op', allowAnonymousOrAdmin, handleCreateThread); //Creating a OP post (thread)
+threadRouter.get('/', allowAnonymousOrAdmin, handleGetAllThreads); //getting all the threads
+threadRouter.get('/:thread_id', allowAnonymousOrAdmin, handleSeeThread); //showing one thread
+threadRouter.post('/:thread_id/reply', allowAnonymousOrAdmin, handleReplyOP); //showing one thread
+threadRouter.post('/create_thread', allowAnonymousOrAdmin, handleCreateThread); //Creating a OP post (thread)
 
 export default threadRouter;
