@@ -15,7 +15,7 @@ const Threads: React.FC = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto bg-slate-900 min-h-screen p-6 text-slate-50">
+        <div className="border-1 border-amber-400">
             <h2 className="text-3xl font-bold mb-6 text-slate-50">Threads</h2>
             <div className="space-y-2">
                 {temporaryThreads.map((thread) => (

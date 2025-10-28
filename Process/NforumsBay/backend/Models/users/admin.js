@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 //it is responcible for creating the documents in the collections crated by the model
 //and basically specifies the format of it too.
@@ -31,6 +31,6 @@ const adminSchema = mongoose.Schema({
 });
 
 //this is just used to create a collection
-const AdminModel = mongoose.model('adminModels', adminSchema);
+const adminModel = mongoose.model('adminModels', adminSchema);
 
-export default AdminModel;
+export default adminModel;

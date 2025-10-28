@@ -1,4 +1,4 @@
-import AdminModel from "../../../Models/users/admin.js"
+import adminModel from "../../../Models/users/admin.js"
 
 const handleCreateNewAdmin = async (req, res) => {
 
@@ -11,17 +11,17 @@ const handleCreateNewAdmin = async (req, res) => {
         }
 
         // 2 - check if the username, email, or unique property already exists in the db
-        const existingEmail = await AdminModel.findOne({ email: signUpEmail });
+        const existingEmail = await adminModel.findOne({ email: signUpEmail });
         if (existingEmail) {
             return res.status(409).json({ message: "Email id already in use by another admin" });
         }
 
-        const existingUsername = await AdminModel.findOne({ username: signUpUsername });
+        const existingUsername = await adminModel.findOne({ username: signUpUsername });
         if (existingUsername) {
             return res.status(409).json({ message: "Username already in use, find another unique one" });
         }
 
-        const newUser = await AdminModel.create({
+        const newUser = await adminModel.create({
             name: signUpName,
             username: signUpUsername,
             age: signUpAge,

@@ -1,15 +1,32 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import EnterAnonymousName from "./components/auth/anonymousEnter";
 import useSessionContext from "./context/useContext";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthComponent from "./components/auth";
+import { useOutletContext } from "react-router-dom";
+
+
+interface homedata {
+  ip: string,
+  total_admin: number,
+  total_anonymous: number,
+  total_users: number,
+  active_users: number,
+  total_categories: number,
+  total_boards: number,
+  total_threads: number
+}
 
 const App = () => {
-  const [showForm, setShowForm] = useState(false);
+
+  const homeData: homedata = useOutletContext();
+  const [showAnonForm, setshowAnonForm] = useState(false);
+  const [showAdminForm, setshowAdminForm] = useState(false);
   const { user } = useSessionContext();
   const [isLogout, setIsLogout] = useState(false);
-  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     if (user?.success && user?.logouted) {
@@ -23,48 +40,55 @@ const App = () => {
     }
   }, [isLogout, user]);
 
-  const startAdmin = () => {
-    navigate("auth");
-    console.log("Navigating to Admin Auth...");
-  };
-
   return (
-    <div className="flex flex-col gap-6 bg-[#1A1C1E] items-center justify-center min-h-screen text-center px-4">
-      <h1 className="text-5xl md:text-6xl text-[#EAE4D9] border-b-4 border-[#424549] pb-2 font-serif tracking-tight">
-        forumsBay
+    <div className="flex flex-col gap-2 bg-black items-center justify-center min-h-screen">
+
+      <h1 className="whitespace-pre text-sm font-mono text-white">
+
+        ░▒▓████████▓▒░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓██████████████▓▒░ ░▒▓███████▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░ <br />
+        ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ <br />
+        ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ <br />
+        ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  <br />
+        ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     <br />
+        ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     <br />
+        ░▒▓█▓▒░      ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     <br />
+
       </h1>
 
-      <p className="text-lg text-[#EAE4D9]">
-        Greetings, <span className="font-bold">Guest</span>
+      <p className="text-lg text-[#EAE4D9] mt-10">
+
+        Greetings, <span className="font-bold">{homeData ? homeData.ip : "Guest"}</span>
       </p>
 
       <p className="text-[#A9A296] text-sm md:text-base italic">
         Choose your path to continue the <strong>Midnight Edition</strong> experience.
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-4 mt-4">
-        <button
-          className="bg-[#5CA0D3] px-8 py-3 rounded-md text-[#EAE4D9] font-bold hover:bg-[#8BCFF2] transition shadow-lg text-lg"
-          onClick={() => setShowForm(true)}
-        >
-          Anonymous Access
+      {/* two buttons */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button className="cursor-pointer border-2 border-white text-white p-4" onClick={() => { setshowAdminForm(false); setshowAnonForm((prev) => !prev) }}>
+          {showAnonForm ? "close[X]" : "🥸 Anonymous Access"}
         </button>
 
-        <button
-          className="bg-[#5CA0D3] px-8 py-3 rounded-md text-[#EAE4D9] font-bold hover:bg-[#8BCFF2] transition shadow-lg text-lg"
-          onClick={startAdmin}
-        >
-          Admin Portal
+        <button className="cursor-pointer border-2 border-white text-white p-4" onClick={() => { setshowAnonForm(false); setshowAdminForm((prev) => !prev) }}>
+          {showAdminForm ? "close[X]" : "🛡️ Admin Access"}
         </button>
       </div>
 
       {/* Conditional Form */}
-      {showForm && (
-        <div className="mt-6 w-full max-w-md bg-[#232527] p-6 rounded-lg border border-[#424549]">
+      {showAnonForm && (
+        <div className="mt-6 w-full bg-black p-6 rounded-lg">
           <p className="text-[#EAE4D9]">Anonymous Name Entry Form goes here...</p>
           <EnterAnonymousName />
         </div>
       )}
+
+      {showAdminForm && (
+        <div className="mt-6 w-full bg-black p-6 rounded-lg">
+          <AuthComponent />
+        </div>
+      )}
+
 
       <ToastContainer position="bottom-right"
         autoClose={5000}

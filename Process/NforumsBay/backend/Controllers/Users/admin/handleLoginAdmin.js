@@ -1,4 +1,4 @@
-import AdminModel from '../../../Models/users/admin.js';
+import adminModel from '../../../Models/users/admin.js';
 
 const handleLoginAdmin = async (req, res) => {
     const { loginIdentifier, loginPassword } = req.body || {};
@@ -10,7 +10,7 @@ const handleLoginAdmin = async (req, res) => {
         }
 
         // Find user by either username or email
-        const user = await AdminModel.findOne({
+        const user = await adminModel.findOne({
             $or: [{ username: loginIdentifier }, { email: loginIdentifier }]
         });
 

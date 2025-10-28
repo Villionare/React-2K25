@@ -9,6 +9,9 @@ import anonymousRouter from "./Routes/anonymousRoutes.js";
 import test from "./Controllers/others/test.js";
 import sessionForBothUsers from "./SessionControl/adminSession.js";
 import userCheck from "./Controllers/Users/userCheck.js";
+import homeData from "./Controllers/others/homeData.js";
+import allowAnonymousOrAdmin from "./Middlewares/eitherAnonORAdmin.js";
+import send_DBData from "./Controllers/others/send_DBData.js";
 dotenv.config();
 
 const app = express();
@@ -32,6 +35,8 @@ app.use(sessionForBothUsers); //this session is created globally for any route
 //ROUTES
 
 app.get('/test', test);
+app.get('/api/home_data', allowAnonymousOrAdmin, homeData);
+app.get('/api/data', allowAnonymousOrAdmin, send_DBData);
 
 //frontend access to user type
 app.get('/api/me', userCheck);
