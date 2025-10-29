@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 //Child components wrapping
 
 //context Decalration:
-// export const UserAuthContext = createContext(null);
+export const UserAuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
 
@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
         setUserData(null);
     }
 
-    // ✅ Memoize context value
     const value = useMemo(() => {
         return { userData, login, logout };
     }, [userData]);
