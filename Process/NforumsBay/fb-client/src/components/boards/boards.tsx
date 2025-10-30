@@ -1,26 +1,33 @@
 // Boards.tsx
 import React from 'react';
-import BoardItem from './boardItems';
+import type { HomeDataMain } from '../../Types/apiBoardCategories';
+import type { AxiosResponse } from 'axios';
+// import BoardItem from './boardItems';
 
-const temporaryBoards = [
-    { id: 1, name: 'b', title: 'Random' },
-    { id: 2, name: 'g', title: 'Technology' },
-    { id: 3, name: 'a', title: 'Anime & Manga' },
-    { id: 4, name: 'pol', title: 'Politically Incorrect' },
-];
+interface prop {
+    boardId: string,
+    response: AxiosResponse<HomeDataMain> | null
+}
 
-const Boards: React.FC = () => {
-    const handleDelete = (id: number) => {
-        console.log(`Deleting board ${id}`); // Temporary handler
-    };
+const Boards: React.FC<prop> = ({ boardId, response }) => {
+    // const handleDelete = (id: number) => {
+    //     console.log(`Deleting board ${id}`); // Temporary handler
+    // };
+
+    //now boards will be fitered acc. to board category id
+    console.log("board cat id ", boardId);
 
     return (
-        <div className="border-1 border-amber-400">
-            <h2 className="text-3xl font-bold mb-6 text-slate-50">Boards</h2>
-            <div className="space-y-2">
-                {temporaryBoards.map((board) => (
-                    <BoardItem key={board.id} board={board} onDelete={handleDelete} />
-                ))}
+        <div className="flex gap-3">
+            <div className="flex gap-2 flex-wrap">
+                {response?.data.boards?.filter((v) => v.board_category === boardId)
+                    .map((board) => (
+                        <div className='text-white' key={board._id}>
+                            <h2><span className='text-gray-500'>[{board.slug}]</span>
+                                <span className='hover:text-red-600 cursor-pointer'> {board.name}</span> <span className='text-yellow-400'>|</span> </h2>
+                        </div>
+                    ))}
+
             </div>
         </div>
     );

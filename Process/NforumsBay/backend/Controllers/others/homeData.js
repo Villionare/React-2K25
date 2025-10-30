@@ -31,7 +31,16 @@ const homeData = async (req, res) => {
     //total threads
     const total_threads = await threadsModel.countDocuments();
 
-    res.json({ ip, total_admin, total_anonymous, total_users, active_users, total_categories, total_boards, total_threads });
+    res.json({
+        ip,
+        total_admin,
+        total_anonymous,
+        total_users,
+        active_users,
+        total_categories,
+        total_boards,
+        total_threads
+    });
 }
 
 export default homeData;

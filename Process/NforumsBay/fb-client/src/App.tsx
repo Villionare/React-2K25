@@ -5,28 +5,16 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthComponent from "./components/auth";
 import { useOutletContext } from "react-router-dom";
+import type { Homedata } from "./Types/Homedata";
 
-
-interface homedata {
-  ip: string,
-  total_admin: number,
-  total_anonymous: number,
-  total_users: number,
-  active_users: number,
-  total_categories: number,
-  total_boards: number,
-  total_threads: number
-}
 
 const App = () => {
 
-  const homeData: homedata = useOutletContext();
+  const homeData: Homedata = useOutletContext();
   const [showAnonForm, setshowAnonForm] = useState(false);
   const [showAdminForm, setshowAdminForm] = useState(false);
   const { user } = useSessionContext();
   const [isLogout, setIsLogout] = useState(false);
-
-
 
   useEffect(() => {
     if (user?.success && user?.logouted) {

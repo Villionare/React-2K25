@@ -3,21 +3,12 @@ import Header from "../components/header/header.js";
 import Footer from "../components/footer/footer.js";
 import { useEffect, useState } from "react";
 import server from "../api/config.js";
-
-interface homedata {
-    ip: string,
-    total_admin: number,
-    total_anonymous: number,
-    total_users: number,
-    active_users: number,
-    total_categories: number,
-    total_boards: number,
-    total_threads: number
-}
+import type { Homedata } from "../Types/Homedata.js";
 
 const LayoutBay: React.FC = () => {
 
-    const [homeData, setHomeData] = useState<homedata>();
+    //FETCHING THE DATA FOR Header
+    const [homeData, setHomeData] = useState<Homedata | null>(null);
     const fetchIP = async () => {
         const ip = await server.get('/home_data');
         setHomeData(ip.data);
@@ -27,7 +18,6 @@ const LayoutBay: React.FC = () => {
     useEffect(() => {
         fetchIP();
     }, [])
-
 
     return <div className="font-terminal min-h-screen">
         <Header homeData={homeData} />

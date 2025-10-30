@@ -35,7 +35,7 @@ app.use(sessionForBothUsers); //this session is created globally for any route
 //ROUTES
 
 app.get('/test', test);
-app.get('/api/home_data', allowAnonymousOrAdmin, homeData);
+app.get('/api/home_data', homeData);
 app.get('/api/data', allowAnonymousOrAdmin, send_DBData);
 
 //frontend access to user type

@@ -1,21 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import Boards from "../boards/boards.js";
 import Posts from "../posts/posts.js";
 import Threads from "../threads/threads.js";
 import { useEffect, useState } from "react";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import useSessionContext from "../../context/useContext.js";
 import server from "../../api/config.js";
-import BoardCtategories from "../boardCategories/boardCategories.js";
+import BoardCategories from "../boardCategories/boardCategories.js";
+import type { AxiosResponse } from "axios";
+import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
 
 const Home = () => {
-    const [dbData, setDBData] = useState();
+    const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
     const { user } = useSessionContext();
 
     //if no user Exists then redirect
     useEffect(() => {
         const check: string | null = localStorage.getItem("user");
+
         if (!check) {
             navigate('/')
         }
@@ -31,9 +33,8 @@ const Home = () => {
     }, []);
 
 
-    return <div className="flex bg-black">
-        <BoardCtategories data={dbData} />
-        <Boards />
+    return <div className="flex flex-col bg-black">
+        <BoardCategories response={dbData} />
         <Threads />
         <Posts />
         {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null}
