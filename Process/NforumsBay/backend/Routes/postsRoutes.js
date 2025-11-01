@@ -1,14 +1,12 @@
 import express from "express";
 import handleListAllPosts from "../Controllers/threads/op_posts/handleListAllPosts.js";
+import allowAnonymousOrAdmin from "../Middlewares/eitherAnonORAdmin.js";
 // mergeParams:true allows access to params from parent routers (board_id, thread_id)
 const postsRouter = express.Router({ mergeParams: true });
 
 //posts
-postsRouter.get('/posts', handleListAllPosts); //showing all the posts
-// Note: there's no createPost controller yet; using handleCreateThread would be incorrect.
-// If a create post handler exists, replace `handleCreateThread` with it. For now respond 501.
-
-postsRouter.post('/post', (req, res) => {
+postsRouter.post('/post',allowAnonymousOrAdmin, (req, res) => {
+    
     res.status(501).json({ error: 'Not implemented: create post handler' });
 }); //create a post
 

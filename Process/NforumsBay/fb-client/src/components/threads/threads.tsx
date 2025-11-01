@@ -22,15 +22,15 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
 
 
     return (
-        <div className="border-1 border-amber-400">
-            <h2 className="text-3xl font-bold mb-6 text-slate-50">Threads</h2>
-            <div className="space-y-2">
+        <div>
+            <h2 className="text-3xl font-bold mb-6 text-slate-50 mx-5">Threads:</h2>
+            <div className="space-y-2 mx-15" >
                 {
                     threads?.threads && threads.threads.length > 0 ? (
                         threads.threads.map(thread => (
                             <ThreadItem
                                 key={thread._id}
-                                threadId={thread._id}
+                                threadId={thread.thread_id}
                                 threadname={thread.name}
                                 op={thread.op_post}
                                 op_replies={thread.replies}
@@ -42,9 +42,10 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
                         </div>
                     )
                 }
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
 export default Threads;
+

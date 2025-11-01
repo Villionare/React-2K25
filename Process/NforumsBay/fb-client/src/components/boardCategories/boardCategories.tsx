@@ -20,9 +20,9 @@ const BoardCategories: React.FC<props> = ({ response, setSelectedThread }) => {
     return (
         <div className="flex flex-col text-slate-50 my-10">
 
-            <h2 className="text-3xl font-bold mb-2">Board Categories:</h2>
+            <h2 className="text-3xl font-bold mb-2 mx-5">Board Categories:</h2>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 mx-15">
 
                 {response?.data.boardCategories.map((v) => (
                     <div className='flex'>

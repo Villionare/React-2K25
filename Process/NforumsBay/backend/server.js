@@ -12,6 +12,7 @@ import userCheck from "./Controllers/Users/userCheck.js";
 import homeData from "./Controllers/others/homeData.js";
 import allowAnonymousOrAdmin from "./Middlewares/eitherAnonORAdmin.js";
 import send_DBData from "./Controllers/others/send_DBData.js";
+import postsRouter from "./Routes/postsRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -54,7 +55,7 @@ app.use('/api/boards', boardsRoutes);
 app.use('/api/boards/:slug/threads', threadRouter);
 
 //posts
-// app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
+app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
 
 
 app.listen(port, () => {

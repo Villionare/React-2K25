@@ -1,18 +1,20 @@
 // Posts.tsx
 import React from 'react';
 import PostItem from './postItem';
+import fetchOP from '../../api/services/fetchOp';
 
-const temporaryPosts = [
-    { id: 1, author: 'Anonymous', content: 'This is the original post. Hello world!', timestamp: '2025-10-06 10:00' },
-    { id: 2, author: 'AnonReply', content: '>>1 Sounds good. What\'s next?', timestamp: '2025-10-06 10:05' },
-    { id: 3, author: 'AnotherAnon', content: 'I disagree. Here\'s why...', timestamp: '2025-10-06 10:10' },
-    { id: 4, author: 'Lurker', content: 'Bump for visibility.', timestamp: '2025-10-06 10:15' },
-];
+interface props {
+    op: string,
+    op_replies: string[]
+}
 
-const Posts: React.FC = () => {
+const Posts: React.FC<props> = ({ op, op_replies }) => {
     const handleDelete = (id: number) => {
         console.log(`Deleting post ${id}`); // Temporary handler
     };
+
+    //FETCHING THE OP POST TO RENDER
+    const opData = fetchOP(op);
 
     return (
         <div className="border-1 border-amber-400">

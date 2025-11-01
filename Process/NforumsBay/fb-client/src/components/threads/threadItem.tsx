@@ -1,5 +1,6 @@
 // ThreadItem.tsx
 import React from 'react';
+import Posts from '../posts/posts';
 
 interface ThreadItemProps {
     threadId: string,
@@ -11,11 +12,12 @@ interface ThreadItemProps {
 const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op, op_replies }) => {
 
     return (
-        <div className="text-white flex justify-between">
-            <p>id: {threadId}</p>
-            <p>thread name: {threadname}</p>
-            <p>op: {op}</p>
-            <p>op replies: {op_replies}</p>
+        <div className="border-b-1 border-b-gray-400 text-white flex flex-col justify-between">
+            <div className='flex justify-between'>
+                <p>&gt;&gt; {threadname}</p>
+                <p>{threadId}</p>
+            </div>
+            <Posts op={op} op_replies={op_replies} />
         </div>
     );
 };
