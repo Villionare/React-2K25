@@ -1,71 +1,82 @@
-//handleCreateThread means creation of ORIGINAL POST, i will eventualy create a thread doc. in the db consisting the 
-//op as the face index and replies docs. following up in that thread doc.
-
 import boardsItemsModel from '../../Models/content/boards.js';
 import threadsModel from '../../Models/content/threads.js';
-import handleCreateOP from './op_posts/handleCreateOP.js';
 import op_postModel from '../../Models/content/op_posts.js';
 
 const handleCreateThread = async (req, res) => {
-
     try {
         const { username, textContent, media, title } = req.body;
 
+        // ✅ FIX: Use res.status() not req.status()
         if (!username || !textContent || !media || !title) {
-            req.status(400).json({
+            return res.status(400).json({
                 "message": "queries are missing"
             });
         }
 
-        //getting the board id in which the thread will be created.
+        // ✅ FIX: Get board correctly
         const slug = req.params.slug;
         const getBoardWithId = await boardsItemsModel.findOne({ slug });
 
-        if (getBoardWithId === null) {
-            res.status(400).json({
-                "message": `no board exists with id ${board_Id}`
-            })
+        if (!getBoardWithId) {
+            return res.status(400).json({
+                "message": `no board exists with slug ${slug}`
+            });
         }
 
-        //CREATING THE OP
-        const OP_POST = await handleCreateOP(username, textContent, media, title, getBoardWithId);
-        console.log(OP_POST);
+        // ✅ FIXED: Calculate postNumber FIRST (before create)
+        const getAllPostsNumbers = await op_postModel.countDocuments();
+        const newPostNumber = getAllPostsNumbers + 1;  // Sequential: 1,2,3...
 
+        // ✅ FIXED: Create OP with postNumber (NO .save() needed)
+        const createOP_post = await op_postModel.create({
+            op_id: `OP_${newPostNumber}`,
+            postNumber: newPostNumber,  // 👈 THIS FIXES DUPLICATE KEY
+            username,
+            title,
+            textContent,
+            media,
+            board: getBoardWithId._id,
+            // thread_id will be added later
+        });
 
-        //after the post is successfully created, we can create the thread using the OP_post id.
+        // ✅ Calculate thread ID
         const getAllThreadsNumbers = await threadsModel.countDocuments();
         const new_thread_id = `TH_${getAllThreadsNumbers + 1}`;
 
-        //NOW CREATING THREAD
+        // ✅ Create Thread
         const createThread = await threadsModel.create({
             thread_id: new_thread_id,
             name: title,
-            op_post: OP_POST._id
+            op_post: createOP_post._id
         });
-        await createThread.save();
 
-        //NOW WE WILL PUSH THE THREAD ID TO THE BOARD:
+        // ✅ Push thread to board
         await boardsItemsModel.findByIdAndUpdate(
             getBoardWithId._id,
-            { $push: { threads: createThread._id } },
+            { $push: { threads: createThread._id } }
         );
 
-        //NOW WE WILL BE UPDATING THE OP_POST MODEL
-        await op_postModel.findByIdAndUpdate(OP_POST._id, { thread_id: createThread._id });
+        // ✅ Update OP with thread_id
+        await op_postModel.findByIdAndUpdate(
+            createOP_post._id,
+            { thread_id: createThread._id }
+        );
 
-        //opPost.thread = thread._id;
-        // await OP_POST.save();
-
-        res.status(200).json({
-            "message": "OP posted Successfully and intialised a thread",
+        // ✅ SUCCESS RESPONSE
+        res.status(201).json({  // 👈 Changed to 201 (Created)
+            "message": "OP posted successfully and thread initialized",
             "thread_id": createThread._id,
-            "OP_id": OP_POST._id,
+            "OP_id": createOP_post._id,
+            "postNumber": newPostNumber
         });
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Error creating thread", error: error.message });
+        console.error("Error creating thread:", error);
+        res.status(500).json({
+            message: "Error creating thread",
+            error: error.message
+        });
     }
-}
+};
 
 export default handleCreateThread;

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Posts from "../posts/posts.js";
 import Threads from "../threads/threads.js";
 import { useEffect, useState } from "react";
 import { Bounce, ToastContainer, toast } from "react-toastify";
@@ -10,6 +9,7 @@ import type { AxiosResponse } from "axios";
 import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
 
 const Home = () => {
+    const [selectedBoard, setSelectedThread] = useState<string | null>(null);
     const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
     const { user } = useSessionContext();
@@ -32,11 +32,10 @@ const Home = () => {
         fetchData();
     }, []);
 
-
     return <div className="flex flex-col bg-black">
-        <BoardCategories response={dbData} />
-        <Threads />
-        <Posts />
+        <BoardCategories setSelectedThread={setSelectedThread} response={dbData} />
+        {selectedBoard && <Threads board_slug={selectedBoard} />}
+
         {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null}
         <ToastContainer position="bottom-right"
             autoClose={5000}

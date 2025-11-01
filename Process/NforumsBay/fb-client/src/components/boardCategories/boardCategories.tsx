@@ -5,12 +5,13 @@ import Boards from '../boards/boards';
 import type { HomeDataMain } from '../../Types/apiBoardCategories';
 
 interface props {
-    response: AxiosResponse<HomeDataMain> | null
+    response: AxiosResponse<HomeDataMain> | null,
+    setSelectedThread: (slug: string) => void
 }
 
 //we will be declaring the interface where we are recieving the data.
 
-const BoardCategories: React.FC<props> = ({ response }) => {
+const BoardCategories: React.FC<props> = ({ response, setSelectedThread }) => {
 
     useEffect(() => {
         console.log(response?.data.boardCategories);
@@ -29,7 +30,7 @@ const BoardCategories: React.FC<props> = ({ response }) => {
                             <p key={v._id} className='text-amber-300 w-40'>{v.name}</p>
                             <h2 className="text-red-600">(Boards):</h2>
                         </div>
-                        <Boards boardId={v._id} response={response} />
+                        <Boards boardId={v._id} setSelectedThread={setSelectedThread} response={response} />
 
                     </div>
                 ))}

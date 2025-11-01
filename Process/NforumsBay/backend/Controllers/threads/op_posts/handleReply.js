@@ -13,7 +13,7 @@ const handleReplyOP = async (req, res) => {
             return res.status(400).json({ message: "Thread ID is required" });
         }
 
-        const get_Thread_ObjId = await threadsModel.findOne({ thread_id });
+        const get_Thread_ObjId = await threadsModel.findById({ _id: thread_id });
 
         if (!get_Thread_ObjId) {
             return res.status(400).json({ message: `thread with this thread_id: ${thread_id} not found` });
