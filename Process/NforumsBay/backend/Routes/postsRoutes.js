@@ -1,13 +1,42 @@
 import express from "express";
-import handleListAllPosts from "../Controllers/threads/op_posts/handleListAllPosts.js";
 import allowAnonymousOrAdmin from "../Middlewares/eitherAnonORAdmin.js";
-// mergeParams:true allows access to params from parent routers (board_id, thread_id)
+import op_postModel from "../Models/content/op_posts.js";
+import repliesModel from "../Models/content/replies.js";
+
 const postsRouter = express.Router({ mergeParams: true });
 
-//posts
-postsRouter.post('/post',allowAnonymousOrAdmin, (req, res) => {
-    
-    res.status(501).json({ error: 'Not implemented: create post handler' });
-}); //create a post
+postsRouter.get('/', allowAnonymousOrAdmin, async (req, res) => {
+    try {
+        const { op } = req.query;
+
+        if (!op) {
+            return res.status(400).json({
+                message: "Missing required fields ⚠️"
+            });
+        }
+
+        const checkPost = await op_postModel.findById(op);
+
+        if (!checkPost) {
+            return res.status(404).json({
+                message: "No post exists with this op id ❌"
+            });
+        }
+
+        // Later you can fetch replies like:
+        // const replies = await repliesModel.find({ _id: { $in: op_replies } });
+
+        return res.status(200).json({
+            post: checkPost,
+        });
+
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        return res.status(500).json({
+            message: "Internal server error 💥",
+            error: error.message
+        });
+    }
+});
 
 export default postsRouter;

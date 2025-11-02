@@ -9,7 +9,7 @@ interface props {
 const Header: React.FC<props> = ({ homeData }) => {
     const { user } = useSessionContext();
     return (
-        <header className="bg-black flex justify-between text-gray-300 px-4 py-2">
+        <header className="bg-black flex flex-wrap justify-between text-gray-300 px-4 py-2">
             <div>
                 <p>Total Users: {homeData ? homeData.total_users : "XXX"}</p>
             </div>

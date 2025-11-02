@@ -1,23 +1,40 @@
 // ThreadItem.tsx
-import React from 'react';
-import Posts from '../posts/posts';
+import React, { useEffect, useState } from 'react';
+import Post from '../posts/posts';
+import fetchOP from '../../api/services/fetchOp';
+import type { PostResponse } from '../../Types/opPostResponce';
 
 interface ThreadItemProps {
     threadId: string,
     threadname: string,
     op: string,
-    op_replies: string[]
 }
 
-const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op, op_replies }) => {
+const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op }) => {
+
+    //FOR EVERY POST THREAD ITEM IN THE BOARD, THE RESPECTIVE OP POST WILL BE FETCHED FROM THE SERVER.
+    const [opData, setOpData] = useState<PostResponse | null>(null);
+
+    useEffect(() => {
+        const getOP = async () => {
+            try {
+                const response = await fetchOP({ op });
+                setOpData(response.data);
+            } catch (err) {
+                console.error("Error fetching OP:", err);
+            }
+        };
+
+        getOP();
+    }, [op]);
 
     return (
-        <div className="border-b-1 border-b-gray-400 text-white flex flex-col justify-between">
+        <div className="mb-5 border-b-1 border-b-gray-400 text-white flex flex-col justify-between">
             <div className='flex justify-between'>
                 <p>&gt;&gt; {threadname}</p>
                 <p>{threadId}</p>
             </div>
-            <Posts op={op} op_replies={op_replies} />
+            <Post opData={opData} />
         </div>
     );
 };

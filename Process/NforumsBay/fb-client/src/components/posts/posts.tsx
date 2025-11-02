@@ -1,31 +1,67 @@
-// Posts.tsx
-import React from 'react';
-import PostItem from './postItem';
-import fetchOP from '../../api/services/fetchOp';
+import React, { useEffect, useState } from 'react';
+import fetchReplies from '../../api/services/fetchReplies';
+import type { PostResponse } from '../../Types/opPostResponce';
+import Replies from '../replies/replies';
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
-interface props {
-    op: string,
-    op_replies: string[]
+interface Props {
+    opData: PostResponse | null;
 }
 
-const Posts: React.FC<props> = ({ op, op_replies }) => {
-    const handleDelete = (id: number) => {
-        console.log(`Deleting post ${id}`); // Temporary handler
-    };
+const Post: React.FC<Props> = ({ opData }) => {
 
-    //FETCHING THE OP POST TO RENDER
-    const opData = fetchOP(op);
+    // const [replies, setReplies] = useState();
+
+    //HERE FETCHING ALL THE REPLIES:
+    useEffect(() => {
+        const getReplies = async () => {
+            try {
+                const response = await fetchReplies({ opData });
+                setReplies();
+                console.log();
+            } catch (err) {
+                console.error("Error fetching OP:", err);
+            }
+        };
+
+        getReplies();
+    });
 
     return (
-        <div className="border-1 border-amber-400">
-            <h2 className="text-3xl font-bold mb-6 text-slate-50">Posts</h2>
+        <div>
+            <h2 className="text-2xl font-bold mb-6 text-slate-50">Posts</h2>
             <div className="space-y-2">
-                {temporaryPosts.map((post) => (
-                    <PostItem key={post.id} post={post} onDelete={handleDelete} />
-                ))}
+                {opData ?
+                    <div className="text-white flex flex-col gap-3">
+                        <div className='flex flex-row justify-between'>
+                            <p># {opData.post.username} &gt;&gt; <span className='text-red-500'>({opData.post.createdAt})</span></p>
+                            <p>{opData.post.op_id}</p>
+                        </div>
+
+                        <div className='flex flex-col gap-2'>
+                            <p className='text-amber-200'>{opData.post.textContent}</p>
+
+                            <div className='flex gap-3 items-center'>
+                                <div className="flex gap-1 items-center">
+                                    <p>{opData.post.upVote}</p>
+                                    <ThumbsUp />
+                                </div>
+                                <div className="flex gap-1 items-center">
+                                    <p>{opData.post.downVote}</p>
+                                    <ThumbsDown />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <p className="text-slate-400">Loading...</p>}
             </div>
-        </div>
+        </div >
     );
 };
 
-export default Posts;
+export default Post;
+
+//  {opData ? {}: (
+//                         <p className = "text-slate-400">Loading...</p>
+//                 )}

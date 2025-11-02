@@ -55,7 +55,7 @@ app.use('/api/boards', boardsRoutes);
 app.use('/api/boards/:slug/threads', threadRouter);
 
 //posts
-app.use('/api/boards/:boards_id/threads/:thread_id', postsRouter);
+app.use('/api/post', postsRouter);
 
 
 app.listen(port, () => {

@@ -17,7 +17,6 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
         fetchThreads(board_slug)
             .then(res => { setThreads(res); return res })
             .then(res => console.log(res));
-
     }, [board_slug]);
 
 
@@ -33,7 +32,6 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
                                 threadId={thread.thread_id}
                                 threadname={thread.name}
                                 op={thread.op_post}
-                                op_replies={thread.replies}
                             />
                         ))
                     ) : (
