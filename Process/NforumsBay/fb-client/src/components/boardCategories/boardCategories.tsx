@@ -25,7 +25,7 @@ const BoardCategories: React.FC<props> = ({ response, setSelectedThread }) => {
             <div className="flex flex-col gap-5 mx-15">
 
                 {response?.data.boardCategories.map((v) => (
-                    <div className='flex'>
+                    <div key={v.category_id} className='flex'>
                         <div>
                             <p key={v._id} className='text-amber-300 w-40'>{v.name}</p>
                             <h2 className="text-red-600">(Boards):</h2>

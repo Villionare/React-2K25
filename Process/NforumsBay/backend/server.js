@@ -57,7 +57,6 @@ app.use('/api/boards/:slug/threads', threadRouter);
 //posts
 app.use('/api/post', postsRouter);
 
-
 app.listen(port, () => {
     console.log(`🛜 ` + ` Server listening on port ${port}!!!`)
     mongoConnect(process.env.MONGO_CONNECT);

@@ -57,18 +57,9 @@ const postSchema = new Schema({
         required: true,
     },
 
-    postNumber: {
-        type: Number,
-        required: true,
-        unique: true  // Enforces uniqueness
-    },
-
-
 }, {
     timestamps: true,
 });
-
-postSchema.index({ postNumber: 1 }, { unique: true });
 
 const op_postModel = mongoose.model('op_posts', postSchema);
 

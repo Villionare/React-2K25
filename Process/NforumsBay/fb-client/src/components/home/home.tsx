@@ -34,10 +34,12 @@ const Home = () => {
 
     return <div className="flex flex-col bg-black">
         <BoardCategories setSelectedThread={setSelectedThread} response={dbData} />
+
+        {/* threads full screen container */}
         {selectedBoard && <Threads board_slug={selectedBoard} />}
 
-        {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null}
-        <ToastContainer position="bottom-right"
+        {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
+        {/* <ToastContainer position="bottom-right"
             autoClose={5000}
             hideProgressBar={true}
             newestOnTop={false}
@@ -47,7 +49,7 @@ const Home = () => {
             draggable
             pauseOnHover
             theme="light"
-            transition={Bounce} />
+            transition={Bounce} /> */}
     </div>
 }
 

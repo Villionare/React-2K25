@@ -5,13 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    host: "localhost",
+    host: true, // Listen on all addresses
     port: 5174,
     strictPort: true,
-    origin: "http://localhost:5174",
     hmr: {
-      host: "f4ce2728549a.ngrok-free.app", // Your ngrok host
-      protocol: "wss", // ngrok uses wss for WebSocket
+      clientPort: 5174,
+      port: 5174,
     },
   },
 });
