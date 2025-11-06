@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Threads from "../threads/threads.js";
 import { useEffect, useState } from "react";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import useSessionContext from "../../context/useContext.js";
 import server from "../../api/config.js";
 import BoardCategories from "../boardCategories/boardCategories.js";
 import type { AxiosResponse } from "axios";
@@ -12,7 +10,7 @@ const Home = () => {
     const [selectedBoard, setSelectedThread] = useState<string | null>(null);
     const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
-    const { user } = useSessionContext();
+    // const { user } = useSessionContext();
 
     //if no user Exists then redirect
     useEffect(() => {
