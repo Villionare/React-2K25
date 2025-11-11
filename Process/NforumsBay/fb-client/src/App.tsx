@@ -7,7 +7,6 @@ import AuthComponent from "./components/auth";
 import { useOutletContext } from "react-router-dom";
 import type { Homedata } from "./Types/Homedata";
 
-
 const App = () => {
 
   const homeData: Homedata = useOutletContext();

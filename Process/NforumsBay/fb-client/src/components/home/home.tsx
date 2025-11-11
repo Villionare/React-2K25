@@ -5,12 +5,18 @@ import server from "../../api/config.js";
 import BoardCategories from "../boardCategories/boardCategories.js";
 import type { AxiosResponse } from "axios";
 import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
+import connectSocket from "../../api/services/socket.js";
 
 const Home = () => {
     const [selectedBoard, setSelectedThread] = useState<string | null>(null);
     const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
-    // const { user } = useSessionContext();
+
+    // connecting to socket
+    useEffect(() => {
+        connectSocket();
+    }, []);
+
 
     //if no user Exists then redirect
     useEffect(() => {

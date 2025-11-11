@@ -1,3 +1,4 @@
+import http from "http";
 import express from "express";
 import dotenv from "dotenv";
 import threadRouter from "./Routes/threadRoutes.js";
@@ -13,6 +14,7 @@ import homeData from "./Controllers/others/homeData.js";
 import allowAnonymousOrAdmin from "./Middlewares/eitherAnonORAdmin.js";
 import send_DBData from "./Controllers/others/send_DBData.js";
 import postsRouter from "./Routes/postsRoutes.js";
+import { Server } from "socket.io";
 dotenv.config();
 
 const app = express();
@@ -57,7 +59,42 @@ app.use('/api/boards/:slug/threads', threadRouter);
 //posts
 app.use('/api/post', postsRouter);
 
-app.listen(port, () => {
+const serverMain = http.createServer(app);
+
+//attaching the socket.io server to the http server.
+const io = new Server(serverMain, {
+    cors: {
+        origin: "*",
+        methods: ['GET', 'POST']
+    }
+});
+
+//defining the socket io event handlers.
+
+io.on("connection", (socket) => {
+    console.log("new connection established: ", socket.id);
+
+    socket.on('custom_wala', (message) => {
+        console.log('this is the message recieved from the client: ', message);
+    })
+
+    socket.on('outside', (message) => {
+        console.log('this is the message recieved from the client: ', message);
+    })
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+    });
+});
+
+io.emit('delay_event', 'ye hai server se gaya hua');
+
+// io.on('outside', (message) => {
+//     console.log('this is the message recieved from the client: ', message);
+// })
+
+serverMain.listen(port, () => {
     console.log(`🛜 ` + ` Server listening on port ${port}!!!`)
     mongoConnect(process.env.MONGO_CONNECT);
 });
