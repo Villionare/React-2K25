@@ -31,7 +31,6 @@ const BoardCategories: React.FC<props> = ({ response, setSelectedThread }) => {
                             <h2 className="text-red-600">(Boards):</h2>
                         </div>
                         <Boards boardId={v._id} setSelectedThread={setSelectedThread} response={response} />
-
                     </div>
                 ))}
             </div>

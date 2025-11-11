@@ -1,6 +1,7 @@
 import useSessionContext from "../../context/useContext";
+import Timer from "./Timer";
 
-const LogoutBtns = () => {
+const Username = () => {
 
     const { user, logout } = useSessionContext();
 
@@ -15,7 +16,10 @@ const LogoutBtns = () => {
                     {userType === 'anonymous' && <span role="img" aria-label="wave"> 🥸 </span>}
                     {username || 'user'}
                 </p>
-
+                <div>
+                    {userType === 'admin' && <Timer hours={1} minutes={0o0} seconds={0o0} />}
+                    {userType === 'anonymous' && <Timer hours={24} minutes={0o0} seconds={0o0} />}
+                </div>
                 <button onClick={logout} className="border-1 border-gray-400 px-2 cursor-pointer">
                     Logout
                 </button>
@@ -24,4 +28,4 @@ const LogoutBtns = () => {
     }
 }
 
-export default LogoutBtns;
+export default Username;

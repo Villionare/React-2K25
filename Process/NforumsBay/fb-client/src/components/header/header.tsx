@@ -1,6 +1,6 @@
 import useSessionContext from "../../context/useContext";
 import type { Homedata } from "../../Types/Homedata";
-import LogoutBtns from "./logoutBtn";
+import Username from "./logoutBtn";
 
 interface props {
     homeData: Homedata | null
@@ -33,7 +33,7 @@ const Header: React.FC<props> = ({ homeData }) => {
             </div>
             {user ?
                 <div className="flex flex-row gap-2">
-                    <LogoutBtns />
+                    <Username />
                 </div> : null
             }
         </header >

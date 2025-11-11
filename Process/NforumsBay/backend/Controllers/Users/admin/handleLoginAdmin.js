@@ -34,6 +34,9 @@ const handleLoginAdmin = async (req, res) => {
 
         req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour
 
+        //now we will get the left time in session expiry to send to the frontend.
+        const maxAge = Date.now() + req.session.cookie.maxAge;
+
         // Ensure session is saved before sending response so Set-Cookie is sent
         req.session.save(err => {
             if (err) {
@@ -46,6 +49,7 @@ const handleLoginAdmin = async (req, res) => {
                 success: true,
                 data: restWithoutPassword,
                 session_data: req.session.user,
+                expiresAt,
             });
         });
 

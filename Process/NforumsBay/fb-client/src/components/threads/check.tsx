@@ -1,7 +1,7 @@
 'use client'; // ← remove if you are not using Next.js App Router
 
 import React, { useRef, useState } from 'react';
-import { FullscreenIcon, FullscreenExitIcon } from 'lucide-react'; // optional icons
+import { FullscreenIcon } from 'lucide-react'; // optional icons
 
 export default function FullScreenBlock() {
     const blockRef = useRef<HTMLDivElement>(null);

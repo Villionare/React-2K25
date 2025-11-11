@@ -36,14 +36,22 @@ const Home = () => {
         fetchData();
     }, []);
 
-    return <div className="flex flex-col bg-black">
-        <BoardCategories setSelectedThread={setSelectedThread} response={dbData} />
+    if (!dbData) {
+        return <div className="flex justify-center items-center min-h-screen bg-black">
+            <p className="text-white">
+                Loading...
+            </p>
+        </div>
+    } else {
 
-        {/* threads full screen container */}
-        {selectedBoard && <Threads board_slug={selectedBoard} />}
+        return <div className="flex flex-col bg-black">
+            <BoardCategories setSelectedThread={setSelectedThread} response={dbData} />
 
-        {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
-        {/* <ToastContainer position="bottom-right"
+            {/* threads full screen container */}
+            {selectedBoard && <Threads board_slug={selectedBoard} />}
+
+            {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
+            {/* <ToastContainer position="bottom-right"
             autoClose={5000}
             hideProgressBar={true}
             newestOnTop={false}
@@ -54,7 +62,8 @@ const Home = () => {
             pauseOnHover
             theme="light"
             transition={Bounce} /> */}
-    </div>
+        </div>
+    }
 }
 
 export default Home;
