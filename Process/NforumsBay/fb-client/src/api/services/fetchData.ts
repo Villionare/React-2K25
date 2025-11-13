@@ -1,6 +1,8 @@
-    const fetchData = async (setDBData) => {
-        const data = await server.get('/data');
-        setDBData(data);
-    }
+import server from "../config";
 
-    export default fetchData;
+const fetchData = async (setDBData) => {
+    const data = await server.get('/data');
+    setDBData(data);
+}
+
+export default fetchData;

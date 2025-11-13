@@ -6,17 +6,28 @@ import BoardCategories from "../boardCategories/boardCategories.js";
 import type { AxiosResponse } from "axios";
 import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
 import connectSocket from "../../api/services/socket.js";
+import checkSessionExistence from "../../api/services/checkSessionExistence.js";
 
 const Home = () => {
     const [selectedBoard, setSelectedThread] = useState<string | null>(null);
     const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
 
+    //if session does not exists then it will clear the ls.
+    useEffect(() => {
+        const checkSession = checkSessionExistence();
+
+        if (!checkSession) {
+            localStorage.removeItem('user');
+            navigate('/', { replace: true });
+            console.log('your session is not found on server please log in');
+        }
+    });
+
     // connecting to socket
     useEffect(() => {
         connectSocket();
     }, []);
-
 
     //if no user Exists then redirect
     useEffect(() => {

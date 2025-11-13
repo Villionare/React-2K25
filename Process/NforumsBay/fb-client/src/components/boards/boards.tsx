@@ -13,7 +13,7 @@ interface prop {
 const Boards: React.FC<prop> = ({ boardId, response, setSelectedThread }) => {
 
     //now boards will be fitered acc. to board category id
-    console.log("board cat id ", boardId);
+    // console.log("board cat id ", boardId);
 
     return (
         <div className="flex gap-3">

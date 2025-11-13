@@ -1,6 +1,6 @@
 // Boards.tsx
 import type { AxiosResponse } from 'axios';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Boards from '../boards/boards';
 import type { HomeDataMain } from '../../Types/apiBoardCategories';
 
@@ -12,10 +12,6 @@ interface props {
 //we will be declaring the interface where we are recieving the data.
 
 const BoardCategories: React.FC<props> = ({ response, setSelectedThread }) => {
-
-    useEffect(() => {
-        console.log(response?.data.boardCategories);
-    }, [response]);
 
     return (
         <div className="flex flex-col text-slate-50 my-10">

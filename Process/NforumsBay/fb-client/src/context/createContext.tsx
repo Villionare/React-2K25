@@ -14,7 +14,8 @@ export interface UserData {
         ip: string,
         username: string,
         type: string,
-    }
+    },
+    expiresAt: number
 }
 
 export interface UserContextProps {

@@ -18,6 +18,7 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userReceived));
     };
 
+    //retrive from local storage
     useEffect(() => {
         const userString = localStorage.getItem("user");
         // console.log('retrieved from the local storage: ' + JSON.parse(userString));
@@ -51,6 +52,13 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
 
             const data = await response.json();
             console.log('server responce: ', data);
+
+            if (!data?.authorized) {
+                setUser(null);
+                localStorage.clear();
+                navigate('/');
+                console.log('session does not exist hence denied by the middleware');
+            }
 
             if (data?.success) {
                 //setting this this way so that we can show logout toast

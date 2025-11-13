@@ -6,6 +6,9 @@ const Username = () => {
     const { user, logout } = useSessionContext();
 
     if (user?.session_data) {
+        // const remainingTime = user.expiresAt - Date.now();
+        // console.log(remainingTime);
+
         const userType = user.session_data?.type;
         const username = user.session_data?.username;
 

@@ -10,6 +10,7 @@ const anonymousCheck = (req, res, next) => {
     return res.status(403).json({
         session_recieved: req.session,
         message: "You are not authorized to access this page",
+        authorized: false
     });
 }
 
