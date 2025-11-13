@@ -5,13 +5,13 @@ import mongoose from "mongoose";
 const mongoConnect = async (connectionString) => {
     try {
         await mongoose.connect(connectionString);
-        console.log("MongoDB connected successfully ✅");
+        console.log("✅ MongoDB connected successfully");
 
         // Return the store AFTER connection
         const store = MongoStore.create({
             client: mongoose.connection.getClient(),
             collectionName: "express-session-storage",
-            // autoRemove: 'native' // optional: clean expired sessions
+            autoRemove: 'native' // optional: clean expired sessions
         });
 
         return store;

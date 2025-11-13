@@ -1,16 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSessionContext from "../../context/useContext.jsx"; // FIX: Added .jsx extension to resolve import path
+import server from "../../api/config.js";
+import type { AuthResponse } from "../../Types/authResponce.js";
 
-const AuthComponent = () => {
-    const { user, login } = useSessionContext();
+interface SignUp {
+    signUpName: string,
+    signUpAge: string,
+    signUpUsername: string,
+    signUpEmail: string,
+    signUptypePassword: string
+}
+
+interface Login {
+    loginIdentifier: string,
+    loginPassword: string
+}
+
+const AdminAuthComponent = () => {
+    const { login } = useSessionContext();
     const [isLogin, setInLogin] = useState(true);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-
-    const [inpSignUpChange, setInpSignUpChange] = useState({
+    const [inpSignUpChange, setInpSignUpChange] = useState<SignUp>({
         signUpName: "",
         signUpAge: "",
         signUpUsername: "",
@@ -18,7 +32,7 @@ const AuthComponent = () => {
         signUptypePassword: ""
     });
 
-    const [inpSignInChange, setInpSignInChange] = useState({
+    const [inpSignInChange, setInpSignInChange] = useState<Login>({
         loginIdentifier: "",
         loginPassword: ""
     });
@@ -28,30 +42,17 @@ const AuthComponent = () => {
         setLoading(true);
 
         const fetchUrl = isLogin
-            ? 'http://localhost:9999/api/admin/admin_login'
-            : 'http://localhost:9999/api/admin/admin_signup';
+            ? '/admin/admin_login'
+            : '/admin/admin_signup';
 
         try {
-            const response = await fetch(fetchUrl, {
-                method: 'POST',
-                credentials: 'include', // Very important to send cookies
-                headers: {
-                    'Content-Type': 'application/json', // Tell server we are sending JSON
-                },
-                body: JSON.stringify(isLogin ? inpSignInChange : inpSignUpChange)
-            });
 
-            const data = await response.json();
-            console.log('Response:', data);
-
-            // Handle non-OK responses (e.g., 4xx/5xx errors)
-            if (!response.ok) {
-                throw new Error(data.message || `HTTP error! status: ${response.status}`);
-            }
+            const sending_data = isLogin ? inpSignInChange : inpSignUpChange;
+            const response = await server.post<AuthResponse>(fetchUrl, sending_data)
 
             if (isLogin) {
-                login(data);
-                console.log("here storing the data in context: ", login, data);
+                console.log(response.data);
+                login(response.data);
                 await navigate('/home');
             } else {
                 await navigate('/adminsubmitted'); // Use absolute path for safety
@@ -62,11 +63,6 @@ const AuthComponent = () => {
             // Optionally set error state for UI feedback, e.g., setError(error.message)
         }
     };
-
-    useEffect(() => {
-        console.log(user);
-
-    }, [login]);
 
     const handleSignUpchange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -251,4 +247,4 @@ const AuthComponent = () => {
     );
 };
 
-export default AuthComponent;
+export default AdminAuthComponent;

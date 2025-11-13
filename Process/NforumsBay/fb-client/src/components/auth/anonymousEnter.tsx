@@ -12,7 +12,6 @@ const EnterAnonymousName = () => {
         const res = await createAnonymousUser(username);
 
         if (res.success) {
-            console.log("session has been stored after success: ", res);
             login(res);
             navigate('home');
         } else {

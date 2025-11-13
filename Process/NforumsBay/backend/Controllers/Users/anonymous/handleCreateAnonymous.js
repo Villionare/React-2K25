@@ -38,11 +38,15 @@ const handleCreateAnonymous = async (req, res) => {
                 return res.status(500).json({ message: 'Failed to create session' });
             }
 
+            //SO TO SEND THE REAL TIME EXPIRY OF THE SESSION WE WILL START WITH GETTING THE EXPIRY OF THE SESSION
+            const maxAge = req.session.cookie.expires;
+
             // response INSIDE callback (so cookie is set)
             return res.status(200).json({
                 message: `Welcome ${newAnonymous.username}`,
                 success: true,
                 session_data: req.session.user,
+                session_expiry: maxAge.toISOString(),
             });
         });
 

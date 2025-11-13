@@ -3,7 +3,7 @@ import EnterAnonymousName from "./components/auth/anonymousEnter";
 import useSessionContext from "./context/useContext";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthComponent from "./components/auth";
+import AdminAuthComponent from "./components/auth";
 import { useOutletContext } from "react-router-dom";
 import type { Homedata } from "./Types/Homedata";
 
@@ -16,7 +16,7 @@ const App = () => {
   const [isLogout, setIsLogout] = useState(false);
 
   useEffect(() => {
-    if (user?.success && user?.logouted) {
+    if (user?.success) {
       setIsLogout(true);
     }
   }, [user]);
@@ -72,7 +72,7 @@ const App = () => {
 
       {showAdminForm && (
         <div className="mt-6 w-full bg-black p-6 rounded-lg">
-          <AuthComponent />
+          <AdminAuthComponent />
         </div>
       )}
 

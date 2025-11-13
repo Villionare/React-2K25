@@ -1,19 +1,10 @@
+import type { AuthResponse } from "../../Types/authResponce";
 import server from "../config";
 
-//in case of anonymous we are getting:
-interface anonResponce {
-    message: string,
-    success: boolean,
-    session_data: {
-        type: string,
-        username: string,
-        ip: string,
-        maxAge: number,
-    },
-}
+const createAnonymousUser = async (username: string): Promise<AuthResponse> => {
+    const responce = await server.post<AuthResponse>('/anonymous/create', { username: username });
+    console.log("responce on anonymous creation: ", responce);
 
-const createAnonymousUser = async (username: string): Promise<anonResponce> => {
-    const responce = await server.post('/anonymous/create', { username: username });
     return responce.data;
 }
 

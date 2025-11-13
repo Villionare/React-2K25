@@ -1,22 +1,29 @@
-const anonLogout = (req, res) => {
+const anonLogout = async (req, res) => {
+    try {
+        req.session.user = null;
+        req.session.logoutTime = new Date().toISOString();
 
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Session destroy error:', err);
-            return res.status(500).json({
-                message: 'Logout failed',
-                success: false
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) reject(err);
+                else resolve(null);
             });
-        }
+        });
 
-        // Clear cookie on client
         res.clearCookie('user.sid');
         res.json({
             message: 'Goodbye Anonymous-Chan',
             success: true,
             logouted: true
         });
-    });
-}
 
-export default anonLogout
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error Logging out',
+            success: false,
+            logouted: false
+        });
+    }
+};
+
+export default anonLogout;

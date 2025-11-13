@@ -1,27 +1,10 @@
 import { createContext, type ReactNode } from "react";
-
-export interface UserData {
-    message: string;
-    success?: boolean;
-    logouted?: boolean;
-    data?: {
-        name: string,
-        username: string,
-        age: number,
-        email: string,
-    },
-    session_data?: {
-        ip: string,
-        username: string,
-        type: string,
-    },
-    expiresAt: number
-}
+import type { AuthResponse } from "../Types/authResponce";
 
 export interface UserContextProps {
-    login: (user: UserData) => void;
+    login: (user: AuthResponse) => void;
     logout: () => void;
-    user: UserData | null;
+    user: AuthResponse | null;
 }
 
 export type UserProviderProps = {

@@ -47,14 +47,15 @@ const handleCreateNewAdmin = async (req, res) => {
                 return res.status(500).json({ message: 'Failed to save session' });
             }
 
-            console.log('Signup Session saved:', req.session);
-            console.log('Session saved:', req.session);
+            //SO TO SEND THE REAL TIME EXPIRY OF THE SESSION WE WILL START WITH GETTING THE EXPIRY OF THE SESSION
+            const maxAge = req.session.cookie.expires;
 
             res.status(201).json({
                 message: "Admin SignUp Successfull",
                 success: true,
                 data: userWithoutPassword,
                 session_data: req.session.user,
+                session_expiry: maxAge.toISOString(),
             });
         });
 

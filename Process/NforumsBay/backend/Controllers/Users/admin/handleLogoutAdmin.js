@@ -1,14 +1,14 @@
-const handleLogoutAdmin = (req, res) => {
+const handleLogoutAdmin = async (req, res) => {
+    try {
+        req.session.user = null;
+        req.session.logoutTime = new Date().toISOString();
 
-    const adminUsername = req.session.user.username;
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Session destroy error:', err);
-            return res.status(500).json({
-                message: 'Logout failed',
-                success: false
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) reject(err);
+                else resolve(null);
             });
-        }
+        });
 
         res.clearCookie('user.sid');
         res.status(200).json({
@@ -17,9 +17,13 @@ const handleLogoutAdmin = (req, res) => {
             logouted: true
         });
 
-
-    });
-
-}
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error Logging out',
+            success: false,
+            logouted: false
+        });
+    }
+};
 
 export default handleLogoutAdmin;

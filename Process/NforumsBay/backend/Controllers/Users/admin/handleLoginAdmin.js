@@ -36,24 +36,28 @@ const handleLoginAdmin = async (req, res) => {
         // req.session.store.ttl = 60 * 60 //setting the (TTL) time to live 1hrs for the admin after that the session will be destroyed from the server
 
         //now we will get the left time in session expiry to send to the frontend.
-        const expiresAt = Date.now() + req.session.cookie.maxAge;
 
         // console.log(req.session.cookie.maxAge);
         // console.log("max age: ", maxAge);
 
         // Ensure session is saved before sending response so Set-Cookie is sent
+
+
         req.session.save(err => {
             if (err) {
                 console.error('Session save error:', err);
                 return res.status(500).json({ message: 'Failed to save session' });
             }
 
+            //SO TO SEND THE REAL TIME EXPIRY OF THE SESSION WE WILL START WITH GETTING THE EXPIRY OF THE SESSION
+            const maxAge = req.session.cookie._expires;
+
             return res.status(200).json({
                 message: "Admin login Successful",
                 success: true,
                 data: restWithoutPassword,
                 session_data: req.session.user,
-                expiresAt,
+                session_expiry: maxAge.toISOString(),
             });
         });
 
