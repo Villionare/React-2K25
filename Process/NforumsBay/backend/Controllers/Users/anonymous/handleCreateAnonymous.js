@@ -29,7 +29,11 @@ const handleCreateAnonymous = async (req, res) => {
             username: newAnonymous.username,
             ip: req.ip,
         };
-        req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
+
+        // SET MAXAGE ONLY IF NOT ALREADY SET
+        if (!req.session.cookie.maxAge) {
+            req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
+        }
 
         // save session before sending response so Set-Cookie is sent
         req.session.save(err => {
