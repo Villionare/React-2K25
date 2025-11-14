@@ -1,7 +1,35 @@
+import type { PostResponse } from "../../Types/opPostResponce";
 import server from "../config"
 
-const fetchReplies = async ({ opData }) => {
-    // const res = await server.get('replies')
+export interface ReplyData {
+    _id: string;
+    reply_Id: string;
+    username: string;
+    textContent: string;
+    upVote: number;
+    downVote: number;
+    thread_id: string;
+    to: string;
+    replies: string[];     // array of ObjectId strings
+    media?: string;        // optional, can be null/missing
+    createdAt: string;     // ISO date string
+    updatedAt: string;     // ISO date string
+    __v: number;
+}
+
+interface RepliesProps {
+    repliesArray: ReplyData[]; // the actual reply to render
+}
+
+const fetchReplies = async (opData: PostResponse | null) => {
+
+    if (!opData) return;
+
+    const { post } = opData;
+    const { _id } = post;
+    const res = await server.get<RepliesProps>('post/replies', { params: { _id } })
+    console.log("reply from fetchReplies: ", res);
+    return res;
 }
 
 export default fetchReplies;

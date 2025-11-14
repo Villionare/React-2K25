@@ -29,10 +29,10 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op }) => 
     }, [op]);
 
     return (
-        <div className="mb-5 border-b-1 border-b-gray-400 text-white flex flex-col justify-between">
+        <div className="mb-5 p-3 gap-2 border-b-1 border-b-gray-400 text-white flex flex-col justify-between">
             <div className='flex justify-between'>
-                <p>&gt;&gt; {threadname}</p>
-                <p>{threadId}</p>
+                <p className='text-blue-400'>&gt;&gt; {threadname}</p>
+                <p className='text-blue-400'>{threadId}</p>
             </div>
             <Post opData={opData} />
         </div>

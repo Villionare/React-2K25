@@ -8,8 +8,10 @@ const EnterAnonymousName = () => {
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
-    const startAnonymous = async () => {
+    const startAnonymous = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const res = await createAnonymousUser(username);
+        console.log(res);
 
         if (res.success) {
             login(res);
@@ -23,23 +25,24 @@ const EnterAnonymousName = () => {
         // Inner Container BG: Dark News Block (#232527) with a Column Rule border
         <div className="flex flex-col bg-black p-4 gap-2 rounded-lg border border-[#424549] shadow-md">
 
-            <div className="flex flex-row  gap-3 items-center justify-center">
-                <input
-                    type="text"
-                    className="flex-1 w-full sm:w-auto px-4 py-2 rounded-md border border-[#424549] bg-black text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter your username..."
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)} />
+            <form onSubmit={(e) => startAnonymous(e)}>
+                <div className="flex flex-row  gap-3 items-center justify-center">
 
-                <button
-                    type="submit"
-                    // Button styling: Journalist's Blue BG, Aged Paper White Text, Pressed Ink Blue Hover
-                    className="bg-black border-1 border-[#424549] p-2 text-[#EAE4D9] rounded-md font-semibold cursor-pointer w-full sm:w-auto"
-                    onClick={startAnonymous}
-                >
-                    Start Session (24hrs)
-                </button>
-            </div>
+                    <input
+                        type="text"
+                        className="flex-1 w-full sm:w-auto px-4 py-2 rounded-md border border-[#424549] bg-black text-[#EAE4D9] placeholder-[#A9A296] focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter your username..."
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)} />
+
+                    <button
+                        type="submit"
+                        // Button styling: Journalist's Blue BG, Aged Paper White Text, Pressed Ink Blue Hover
+                        className="bg-black border-1 border-[#424549] p-2 text-[#EAE4D9] rounded-md font-semibold cursor-pointer w-full sm:w-auto">
+                        Start Session (24hrs)
+                    </button>
+                </div>
+            </form>
             <p className="text-white">
                 ** username should be unique, <br />
                 ** minimum letters 3, <br />

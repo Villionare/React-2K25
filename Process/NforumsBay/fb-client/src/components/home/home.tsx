@@ -21,6 +21,7 @@ const Home = () => {
             localStorage.removeItem('user');
             navigate('/', { replace: true });
             console.log('your session is not found on server please log in');
+            console.log("this worked");
         }
     });
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import fetchReplies from '../../api/services/fetchReplies';
 import type { PostResponse } from '../../Types/opPostResponce';
-import Replies from '../replies/replies';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import Replies, { type RepliesProps } from '../replies/replies';
 
 interface Props {
     opData: PostResponse | null;
@@ -10,14 +10,14 @@ interface Props {
 
 const Post: React.FC<Props> = ({ opData }) => {
 
-    // const [replies, setReplies] = useState();
+    const [replies, setReplies] = useState<RepliesProps>();
 
     //HERE FETCHING ALL THE REPLIES:
     useEffect(() => {
         const getReplies = async () => {
             try {
-                const response = await fetchReplies({ opData });
-                setReplies();
+                const response = await fetchReplies(opData);
+                setReplies(response?.data);
                 console.log();
             } catch (err) {
                 console.error("Error fetching OP:", err);
@@ -25,33 +25,57 @@ const Post: React.FC<Props> = ({ opData }) => {
         };
 
         getReplies();
-    });
+    }, [opData]);
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6 text-slate-50">Posts</h2>
             <div className="space-y-2">
                 {opData ?
-                    <div className="text-white flex flex-col gap-3">
+                    <div className="text-white flex flex-col gap-2">
                         <div className='flex flex-row justify-between'>
-                            <p># {opData.post.username} &gt;&gt; <span className='text-red-500'>({opData.post.createdAt})</span></p>
-                            <p>{opData.post.op_id}</p>
+
+                            <div className='flex gap-2'>
+                                <span className="font-bold text-green-400">[OP]</span>
+                                <p className='text-yellow-400'>@{opData.post.username}</p>
+                                <span className='text-white'>({opData.post.createdAt})</span>
+                            </div>
+                            <div>
+                                <p className='text-green-400'>{opData.post.op_id}</p>
+                            </div>
+
                         </div>
 
-                        <div className='flex flex-col gap-2'>
+                        <div className='flex flex-col gap-5'>
                             <p className='text-amber-200'>{opData.post.textContent}</p>
 
-                            <div className='flex gap-3 items-center'>
-                                <div className="flex gap-1 items-center">
-                                    <p>{opData.post.upVote}</p>
-                                    <ThumbsUp />
+                            <div className='flex justify-between'>
+                                <div className="flex gap-3 items-center">
+                                    <div className="flex gap-1 items-center">
+                                        <p>{opData.post.upVote}</p>
+                                        <button className='pb-3 cursor-pointer'>
+                                            <ThumbsUp />
+                                        </button>
+                                    </div>
+                                    <div className="flex gap-1 items-center">
+                                        <p>{opData.post.downVote}</p>
+                                        <button className='cursor-pointer'>
+                                            <ThumbsDown />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="flex gap-1 items-center">
-                                    <p>{opData.post.downVote}</p>
-                                    <ThumbsDown />
+                                <div>
+                                    <button className='cursor-pointer text-cyan-500'>
+                                        [REPLY]
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <div className="">
+                            <p className='text-green-500'>
+                                Replies:
+                            </p>
+                        </div>
+                        {replies?.repliesArray?.map((v, i) => <Replies key={i} username={v.username} textContent={v.textContent} media={v.media} upVote={v.upVote} downVote={v.downVote} createdAt={v.createdAt} />)}
                     </div>
                     :
                     <p className="text-slate-400">Loading...</p>}

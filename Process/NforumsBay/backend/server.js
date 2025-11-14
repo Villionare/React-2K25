@@ -70,11 +70,10 @@ app.use('/api/boards', boardsRoutes);
 //threads
 app.use('/api/boards/:slug/threads', threadRouter);
 
-//posts
+//for fetching the post and sending to the frontend + replies.
 app.use('/api/post', postsRouter);
 
 const serverMain = http.createServer(app);
-
 //attaching the socket.io server to the http server.
 const io = new Server(serverMain, {
     cors: {
