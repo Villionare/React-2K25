@@ -38,6 +38,7 @@ const store = await mongoConnect(process.env.MONGO_CONNECT);
 //SESSIONS
 app.use(session({
     store,
+    rolling: false,
     name: "user.sid",
     secret: process.env.SESSION_SECURITY_KEY,
     saveUninitialized: false,

@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
-import SessionContext, { type UserData, type UserProviderProps } from "./createContext.js";
+import SessionContext, { type UserProviderProps } from "./createContext.js";
 import { useNavigate } from "react-router-dom";
+import type { AuthResponse } from "../Types/authResponce.js";
 
 export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
     const navigate = useNavigate();
-    const [user, setUser] = useState<UserData | null>(null);
+    const [user, setUser] = useState<AuthResponse | null>(null);
 
     const logoutUrl = useMemo(() => {
         if (user?.session_data?.type === "admin") {
@@ -13,7 +14,7 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
         return 'http://localhost:9999/api/anonymous/anon_logout';
     }, [user]);
 
-    const login = (userReceived: UserData) => {
+    const login = (userReceived: AuthResponse) => {
         setUser(userReceived);
         localStorage.setItem("user", JSON.stringify(userReceived));
     };
@@ -46,9 +47,6 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
                 },
             });
 
-            // if (!response.ok) {
-            //     throw new Error(`Logout request failed with status: ${response.status}`);
-            // }
 
             const data = await response.json();
             console.log('server responce: ', data);
@@ -76,7 +74,7 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
 
     return (
-        <SessionContext.Provider value={{ user, login, logout }}>
+        <SessionContext.Provider value={{ user, login, logout, setUser }}>
             {children}
         </SessionContext.Provider>
     );

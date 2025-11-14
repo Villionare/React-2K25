@@ -34,7 +34,8 @@ const handleLoginAdmin = async (req, res) => {
 
         // SET MAXAGE ONLY IF NOT ALREADY SET
         if (!req.session.cookie.maxAge) {
-            req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour
+            // req.session.cookie.maxAge = 60 * 60 * 1000; // 1 hour
+            req.session.cookie.maxAge = 60 * 1000; // 1 hour
         }
         // req.session.store.ttl = 60 * 60 //setting the (TTL) time to live 1hrs for the admin after that the session will be destroyed from the server
 

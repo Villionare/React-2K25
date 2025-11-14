@@ -5,6 +5,7 @@ export interface UserContextProps {
     login: (user: AuthResponse) => void;
     logout: () => void;
     user: AuthResponse | null;
+    setUser: (value: AuthResponse | null) => void;
 }
 
 export type UserProviderProps = {

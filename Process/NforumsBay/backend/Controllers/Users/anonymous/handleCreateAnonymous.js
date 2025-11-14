@@ -33,6 +33,7 @@ const handleCreateAnonymous = async (req, res) => {
         // SET MAXAGE ONLY IF NOT ALREADY SET
         if (!req.session.cookie.maxAge) {
             req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 hours in ms
+            // req.session.cookie.maxAge = 60 * 1000; // 1 mins in ms
         }
 
         // save session before sending response so Set-Cookie is sent
@@ -44,6 +45,8 @@ const handleCreateAnonymous = async (req, res) => {
 
             //SO TO SEND THE REAL TIME EXPIRY OF THE SESSION WE WILL START WITH GETTING THE EXPIRY OF THE SESSION
             const maxAge = req.session.cookie.expires;
+            console.log(" req.session.cookie.expires: ", maxAge);
+
 
             // response INSIDE callback (so cookie is set)
             return res.status(200).json({

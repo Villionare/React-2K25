@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import useSessionContext from "../../context/useContext";
 import Timer from "./Timer";
+import SessionOver from "../popups/sessionOver";
 
 interface Timer {
-    hours: number,
-    minutes: number,
-    seconds: number
+    hours: number;
+    minutes: number;
+    seconds: number;
+    onComplete?: () => void;
 }
 
 const Username = () => {
 
     const { user, logout } = useSessionContext();
     const [time, setTime] = useState<Timer>();
+    const [showPopUp, setShowPopUp] = useState<boolean | null>(null);
 
     //this is to set the timers remaining time.
     useEffect(() => {
@@ -38,22 +41,30 @@ const Username = () => {
         }
     }, [user])
 
+    const handleComplete = () => {
+        setShowPopUp(true);
+    }
+
     if (user?.session_data) {
 
         const userType = user.session_data?.type;
         const username = user.session_data?.username;
 
+        if (!time) return null;
+
         return (
             <div className="flex gap-7">
-                <p className="flex gap-2 text-red-600">
+                <div className="flex gap-2 text-red-600">
                     {userType === 'admin' && <span role="img" aria-label="shield"> 🛡️ </span>}
                     {userType === 'anonymous' && <span role="img" aria-label="wave"> 🥸 </span>}
                     {username || 'user'}
-                    <Timer hours={time?.hours} minutes={time?.minutes} seconds={time?.seconds} />
-                </p>
+                    <Timer hours={time?.hours} minutes={time?.minutes} seconds={time?.seconds} onComplete={handleComplete} />
+                </div>
                 <button onClick={logout} className="border-1 border-gray-400 px-2 cursor-pointer">
                     Logout
                 </button>
+
+                {showPopUp && <SessionOver setShowPopUp={setShowPopUp} />}
             </div>
         );
     }
