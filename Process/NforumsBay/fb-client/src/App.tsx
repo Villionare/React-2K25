@@ -4,8 +4,9 @@ import useSessionContext from "./context/useContext";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminAuthComponent from "./components/auth";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import type { Homedata } from "./Types/Homedata";
+import checkSessionExistence from "./api/services/checkSessionExistence";
 
 const App = () => {
 
@@ -14,6 +15,20 @@ const App = () => {
   const [showAdminForm, setshowAdminForm] = useState(false);
   const { user } = useSessionContext();
   const [isLogout, setIsLogout] = useState(false);
+  const navigate = useNavigate();
+
+  //IF THE SESSION AND LOCAL_STORAGE EXISTS JUST FORWARD TO HOME ROUTE
+  useEffect(() => {
+    const checkSession = async () => {
+      const sessionExists = await checkSessionExistence();
+      const checkLocalStorage = localStorage.getItem("user");
+
+      if (sessionExists && checkLocalStorage) {
+        navigate('/home', { replace: true });
+      }
+    };
+    checkSession();
+  }, [navigate]);
 
   useEffect(() => {
     if (user?.success) {

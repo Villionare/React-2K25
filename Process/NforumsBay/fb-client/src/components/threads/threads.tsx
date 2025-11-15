@@ -5,6 +5,7 @@ import fetchThreads from '../../api/services/fetchThreads';
 import type { THREAD_RESPONSE } from '../../Types/threads';
 import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
+import useInputBoxContex from '../../context/showInputBox/use';
 
 interface Props_threadsFun {
     board_slug: string
@@ -12,6 +13,7 @@ interface Props_threadsFun {
 
 const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
 
+    const { actionText, onPostFun, placeholder, showInputBox, setShowInputBox } = useInputBoxContex();
     const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const threadsCotainer = useRef<HTMLDivElement>(null);
     const [fullScreen, setFullScreen] = useState<boolean>(false);
@@ -52,24 +54,31 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
         };
     }, []);
 
-
-
-
     const false_fullscreen = "scrollbar-hide border-t-2 border-gray-900 max-h-screen overflow-y-scroll bg-black scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";
     const true_fullscreen = "scrollbar-hide bg-black overflow-y-scroll z-10 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";
 
     return (
         <div ref={threadsCotainer} className={fullScreen ? true_fullscreen : false_fullscreen}>
             {/* <GlobalEscExitFullscreen /> */}
-            <div className='sticky  pt-5  top-0 left-0 right-0 bg-black text-white justify-between'>
-                <div className="flex justify-between">
-                    <h2 className="text-red-600 text-3xl font-bold mb-2 mx-5">Threads:</h2>
-                    <div className='text-white flex gap-4'>
+            <div className='sticky p-2 top-0 left-0 right-0 bg-black text-white border-b-1 border-gray-900'>
+
+                <div className="flex">
+
+                    <div className='flex-1 flex items-center justify-start'>
+                        <button className='bg-red-600 p-1 ml-2 cursor-pointer'>Create new Thread</button>
+                    </div>
+
+                    <div className="flex-1 flex items-center justify-center">
+                        <h2 className=" text-red-600 text-3xl font-bold">({board_slug}):Threads</h2>
+                    </div>
+
+                    <div className='flex-1 text-white flex items-center justify-end gap-4'>
                         <span className='text-red-600 italic'>F - for fullscreen | Esc for Exit</span>
                         {fullScreen ?
-                            <Minimize className="w-5 h-5" /> :
-                            <Maximize className="w-5 h-5" />}
+                            <Minimize className="w-5 h-5 mr-2" /> :
+                            <Maximize className="w-5 h-5 mr-2" />}
                     </div>
+
                 </div>
             </div>
 
@@ -89,7 +98,8 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
             </div >
 
             {/* input section */}
-            <InputText />
+            {/* this input type will carry the onSubmit function that will be triggerd + needed texts */}
+            {showInputBox ? <InputText onPostFun={onPostFun} actionText={actionText} placeholder={placeholder} setShowInputBox={setShowInputBox} /> : null}
         </div >
     );
 };

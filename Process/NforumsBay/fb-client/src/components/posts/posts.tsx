@@ -3,6 +3,7 @@ import fetchReplies from '../../api/services/fetchReplies';
 import type { PostResponse } from '../../Types/opPostResponce';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import Replies, { type RepliesProps } from '../replies/replies';
+import useInputBoxContex from '../../context/showInputBox/use';
 
 interface Props {
     opData: PostResponse | null;
@@ -11,6 +12,7 @@ interface Props {
 const Post: React.FC<Props> = ({ opData }) => {
 
     const [replies, setReplies] = useState<RepliesProps>();
+    const { setShowInputBox, setActionText, setOnPostFun, setPlaceholder } = useInputBoxContex();
 
     //HERE FETCHING ALL THE REPLIES:
     useEffect(() => {
@@ -26,6 +28,32 @@ const Post: React.FC<Props> = ({ opData }) => {
 
         getReplies();
     }, [opData]);
+
+    const postOPReply = (e: React.FormEvent<HTMLFormElement>) => {
+        // e.preventDefault();
+        // e.preventDefault();
+        console.log("reply to op posted");
+    }
+
+    const postReplyReply = (e: React.FormEvent<HTMLFormElement>) => {
+        // e.preventDefault();
+        // e.preventDefault();
+        console.log("reply to reply posted");
+    }
+
+    const addOpReply = () => {
+        setShowInputBox(true);
+        setActionText("Replying OP");
+        setOnPostFun(postOPReply);
+        setPlaceholder("Reply to the op")
+    }
+
+    const addReplyReply = () => {
+        setShowInputBox(true);
+        setActionText("Replying to reply");
+        setOnPostFun(postReplyReply);
+        setPlaceholder("Reply to the op")
+    }
 
     return (
         <div>
@@ -64,18 +92,38 @@ const Post: React.FC<Props> = ({ opData }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button className='cursor-pointer text-cyan-500'>
+                                    <button className='cursor-pointer text-cyan-500' onClick={addOpReply}>
                                         [REPLY]
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div className="">
+
+                        {/* REPLIES SECTION */}
+                        <div className="flex gap-2">
                             <p className='text-green-500'>
                                 Replies:
                             </p>
+
+                            <div className='flex flex-col'>
+                                {replies?.repliesArray && replies.repliesArray.length > 0
+                                    ? replies.repliesArray.map((v, i) => (
+
+                                        <Replies
+                                            key={i}
+                                            username={v.username}
+                                            textContent={v.textContent}
+                                            media={v.media}
+                                            upVote={v.upVote}
+                                            downVote={v.downVote}
+                                            createdAt={v.createdAt}
+                                            reply_Id={v.reply_Id}
+                                            addReplyReply={addReplyReply}
+                                        />
+                                    )) : <span> 0</span>
+                                }
+                            </div>
                         </div>
-                        {replies?.repliesArray?.map((v, i) => <Replies key={i} username={v.username} textContent={v.textContent} media={v.media} upVote={v.upVote} downVote={v.downVote} createdAt={v.createdAt} />)}
                     </div>
                     :
                     <p className="text-slate-400">Loading...</p>}
@@ -85,7 +133,3 @@ const Post: React.FC<Props> = ({ opData }) => {
 };
 
 export default Post;
-
-//  {opData ? {}: (
-//                         <p className = "text-slate-400">Loading...</p>
-//                 )}
