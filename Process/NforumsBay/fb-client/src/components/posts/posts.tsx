@@ -29,30 +29,32 @@ const Post: React.FC<Props> = ({ opData }) => {
         getReplies();
     }, [opData]);
 
-    const postOPReply = (e: React.FormEvent<HTMLFormElement>) => {
-        // e.preventDefault();
-        // e.preventDefault();
+    const postOPReply = (e: React.SyntheticEvent) => {
+        if ('preventDefault' in e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
         console.log("reply to op posted");
     }
 
-    const postReplyReply = (e: React.FormEvent<HTMLFormElement>) => {
-        // e.preventDefault();
-        // e.preventDefault();
+    const postReplyReply = (e: React.SyntheticEvent) => {
+        if ('preventDefault' in e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
         console.log("reply to reply posted");
     }
 
     const addOpReply = () => {
         setShowInputBox(true);
         setActionText("Replying OP");
-        setOnPostFun(postOPReply);
         setPlaceholder("Reply to the op")
+        setOnPostFun(postOPReply);
     }
 
     const addReplyReply = () => {
         setShowInputBox(true);
         setActionText("Replying to reply");
-        setOnPostFun(postReplyReply);
         setPlaceholder("Reply to the op")
+        setOnPostFun(postReplyReply);
     }
 
     return (

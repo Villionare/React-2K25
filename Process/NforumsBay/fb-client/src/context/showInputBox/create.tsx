@@ -4,8 +4,8 @@ interface InputContextProps {
     placeholder: string,
     showInputBox: boolean,
     actionText: string,
-    onPostFun: (e: React.FormEvent<HTMLFormElement>) => void,
-    setOnPostFun: (value: (e: React.FormEvent<HTMLFormElement>) => void) => void,
+    onPostFun: (e: React.SyntheticEvent) => void;
+    setOnPostFun: (fn: (e: React.SyntheticEvent) => void) => void;
     setShowInputBox: (value: boolean) => void,
     setPlaceholder: (value: string) => void,
     setActionText: (value: string) => void,

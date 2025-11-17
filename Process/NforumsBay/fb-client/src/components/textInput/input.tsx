@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 interface Props {
     setShowInputBox: (prev: boolean) => void,
     actionText: string,
-    onPostFun: (e: React.FormEvent<HTMLFormElement>) => void,
+    onPostFun: (e: React.SyntheticEvent) => void,
     placeholder: string,
 }
 
@@ -35,11 +35,15 @@ const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, 
                     <span className='text-white'>{actionText}</span>
                 </div>
 
-                <form className='w-full h-full flex gap-2 ' onSubmit={(e) => onPostFun(e)}>
+                <form className='w-full h-full flex gap-2 '>
                     <textarea placeholder={placeholder}
                         ref={textAreaRef} onInput={handleTextAreaInput}
                         className='border-1 border-gray-900 bg-black text-white focus:outline-0 w-full p-2 resize-none overflow-hidden' />
-                    <button type="submit" className='border-1 border-gray-900 w-[10vw] text-red-600 bg-black text-3xl cursor-pointer'>
+                    <button
+                        type="button"
+                        onClick={(e) => onPostFun(e)}
+                        className='border border-gray-900 w-[10vw] text-red-600 bg-black text-3xl cursor-pointer hover:bg-gray-900'
+                    >
                         POST!
                     </button>
                 </form>
