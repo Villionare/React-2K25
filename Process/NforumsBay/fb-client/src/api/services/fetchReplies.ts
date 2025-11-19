@@ -15,7 +15,6 @@ export interface ReplyData {
     createdAt: string;     // ISO date string
     // updatedAt: string;     // ISO date string
     // __v: number;
-    addReplyReply: () => void
 }
 
 interface RepliesProps {
@@ -29,7 +28,6 @@ const fetchReplies = async (opData: PostResponse | null) => {
     const { post } = opData;
     const { _id } = post;
     const res = await server.get<RepliesProps>('post/replies', { params: { _id } })
-    console.log("reply from fetchReplies: ", res);
     return res;
 }
 

@@ -8,9 +8,11 @@ interface ThreadItemProps {
     threadId: string,
     threadname: string,
     op: string,
+    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void
+    setShowInputBox: (value: boolean) => void
 }
 
-const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op }) => {
+const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op, setReplyBtnType, setShowInputBox }) => {
 
     //FOR EVERY POST THREAD ITEM IN THE BOARD, THE RESPECTIVE OP POST WILL BE FETCHED FROM THE SERVER.
     const [opData, setOpData] = useState<PostResponse | null>(null);
@@ -34,7 +36,7 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ threadId, threadname, op }) => 
                 <p className='text-blue-400'>&gt;&gt; {threadname}</p>
                 <p className='text-blue-400'>{threadId}</p>
             </div>
-            <Post opData={opData} />
+            <Post opData={opData} setReplyBtnType={setReplyBtnType} setShowInputBox={setShowInputBox} />
         </div>
     );
 };

@@ -6,7 +6,6 @@ import Home from './components/home/home.js'
 import LayoutBay from './layout/layout.tsx'
 import SessionProvider from './context/userData.js'
 import AdminRequestSubmitted from './components/adminConfirmation/confirmation.js'
-import ShowInputDialogContext from './context/showInputBox/provider.tsx'
 
 //if noting is prensent in the ls then only the main app component can be accessible.
 
@@ -14,11 +13,9 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ShowInputDialogContext>
-        <SessionProvider>
-          <LayoutBay />
-        </SessionProvider>
-      </ShowInputDialogContext>
+      <SessionProvider>
+        <LayoutBay />
+      </SessionProvider>
     )
     ,
     children: [

@@ -1,12 +1,18 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
-import type { ReplyData } from "../../api/services/fetchReplies";
 
 export interface RepliesProps {
-    repliesArray: ReplyData[];
-
+    setShowInputBox: (value: boolean) => void
+    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
+    username: string,
+    textContent: string,
+    upVote: number;
+    downVote: number;
+    media?: string;
+    createdAt: string,
+    reply_Id: string,
 }
 
-const Replies: React.FC<ReplyData> = ({ username, textContent, media, upVote, downVote, createdAt, reply_Id, addReplyReply }) => {
+const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote, downVote, createdAt, reply_Id, setReplyBtnType, setShowInputBox }) => {
 
     return (
         <div className="text-white p-3 border border-gray-600 rounded-lg mb-3">
@@ -51,7 +57,7 @@ const Replies: React.FC<ReplyData> = ({ username, textContent, media, upVote, do
                         </button>
                     </div>
                 </div>
-                <button className="text-red-500 cursor-pointer" onClick={addReplyReply}>
+                <button className="text-red-500 cursor-pointer" onClick={() => { setShowInputBox(true); setReplyBtnType("replyREPLY") }}>
                     [Reply]
                 </button>
             </div>

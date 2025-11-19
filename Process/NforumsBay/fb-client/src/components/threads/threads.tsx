@@ -5,7 +5,8 @@ import fetchThreads from '../../api/services/fetchThreads';
 import type { THREAD_RESPONSE } from '../../Types/threads';
 import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
-import useInputBoxContex from '../../context/showInputBox/use';
+import replyToOP from '../../api/services/replyOP';
+import replyToReply from '../../api/services/replyReply';
 
 interface Props_threadsFun {
     board_slug: string
@@ -13,16 +14,24 @@ interface Props_threadsFun {
 
 const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
 
-    const { actionText, onPostFun, placeholder, showInputBox, setShowInputBox } = useInputBoxContex();
-    const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const threadsCotainer = useRef<HTMLDivElement>(null);
+    const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
+    const [showInputBox, setShowInputBox] = useState<boolean>(true);
+    const [replyBtnType, setReplyBtnType] = useState<keyof typeof inpVals | "">("");
+
+
+    //thease are the different props acc. to the reply type
+    const inpVals = {
+        "newThread": { onPostFun: replyToOP, actionText: "creating new thread", placeholder: "please enter your thread title", setShowInputBox: setShowInputBox },
+        "replyOP": { onPostFun: replyToOP, actionText: "replying to op", placeholder: "please enter your reply to the op", setShowInputBox },
+        "replyREPLY": { onPostFun: replyToReply, actionText: "replying to reply", placeholder: "please enter your reply to the reply", setShowInputBox }
+    }
 
     //fetcing the thread using the provided slug.
     useEffect(() => {
         fetchThreads(board_slug)
             .then(res => { setThreads(res); return res })
-            .then(res => console.log(res));
     }, [board_slug]);
 
     //full screen handling
@@ -92,6 +101,8 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
                                 threadId={thread.thread_id}
                                 threadname={thread.name}
                                 op={thread.op_post}
+                                setReplyBtnType={setReplyBtnType}
+                                setShowInputBox={setShowInputBox}
                             />
                         ))
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}
@@ -99,7 +110,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
 
             {/* input section */}
             {/* this input type will carry the onSubmit function that will be triggerd + needed texts */}
-            {showInputBox ? <InputText onPostFun={onPostFun} actionText={actionText} placeholder={placeholder} setShowInputBox={setShowInputBox} /> : null}
+            {showInputBox && replyBtnType ? <InputText {...inpVals[replyBtnType]} /> : null}
         </div >
     );
 };

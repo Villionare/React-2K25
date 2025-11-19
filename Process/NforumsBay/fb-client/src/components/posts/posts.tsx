@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import fetchReplies from '../../api/services/fetchReplies';
+import fetchReplies, { type ReplyData } from '../../api/services/fetchReplies';
 import type { PostResponse } from '../../Types/opPostResponce';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
-import Replies, { type RepliesProps } from '../replies/replies';
-import useInputBoxContex from '../../context/showInputBox/use';
+import Replies from '../replies/replies';
 
 interface Props {
     opData: PostResponse | null;
+    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void
+    setShowInputBox: (value: boolean) => void
 }
 
-const Post: React.FC<Props> = ({ opData }) => {
+interface repliesData {
+    repliesArray: ReplyData[]
+}
 
-    const [replies, setReplies] = useState<RepliesProps>();
-    const { setShowInputBox, setActionText, setOnPostFun, setPlaceholder } = useInputBoxContex();
+const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => {
+
+    const [replies, setReplies] = useState<repliesData>();
 
     //HERE FETCHING ALL THE REPLIES:
     useEffect(() => {
@@ -20,7 +24,6 @@ const Post: React.FC<Props> = ({ opData }) => {
             try {
                 const response = await fetchReplies(opData);
                 setReplies(response?.data);
-                console.log();
             } catch (err) {
                 console.error("Error fetching OP:", err);
             }
@@ -28,34 +31,6 @@ const Post: React.FC<Props> = ({ opData }) => {
 
         getReplies();
     }, [opData]);
-
-    const postOPReply = (e: React.SyntheticEvent) => {
-        if ('preventDefault' in e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-        }
-        console.log("reply to op posted");
-    }
-
-    const postReplyReply = (e: React.SyntheticEvent) => {
-        if ('preventDefault' in e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-        }
-        console.log("reply to reply posted");
-    }
-
-    const addOpReply = () => {
-        setShowInputBox(true);
-        setActionText("Replying OP");
-        setPlaceholder("Reply to the op")
-        setOnPostFun(postOPReply);
-    }
-
-    const addReplyReply = () => {
-        setShowInputBox(true);
-        setActionText("Replying to reply");
-        setPlaceholder("Reply to the op")
-        setOnPostFun(postReplyReply);
-    }
 
     return (
         <div>
@@ -94,7 +69,7 @@ const Post: React.FC<Props> = ({ opData }) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button className='cursor-pointer text-cyan-500' onClick={addOpReply}>
+                                    <button className='cursor-pointer text-cyan-500' onClick={() => { setShowInputBox(true); setReplyBtnType("replyOP") }}>
                                         [REPLY]
                                     </button>
                                 </div>
@@ -120,7 +95,8 @@ const Post: React.FC<Props> = ({ opData }) => {
                                             downVote={v.downVote}
                                             createdAt={v.createdAt}
                                             reply_Id={v.reply_Id}
-                                            addReplyReply={addReplyReply}
+                                            setReplyBtnType={setReplyBtnType}
+                                            setShowInputBox={setShowInputBox}
                                         />
                                     )) : <span> 0</span>
                                 }
