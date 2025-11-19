@@ -17,7 +17,7 @@ const SessionOver: React.FC<Props> = ({ setShowPopUp }) => {
     // here logout is not doing anything as the session gets already deleted on the server before user can even press
     // "back to home" button. so i need to create a fun which will just set the user context to null.
     setUser(null); //cleaning context
-    localStorage.clear(); //clearing the localStorage
+    localStorage.removeItem('user'); //clearing the user data from localStorage
     setShowPopUp(false);
     navigate('/');
   }

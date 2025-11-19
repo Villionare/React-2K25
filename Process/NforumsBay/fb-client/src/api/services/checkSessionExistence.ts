@@ -15,14 +15,16 @@ const checkSessionExistence = async (): Promise<boolean> => {
         const response = await server.get<ResponseType>("/me");
 
         if (response.data.success) {
+            console.log("session exists on server");
+
             return true;
         } else {
-            localStorage.clear();
+            localStorage.removeItem('user'); // Only remove user data, not entire localStorage
             return false;
         }
     } catch (error) {
         console.error("Error while checking session:", error);
-        localStorage.clear(); // handle network or backend errors too
+        localStorage.removeItem('user'); // Only remove user data on errors too
         return false;
     }
 };

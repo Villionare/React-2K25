@@ -53,7 +53,7 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
 
             if (!data?.authorized) {
                 setUser(null);
-                localStorage.clear();
+                localStorage.removeItem('user'); // Only remove user data, not entire localStorage
                 navigate('/');
                 console.log('session does not exist hence denied by the middleware');
             }
@@ -61,7 +61,7 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
             if (data?.success) {
                 //setting this this way so that we can show logout toast
                 setUser(data);
-                localStorage.clear();
+                localStorage.removeItem('user'); // Only remove user data, not entire localStorage
                 navigate('/');
                 console.log('logout process compleated');
 

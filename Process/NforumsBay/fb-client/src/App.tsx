@@ -42,7 +42,6 @@ const App = () => {
     }
   }, [isLogout, user]);
 
-
   return (
     <div className="flex flex-col gap-2 bg-black items-center justify-center min-h-screen">
 

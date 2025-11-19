@@ -15,15 +15,18 @@ const Home = () => {
 
     //if session does not exists then it will clear the ls.
     useEffect(() => {
-        const checkSession = checkSessionExistence();
+        const checkSession = async () => {
+            const sessionExists = await checkSessionExistence();
 
-        if (!checkSession) {
-            localStorage.removeItem('user');
-            navigate('/', { replace: true });
-            console.log('your session is not found on server please log in');
-            console.log("this worked");
+            if (!sessionExists) {
+                console.log("cleared ls as the session doesn't exist on server");
+                localStorage.removeItem('user');
+                navigate('/', { replace: true });
+            }
         }
-    });
+
+        checkSession();
+    }, [navigate]);
 
     // connecting to socket
     useEffect(() => {
@@ -37,7 +40,7 @@ const Home = () => {
         if (!check) {
             navigate('/')
         }
-    });
+    }, [navigate]);
 
     const fetchData = async () => {
         const data = await server.get('/data');
