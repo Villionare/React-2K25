@@ -14,6 +14,8 @@ interface Props_threadsFun {
 
 const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) => {
 
+    const [ReplyID, setReplyID] = useState<string>();
+    const [replyOPID, setReplyOPID] = useState<string>();
     const threadsCotainer = useRef<HTMLDivElement>(null);
     const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
@@ -24,11 +26,15 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
     //thease are the different props acc. to the reply type
     const inpVals = {
         "replyOP": {
+            replyOPID,
+            typeFor: "op",
             actionText: "replying to op",
             placeholder: "please enter your reply to the op",
             setShowInputBox
         },
         "replyREPLY": {
+            ReplyID,
+            typeFor: "reply",
             actionText: "replying to reply",
             placeholder: "please enter your reply to the reply",
             setShowInputBox
@@ -69,6 +75,8 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
             document.removeEventListener("fullscreenchange", handleFullscreenChange);
         };
     }, []);
+
+
 
     const false_fullscreen = "scrollbar-hide border-t-2 border-gray-900 max-h-screen overflow-y-scroll bg-black scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";
     const true_fullscreen = "scrollbar-hide bg-black overflow-y-scroll z-10 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";
@@ -112,6 +120,8 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
                                 op={thread.op_post}
                                 setReplyBtnType={setReplyBtnType}
                                 setShowInputBox={setShowInputBox}
+                                setReplyOPID={setReplyOPID}
+                                setReplyID={setReplyID}
                             />
                         ))
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}

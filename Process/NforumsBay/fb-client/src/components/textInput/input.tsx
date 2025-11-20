@@ -1,15 +1,17 @@
 import React, { useRef } from 'react';
 import replyToReply from '../../api/services/replyReply';
-// import useSessionContext from '../../context/useContext';
+import replyToOP from '../../api/services/replyOP';
 
 interface Props {
-    replyBtnType?: string,
-    placeholder: string,
+    ReplyID: string,
+    typeFor: string,
+    replyOPID: string,
     actionText: string,
+    placeholder: string,
     setShowInputBox: (value: boolean) => void,
 }
 
-const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, replyBtnType }) => {
+const InputText: React.FC<Props> = ({ typeFor, setShowInputBox, actionText, placeholder, replyOPID, ReplyID }) => {
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
     //text area height will increase accordingly
@@ -22,8 +24,11 @@ const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, 
     }
 
     const submitDataAndPOST = () => {
-        if (replyBtnType === "replyREPLY") {
-            replyToReply({ username: "star", textContent: "check reply from input component", to: "this is tooo", media: "sdfasfds", reply_id: "fucking reply id" });
+        if (typeFor === "reply") {
+            replyToReply({ username: "star", textContent: "check reply from input component", to: ReplyID, media: "sdfasfds" });
+        } else if (typeFor === "op") {
+            const response = replyToOP({ username: "star", textContent: "check reply from input component", to: replyOPID, media: "sdfasfds", thread_id: "fucking reply id" });
+            console.log(response);
         }
     }
 

@@ -6,15 +6,17 @@ import Replies from '../replies/replies';
 
 interface Props {
     opData: PostResponse | null;
-    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void
-    setShowInputBox: (value: boolean) => void
+    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
+    setShowInputBox: (value: boolean) => void,
+    setReplyOPID: (value: string) => void
+    setReplyID: (value: string) => void
 }
 
 interface repliesData {
     repliesArray: ReplyData[]
 }
 
-const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => {
+const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setReplyOPID, setReplyID }) => {
 
     const [replies, setReplies] = useState<repliesData>();
 
@@ -80,7 +82,8 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => 
                                 <div>
                                     <button className='cursor-pointer text-cyan-500' onClick={() => {
                                         setShowInputBox(true);
-                                        setReplyBtnType("replyOP")
+                                        setReplyBtnType("replyOP");
+                                        setReplyOPID(opData.post._id);
                                     }}>
                                         [REPLY]
                                     </button>
@@ -99,6 +102,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => 
                                     ? replies.repliesArray.map((v, i) => (
 
                                         <Replies
+                                            replyDocId={v._id}
                                             key={i}
                                             username={v.username}
                                             textContent={v.textContent}
@@ -109,6 +113,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => 
                                             reply_Id={v.reply_Id}
                                             setReplyBtnType={setReplyBtnType}
                                             setShowInputBox={setShowInputBox}
+                                            setReplyID={setReplyID}
                                         />
                                     )) : <span> 0</span>
                                 }

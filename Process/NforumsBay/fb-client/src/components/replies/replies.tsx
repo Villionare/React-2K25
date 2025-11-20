@@ -1,18 +1,20 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 
 export interface RepliesProps {
-    setShowInputBox: (value: boolean) => void
-    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
-    username: string,
-    textContent: string,
+    media?: string;
     upVote: number;
     downVote: number;
-    media?: string;
-    createdAt: string,
     reply_Id: string,
+    username: string,
+    createdAt: string,
+    replyDocId: string,
+    textContent: string,
+    setReplyID: (value: string) => void
+    setShowInputBox: (value: boolean) => void
+    setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
 }
 
-const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote, downVote, createdAt, reply_Id, setReplyBtnType, setShowInputBox }) => {
+const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote, downVote, createdAt, reply_Id, replyDocId, setReplyID, setReplyBtnType, setShowInputBox }) => {
 
     return (
         <div className="text-white p-3 border border-gray-600 rounded-lg mb-3">
@@ -57,7 +59,11 @@ const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote,
                         </button>
                     </div>
                 </div>
-                <button className="text-red-500 cursor-pointer" onClick={() => { setShowInputBox(true); setReplyBtnType("replyREPLY") }}>
+                <button className="text-red-500 cursor-pointer" onClick={() => {
+                    setShowInputBox(true);
+                    setReplyID(replyDocId);
+                    setReplyBtnType("replyREPLY");
+                }}>
                     [Reply]
                 </button>
             </div>

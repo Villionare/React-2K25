@@ -1,12 +1,11 @@
 // Boards.tsx
 import React from 'react';
 import type { HomeDataMain } from '../../Types/apiBoardCategories';
-import type { AxiosResponse } from 'axios';
 // import BoardItem from './boardItems';
 
 interface prop {
     boardId: string,
-    response: AxiosResponse<HomeDataMain> | null,
+    response: HomeDataMain | null,
     setSelectedThread: (slug: string) => void
     setSelectedThreadName: (slug: string) => void
 }
@@ -19,7 +18,7 @@ const Boards: React.FC<prop> = ({ boardId, response, setSelectedThread, setSelec
     return (
         <div className="flex gap-3">
             <div className="flex gap-2 flex-wrap">
-                {response?.data.boards?.filter((v) => v.board_category === boardId)
+                {response?.boards?.filter((v) => v.board_category === boardId)
                     .map((board) => (
                         <div className='text-white' key={board._id}>
                             <h2 onClick={() => { setSelectedThread(board.slug); setSelectedThreadName(board.name) }}>
