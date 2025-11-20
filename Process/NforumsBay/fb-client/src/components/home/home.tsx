@@ -10,6 +10,7 @@ import checkSessionExistence from "../../api/services/checkSessionExistence.js";
 
 const Home = () => {
     const [selectedBoard, setSelectedThread] = useState<string | null>(null);
+    const [selectedBoardName, setSelectedThreadName] = useState<string | null>(null);
     const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
     const navigate = useNavigate();
 
@@ -60,10 +61,10 @@ const Home = () => {
     } else {
 
         return <div className="flex flex-col bg-black">
-            <BoardCategories setSelectedThread={setSelectedThread} response={dbData} />
+            <BoardCategories setSelectedThread={setSelectedThread} setSelectedThreadName={setSelectedThreadName} response={dbData} />
 
             {/* threads full screen container */}
-            {selectedBoard && <Threads board_slug={selectedBoard} />}
+            {selectedBoard && <Threads board_slug={selectedBoard} selectedBoardName={selectedBoardName} />}
 
             {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
             {/* <ToastContainer position="bottom-right"

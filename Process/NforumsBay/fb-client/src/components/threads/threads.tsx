@@ -7,19 +7,21 @@ import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
 import replyToOP from '../../api/services/replyOP';
 import replyToReply from '../../api/services/replyReply';
+import CreateNewThread from './createNewThread';
 
 interface Props_threadsFun {
     board_slug: string
+    selectedBoardName: string | null
 }
 
-const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
+const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) => {
 
     const threadsCotainer = useRef<HTMLDivElement>(null);
     const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [replyBtnType, setReplyBtnType] = useState<keyof typeof inpVals | "">("");
-
+    const [showNewTheadBox, setShowNewThreadBox] = useState<boolean>(false);
 
     //thease are the different props acc. to the reply type
     const inpVals = {
@@ -68,13 +70,13 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
 
     return (
         <div ref={threadsCotainer} className={fullScreen ? true_fullscreen : false_fullscreen}>
-            {/* <GlobalEscExitFullscreen /> */}
+
             <div className='sticky p-2 top-0 left-0 right-0 bg-black text-white border-b-1 border-gray-900'>
 
                 <div className="flex">
 
                     <div className='flex-1 flex items-center justify-start'>
-                        <button className='bg-red-600 p-1 ml-2 cursor-pointer'>Create new Thread</button>
+                        <button className='bg-red-600 p-1 ml-2 cursor-pointer' onClick={() => setShowNewThreadBox(true)}>Create new Thread</button>
                     </div>
 
                     <div className="flex-1 flex items-center justify-center">
@@ -95,7 +97,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
             <div className="space-y-2 mx-15" >
                 {
                     threads?.threads && threads.threads.length > 0 ? (
-                        threads.threads.map(thread => (
+                        [...threads.threads].reverse().map(thread => (
                             <ThreadItem
                                 key={thread._id}
                                 threadId={thread.thread_id}
@@ -108,6 +110,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug }) => {
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}
             </div >
 
+            {showNewTheadBox && <CreateNewThread setShowNewThreadBox={setShowNewThreadBox} selectedBoardName={selectedBoardName} board_slug={board_slug} />}
             {/* input section */}
             {/* this input type will carry the onSubmit function that will be triggerd + needed texts */}
             {showInputBox && replyBtnType ? <InputText {...inpVals[replyBtnType]} /> : null}

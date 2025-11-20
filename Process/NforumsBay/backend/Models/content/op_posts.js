@@ -13,7 +13,6 @@ const postSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true
     },
 
     title: {  //this is just for setting up the name of the thread, which will starts when the op will be created.

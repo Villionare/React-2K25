@@ -8,9 +8,10 @@ interface prop {
     boardId: string,
     response: AxiosResponse<HomeDataMain> | null,
     setSelectedThread: (slug: string) => void
+    setSelectedThreadName: (slug: string) => void
 }
 
-const Boards: React.FC<prop> = ({ boardId, response, setSelectedThread }) => {
+const Boards: React.FC<prop> = ({ boardId, response, setSelectedThread, setSelectedThreadName }) => {
 
     //now boards will be fitered acc. to board category id
     // console.log("board cat id ", boardId);
@@ -21,7 +22,7 @@ const Boards: React.FC<prop> = ({ boardId, response, setSelectedThread }) => {
                 {response?.data.boards?.filter((v) => v.board_category === boardId)
                     .map((board) => (
                         <div className='text-white' key={board._id}>
-                            <h2 onClick={() => setSelectedThread(board.slug)}>
+                            <h2 onClick={() => { setSelectedThread(board.slug); setSelectedThreadName(board.name) }}>
                                 <span className='text-gray-500'>[{board.slug}]</span>
                                 <span className='hover:text-red-600 cursor-pointer'> {board.name}</span>
                                 <span className='text-yellow-400'>|</span>

@@ -13,7 +13,6 @@ const handleCreateThread = async (req, res) => {
             });
         }
 
-        // ✅ FIX: Get board correctly
         const slug = req.params.slug;
         const getBoardWithId = await boardsItemsModel.findOne({ slug });
 
@@ -23,23 +22,19 @@ const handleCreateThread = async (req, res) => {
             });
         }
 
-        // ✅ FIXED: Calculate postNumber FIRST (before create)
         const getAllPostsNumbers = await op_postModel.countDocuments();
-        const newPostNumber = getAllPostsNumbers + 1;  // Sequential: 1,2,3...
+        const newPostNumber = getAllPostsNumbers + 1;
 
-        // ✅ FIXED: Create OP with postNumber (NO .save() needed)
         const createOP_post = await op_postModel.create({
             op_id: `OP_${newPostNumber}`,
-            postNumber: newPostNumber,  // 👈 THIS FIXES DUPLICATE KEY
+            postNumber: newPostNumber,
             username,
             title,
             textContent,
             media,
             board: getBoardWithId._id,
-            // thread_id will be added later
         });
 
-        // ✅ Calculate thread ID
         const getAllThreadsNumbers = await threadsModel.countDocuments();
         const new_thread_id = `TH_${getAllThreadsNumbers + 1}`;
 
