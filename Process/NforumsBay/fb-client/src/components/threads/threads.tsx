@@ -5,8 +5,6 @@ import fetchThreads from '../../api/services/fetchThreads';
 import type { THREAD_RESPONSE } from '../../Types/threads';
 import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
-import replyToOP from '../../api/services/replyOP';
-import replyToReply from '../../api/services/replyReply';
 import CreateNewThread from './createNewThread';
 
 interface Props_threadsFun {
@@ -25,9 +23,16 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
 
     //thease are the different props acc. to the reply type
     const inpVals = {
-        "newThread": { onPostFun: replyToOP, actionText: "creating new thread", placeholder: "please enter your thread title", setShowInputBox: setShowInputBox },
-        "replyOP": { onPostFun: replyToOP, actionText: "replying to op", placeholder: "please enter your reply to the op", setShowInputBox },
-        "replyREPLY": { onPostFun: replyToReply, actionText: "replying to reply", placeholder: "please enter your reply to the reply", setShowInputBox }
+        "replyOP": {
+            actionText: "replying to op",
+            placeholder: "please enter your reply to the op",
+            setShowInputBox
+        },
+        "replyREPLY": {
+            actionText: "replying to reply",
+            placeholder: "please enter your reply to the reply",
+            setShowInputBox
+        }
     }
 
     //fetcing the thread using the provided slug.
@@ -76,7 +81,9 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
                 <div className="flex">
 
                     <div className='flex-1 flex items-center justify-start'>
-                        <button className='bg-red-600 p-1 ml-2 cursor-pointer' onClick={() => setShowNewThreadBox(true)}>Create new Thread</button>
+                        <button className='bg-red-600 p-1 ml-2 cursor-pointer' onClick={() => setShowNewThreadBox(true)}>
+                            Create new Thread
+                        </button>
                     </div>
 
                     <div className="flex-1 flex items-center justify-center">

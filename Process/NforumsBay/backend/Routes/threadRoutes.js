@@ -3,7 +3,7 @@ import handleGetAllThreads from "../Controllers/threads/handleGetAllThreads.js";
 import handleSeeThread from "../Controllers/threads/handleSeeThread.js";
 import handleCreateThread from "../Controllers/threads/handleCreateThread.js";
 import allowAnonymousOrAdmin from "../Middlewares/eitherAnonORAdmin.js";
-import handleReplyOP from "../Controllers/threads/op_posts/handleReply.js";
+import handleReplyOP from "../Controllers/threads/op_posts/handleReplyToOP.js";
 // mergeParams:true allows this router to access params from parent mount path
 const threadRouter = express.Router({ mergeParams: true });
 

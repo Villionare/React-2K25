@@ -2,7 +2,7 @@ import type { PostResponse } from "../../Types/opPostResponce";
 import server from "../config"
 
 export interface ReplyData {
-    // _id: string;
+    _id: string;
     reply_Id: string;
     username: string;
     textContent: string;
@@ -28,6 +28,7 @@ const fetchReplies = async (opData: PostResponse | null) => {
     const { post } = opData;
     const { _id } = post;
     const res = await server.get<RepliesProps>('post/replies', { params: { _id } })
+    console.log("fetchReplies:", res);
     return res;
 }
 

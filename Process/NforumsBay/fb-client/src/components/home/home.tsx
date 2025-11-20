@@ -1,17 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import Threads from "../threads/threads.js";
 import { useEffect, useState } from "react";
-import server from "../../api/config.js";
 import BoardCategories from "../boardCategories/boardCategories.js";
-import type { AxiosResponse } from "axios";
 import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
 import connectSocket from "../../api/services/socket.js";
 import checkSessionExistence from "../../api/services/checkSessionExistence.js";
+import fetchBoardsAndCategories from "../../api/services/fetchCategories&Boards.js";
 
 const Home = () => {
     const [selectedBoard, setSelectedThread] = useState<string | null>(null);
     const [selectedBoardName, setSelectedThreadName] = useState<string | null>(null);
-    const [dbData, setDBData] = useState<AxiosResponse<HomeDataMain> | null>(null);
+    const [dbData, setDBData] = useState<HomeDataMain>();
     const navigate = useNavigate();
 
     //if session does not exists then it will clear the ls.
@@ -43,14 +42,16 @@ const Home = () => {
         }
     }, [navigate]);
 
-    const fetchData = async () => {
-        const data = await server.get('/data');
-        setDBData(data);
-    }
-
+    //this will fetch all the board categoris and the Boards.
     useEffect(() => {
-        fetchData();
+        const getData = async () => {
+            const response = await fetchBoardsAndCategories(); // now resolved
+            setDBData(response?.data);
+        };
+
+        getData();
     }, []);
+
 
     if (!dbData) {
         return <div className="flex justify-center items-center min-h-screen bg-black">

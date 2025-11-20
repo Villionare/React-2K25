@@ -1,14 +1,15 @@
 import React, { useRef } from 'react';
+import replyToReply from '../../api/services/replyReply';
 // import useSessionContext from '../../context/useContext';
 
 interface Props {
+    replyBtnType?: string,
     placeholder: string,
     actionText: string,
-    onPostFun: (e: React.SyntheticEvent) => void,
     setShowInputBox: (value: boolean) => void,
 }
 
-const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, onPostFun }) => {
+const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, replyBtnType }) => {
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
     //text area height will increase accordingly
@@ -18,6 +19,12 @@ const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, 
 
         element.style.height = "auto";
         element.style.height = element.scrollHeight + "px";
+    }
+
+    const submitDataAndPOST = () => {
+        if (replyBtnType === "replyREPLY") {
+            replyToReply({ username: "star", textContent: "check reply from input component", to: "this is tooo", media: "sdfasfds", reply_id: "fucking reply id" });
+        }
     }
 
     return (
@@ -40,19 +47,17 @@ const InputText: React.FC<Props> = ({ setShowInputBox, actionText, placeholder, 
 
                 <form onSubmit={(e) => {
                     e?.preventDefault();
-                    console.log(onPostFun);
-                }} className='w-full h-full flex gap-2 '>
+                    submitDataAndPOST();
+                }}
+                    className='w-full h-full flex gap-2 '>
                     <textarea placeholder={placeholder}
                         ref={textAreaRef} onInput={handleTextAreaInput}
                         className='border-1 border-gray-900 bg-black text-white focus:outline-0 w-full p-2 resize-none overflow-hidden' />
-                    <button
-                        type="submit"
-                        className='border border-gray-900 w-[10vw] text-red-600 bg-black text-3xl cursor-pointer hover:bg-gray-900'
-                    >
+                    <button type="submit"
+                        className='border border-gray-900 w-[10vw] text-red-600 bg-black text-3xl cursor-pointer hover:bg-gray-900'>
                         POST!
                     </button>
                 </form>
-
             </div>
         </div >
     );

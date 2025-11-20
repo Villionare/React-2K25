@@ -1,10 +1,10 @@
 export interface HomeDataMain {
-        boardCategories: categoryItems[],
-        boards: BoardItem[]
+  boardCategories: categoryItems[],
+  boards: BoardItem[]
 }
 
 interface categoryItems {
-   _id: string;
+  _id: string;
   category_id: string;
   name: string;
   description: string;

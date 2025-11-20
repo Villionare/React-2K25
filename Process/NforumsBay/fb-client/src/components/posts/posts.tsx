@@ -32,6 +32,15 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => 
         getReplies();
     }, [opData]);
 
+
+    //so here we will the reply to op 
+    // const replyToOP = () => {
+    //     //op will have the "to"
+    //     //text context will be here
+    //     //media 
+    //     //username
+    // }
+
     return (
         <div>
             <div className="space-y-2">
@@ -69,7 +78,10 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox }) => 
                                     </div>
                                 </div>
                                 <div>
-                                    <button className='cursor-pointer text-cyan-500' onClick={() => { setShowInputBox(true); setReplyBtnType("replyOP") }}>
+                                    <button className='cursor-pointer text-cyan-500' onClick={() => {
+                                        setShowInputBox(true);
+                                        setReplyBtnType("replyOP")
+                                    }}>
                                         [REPLY]
                                     </button>
                                 </div>
