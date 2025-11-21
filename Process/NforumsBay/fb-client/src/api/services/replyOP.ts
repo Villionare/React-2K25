@@ -9,7 +9,7 @@ interface Props {
 }
 
 const replyToOP = async (props: Props) => {
-    const responce = await server.post(`boards/:slug/threads/${props.thread_id}/reply`, {
+    const responce = await server.post(`boards/:slug/threads/${props.thread_id}/replytoop`, {
         username: props.username,
         textContent: props.textContent,
         media: props.media,
