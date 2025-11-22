@@ -1,6 +1,8 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
+import type { PostResponse } from "../../Types/opPostResponce";
 
 export interface RepliesProps {
+    opData: PostResponse,
     media?: string;
     upVote: number;
     downVote: number;
@@ -10,11 +12,12 @@ export interface RepliesProps {
     replyDocId: string,
     textContent: string,
     setReplyID: (value: string) => void
+    setSelectedThreadId: (value: string) => void
     setShowInputBox: (value: boolean) => void
     setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
 }
 
-const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote, downVote, createdAt, reply_Id, replyDocId, setReplyID, setReplyBtnType, setShowInputBox }) => {
+const Replies: React.FC<RepliesProps> = ({ opData, username, textContent, media, upVote, downVote, createdAt, reply_Id, replyDocId, setReplyID, setReplyBtnType, setShowInputBox, setSelectedThreadId }) => {
 
     return (
         <div className="text-white p-3 border border-gray-600 rounded-lg mb-3">
@@ -63,6 +66,7 @@ const Replies: React.FC<RepliesProps> = ({ username, textContent, media, upVote,
                     setShowInputBox(true);
                     setReplyID(replyDocId);
                     setReplyBtnType("replyREPLY");
+                    setSelectedThreadId(opData.post.thread_id)
                 }}>
                     [Reply]
                 </button>

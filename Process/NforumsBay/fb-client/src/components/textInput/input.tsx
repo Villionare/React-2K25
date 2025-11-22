@@ -1,18 +1,29 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import replyToReply from '../../api/services/replyReply';
 import replyToOP from '../../api/services/replyOP';
+import useSessionContext from '../../context/useContext';
 
 interface Props {
-    ReplyID: string,
+    selectedThreadId: string | undefined,
+    ReplyID?: string,
+    replyOPID?: string,
     typeFor: string,
-    replyOPID: string,
     actionText: string,
     placeholder: string,
     setShowInputBox: (value: boolean) => void,
 }
 
-const InputText: React.FC<Props> = ({ typeFor, setShowInputBox, actionText, placeholder, replyOPID, ReplyID }) => {
+const InputText: React.FC<Props> = ({ typeFor, setShowInputBox, actionText, placeholder, replyOPID, ReplyID, selectedThreadId }) => {
+
+    const [replyText, setReplyText] = useState<string>("");
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+    const { user } = useSessionContext();
+
+    //saving the text values in the replyText state
+    useEffect(() => {
+        setReplyText(textAreaRef.current?.value ?? "");
+        console.log(replyText);
+    }, [textAreaRef.current?.value, replyText]);
 
     //text area height will increase accordingly
     const handleTextAreaInput = () => {
@@ -25,9 +36,21 @@ const InputText: React.FC<Props> = ({ typeFor, setShowInputBox, actionText, plac
 
     const submitDataAndPOST = () => {
         if (typeFor === "reply") {
-            replyToReply({ username: "star", textContent: "check reply from input component", to: ReplyID, media: "sdfasfds" });
+            replyToReply({
+                username: user?.session_data?.username ?? "",
+                textContent: replyText,
+                to: ReplyID ?? "", //this is not a good practise
+                media: "image1, image2",
+                thread_id: selectedThreadId ?? ""
+            });
         } else if (typeFor === "op") {
-            const response = replyToOP({ username: "star", textContent: "check reply from input component", to: replyOPID, media: "sdfasfds", thread_id: "fucking reply id" });
+            const response = replyToOP({
+                username: user?.session_data?.username ?? "",
+                textContent: replyText,
+                to: replyOPID ?? "", //this is not a good practise
+                media: "image1, image2",
+                thread_id: selectedThreadId ?? ""
+            });
             console.log(response);
         }
     }

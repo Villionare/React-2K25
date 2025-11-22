@@ -10,13 +10,14 @@ interface Props {
     setShowInputBox: (value: boolean) => void,
     setReplyOPID: (value: string) => void
     setReplyID: (value: string) => void
+    setSelectedThreadId: (value: string) => void
 }
 
 interface repliesData {
     repliesArray: ReplyData[]
 }
 
-const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setReplyOPID, setReplyID }) => {
+const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setReplyOPID, setReplyID, setSelectedThreadId }) => {
 
     const [replies, setReplies] = useState<repliesData>();
 
@@ -84,6 +85,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                                         setShowInputBox(true);
                                         setReplyBtnType("replyOP");
                                         setReplyOPID(opData.post._id);
+                                        setSelectedThreadId(opData.post.thread_id)
                                     }}>
                                         [REPLY]
                                     </button>
@@ -103,6 +105,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
 
                                         <Replies
                                             replyDocId={v._id}
+                                            opData={opData}
                                             key={i}
                                             username={v.username}
                                             textContent={v.textContent}
@@ -114,6 +117,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                                             setReplyBtnType={setReplyBtnType}
                                             setShowInputBox={setShowInputBox}
                                             setReplyID={setReplyID}
+                                            setSelectedThreadId={setSelectedThreadId}
                                         />
                                     )) : <span> 0</span>
                                 }

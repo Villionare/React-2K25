@@ -14,10 +14,12 @@ interface Props_threadsFun {
 
 const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) => {
 
+    const threadsCotainer = useRef<HTMLDivElement>(null);
+
+    const [selectedThreadId, setSelectedThreadId] = useState<string | undefined>();
+    const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [ReplyID, setReplyID] = useState<string>();
     const [replyOPID, setReplyOPID] = useState<string>();
-    const threadsCotainer = useRef<HTMLDivElement>(null);
-    const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
     const [showInputBox, setShowInputBox] = useState<boolean>(true);
     const [replyBtnType, setReplyBtnType] = useState<keyof typeof inpVals | "">("");
@@ -28,6 +30,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
         "replyOP": {
             replyOPID,
             typeFor: "op",
+            selectedThreadId,
             actionText: "replying to op",
             placeholder: "please enter your reply to the op",
             setShowInputBox
@@ -35,6 +38,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
         "replyREPLY": {
             ReplyID,
             typeFor: "reply",
+            selectedThreadId,
             actionText: "replying to reply",
             placeholder: "please enter your reply to the reply",
             setShowInputBox
@@ -43,8 +47,11 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
 
     //fetcing the thread using the provided slug.
     useEffect(() => {
-        fetchThreads(board_slug)
-            .then(res => { setThreads(res); return res })
+        const fetch = async () => {
+            const res = await fetchThreads(board_slug)
+            setThreads(res)
+        }
+        fetch();
     }, [board_slug]);
 
     //full screen handling
@@ -122,6 +129,7 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
                                 setShowInputBox={setShowInputBox}
                                 setReplyOPID={setReplyOPID}
                                 setReplyID={setReplyID}
+                                setSelectedThreadId={setSelectedThreadId}
                             />
                         ))
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}

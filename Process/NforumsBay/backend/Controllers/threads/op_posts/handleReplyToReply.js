@@ -20,7 +20,7 @@ const handleReplyToReply = async (req, res) => {
             });
         }
 
-        const get_Thread_ObjId = await threadsModel.findById({ thread_id });
+        const get_Thread_ObjId = await threadsModel.find({ _id: thread_id });
 
         if (!get_Thread_ObjId) {
             return res.status(400).json({
@@ -71,6 +71,7 @@ const handleReplyToReply = async (req, res) => {
         console.error("Error replying to OP post:", error);
         return res.status(500).json({
             success: false,
+            error,
             message: "Internal server error"
         });
     }
