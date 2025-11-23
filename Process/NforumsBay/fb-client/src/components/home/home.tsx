@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import Threads from "../threads/threads.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BoardCategories from "../boardCategories/boardCategories.js";
-import type { HomeDataMain } from "../../Types/apiBoardCategories.js";
 import connectSocket from "../../api/services/socket.js";
 import checkSessionExistence from "../../api/services/checkSessionExistence.js";
+import { useQuery } from "@tanstack/react-query";
 import fetchBoardsAndCategories from "../../api/services/fetchCategories&Boards.js";
 
 const Home = () => {
-    const [selectedBoard, setSelectedThread] = useState<string | null>(null);
-    const [selectedBoardName, setSelectedThreadName] = useState<string | null>(null);
-    const [dbData, setDBData] = useState<HomeDataMain>();
     const navigate = useNavigate();
 
     //if session does not exists then it will clear the ls.
@@ -42,30 +38,27 @@ const Home = () => {
         }
     }, [navigate]);
 
-    //this will fetch all the board categoris and the Boards.
-    useEffect(() => {
-        const getData = async () => {
-            const response = await fetchBoardsAndCategories(); // now resolved
-            setDBData(response?.data);
-        };
+    const { isLoading, isError } = useQuery({
+        queryKey: ["fetchCategories"],
+        queryFn: fetchBoardsAndCategories
+    });
 
-        getData();
-    }, []);
-
-
-    if (!dbData) {
+    if (isLoading) {
         return <div className="flex justify-center items-center min-h-screen bg-black">
             <p className="text-white">
                 Loading...
             </p>
         </div>
+    } else if (isError) {
+        return <div className="flex justify-center items-center min-h-screen bg-black">
+            <p className="text-white">
+                Error, Can't load the Categories.
+            </p>
+        </div>
     } else {
 
         return <div className="flex flex-col bg-black">
-            <BoardCategories setSelectedThread={setSelectedThread} setSelectedThreadName={setSelectedThreadName} response={dbData} />
-
-            {/* threads full screen container */}
-            {selectedBoard && <Threads board_slug={selectedBoard} selectedBoardName={selectedBoardName} />}
+            <BoardCategories />
 
             {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
             {/* <ToastContainer position="bottom-right"

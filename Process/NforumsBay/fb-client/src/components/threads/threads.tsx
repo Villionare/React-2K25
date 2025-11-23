@@ -6,13 +6,14 @@ import type { THREAD_RESPONSE } from '../../Types/threads';
 import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
 import CreateNewThread from './createNewThread';
+import type { BoardData } from '../boardCategories/boardCategories';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props_threadsFun {
-    board_slug: string
-    selectedBoardName: string | null
+    selectedBoardDetails: BoardData
 }
 
-const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) => {
+const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
 
     const threadsCotainer = useRef<HTMLDivElement>(null);
 
@@ -46,13 +47,12 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
     }
 
     //fetcing the thread using the provided slug.
-    useEffect(() => {
-        const fetch = async () => {
-            const res = await fetchThreads(board_slug)
-            setThreads(res)
-        }
-        fetch();
-    }, [board_slug]);
+    const { data, isSuccess } = useQuery({
+        queryKey: ["fetchThreads"],
+        queryFn: fetchThreads(selectedBoardDetails.slug)
+    });
+
+    isSuccess && setThreads(data);
 
     //full screen handling
     useEffect(() => {
@@ -82,8 +82,6 @@ const Threads: React.FC<Props_threadsFun> = ({ board_slug, selectedBoardName }) 
             document.removeEventListener("fullscreenchange", handleFullscreenChange);
         };
     }, []);
-
-
 
     const false_fullscreen = "scrollbar-hide border-t-2 border-gray-900 max-h-screen overflow-y-scroll bg-black scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";
     const true_fullscreen = "scrollbar-hide bg-black overflow-y-scroll z-10 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200";

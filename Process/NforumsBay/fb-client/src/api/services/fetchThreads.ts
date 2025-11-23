@@ -25,7 +25,6 @@ import server from "../config";
 const fetchThreads = async (board_slug: string) => {
 
     const fetched_threads = await server.get<THREAD_RESPONSE>(`/boards/${board_slug}/threads`);
-    console.log("fetchThreads:", fetchThreads);
     return fetched_threads.data;
 }
 
