@@ -6,16 +6,21 @@ import Home from './components/home/home.js'
 import LayoutBay from './layout/layout.tsx'
 import SessionProvider from './context/userData.js'
 import AdminRequestSubmitted from './components/adminConfirmation/confirmation.js'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+const queryClient = new QueryClient();
 
 //if noting is prensent in the ls then only the main app component can be accessible.
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <SessionProvider>
-        <LayoutBay />
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider>
+          <LayoutBay />
+        </SessionProvider>
+        <ReactQueryDevtools initialIsOpen={true} client={queryClient} />
+      </QueryClientProvider>
     )
     ,
     children: [

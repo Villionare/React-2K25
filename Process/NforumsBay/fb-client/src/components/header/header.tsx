@@ -1,42 +1,61 @@
+import { useQuery } from "@tanstack/react-query";
 import useSessionContext from "../../context/useContext";
-import type { Homedata } from "../../Types/Homedata";
 import Username from "./logoutBtn";
+import fetchHeaderData from "../../api/services/headerData";
+import Spinner from "../others/spinner";
 
-interface props {
-    homeData: Homedata | null
-}
-
-const Header: React.FC<props> = ({ homeData }) => {
+const Header: React.FC = () => {
     const { user } = useSessionContext();
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["headerData"],
+        queryFn: fetchHeaderData
+    });
+
+    const getValue = (value?: number) => {
+        if (isLoading) return <Spinner />;
+        if (isError) return "XXX";
+        return value ?? "-";
+    };
+
     return (
         <header className="bg-black flex flex-wrap justify-between text-gray-300 px-4 py-2">
+
             <div>
-                <p>Total Users: {homeData ? homeData.total_users : "XXX"}</p>
+                <p>Total Users: {getValue(data?.total_users)}</p>
             </div>
+
             <div>
-                <p>Active Users: {homeData ? homeData.active_users : "XXX"}</p>
+                <p>Active Users: {getValue(data?.active_users)}</p>
             </div>
+
             <div>
-                <p>Total categories: {homeData ? homeData.total_categories : "XXX"}</p>
+                <p>Total categories: {getValue(data?.total_categories)}</p>
             </div>
+
             <div>
-                <p>Total Boards: {homeData ? homeData.total_boards : "XXX"}</p>
+                <p>Total Boards: {getValue(data?.total_boards)}</p>
             </div>
+
             <div>
-                <p>Total Threads: {homeData ? homeData.total_threads : "XXX"}</p>
+                <p>Total Threads: {getValue(data?.total_threads)}</p>
             </div>
+
             <div>
                 <p>About</p>
             </div>
+
             <div>
                 <p>Developer</p>
             </div>
-            {user ?
+
+            {user && (
                 <div className="flex flex-row gap-2">
                     <Username />
-                </div> : null
-            }
-        </header >
+                </div>
+            )}
+
+        </header>
     );
 };
 
