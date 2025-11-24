@@ -1,18 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import SessionContext, { type UserProviderProps } from "./createContext.js";
-import { useNavigate } from "react-router-dom";
 import type { AuthResponse } from "../Types/authResponce.js";
 
 export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
-    const navigate = useNavigate();
     const [user, setUser] = useState<AuthResponse | null>(null);
-
-    const logoutUrl = useMemo(() => {
-        if (user?.session_data?.type === "admin") {
-            return 'http://localhost:9999/api/admin/admin_logout';
-        }
-        return 'http://localhost:9999/api/anonymous/anon_logout';
-    }, [user]);
 
     const login = (userReceived: AuthResponse) => {
         setUser(userReceived);
@@ -34,47 +25,8 @@ export const SessionProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
     }, [])
 
-    const logout = async () => {
-        // Use the memoized URL
-        const currentUrl = logoutUrl;
-
-        try {
-            const response = await fetch(currentUrl, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-
-            const data = await response.json();
-            console.log('server responce: ', data);
-
-            if (!data?.authorized) {
-                setUser(null);
-                localStorage.removeItem('user'); // Only remove user data, not entire localStorage
-                navigate('/');
-                console.log('session does not exist hence denied by the middleware');
-            }
-
-            if (data?.success) {
-                //setting this this way so that we can show logout toast
-                setUser(data);
-                localStorage.removeItem('user'); // Only remove user data, not entire localStorage
-                navigate('/');
-                console.log('logout process compleated');
-
-            } else {
-                console.error('Server failed to logout (success: false)', data);
-            }
-        } catch (e) {
-            console.error('Logout failed:', e);
-        }
-    };
-
     return (
-        <SessionContext.Provider value={{ user, login, logout, setUser }}>
+        <SessionContext.Provider value={{ user, login, setUser }}>
             {children}
         </SessionContext.Provider>
     );

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import handleCreateNewThread from "../../api/services/ createThread(OP)";
 import useSessionContext from "../../context/useContext";
 import { toast, ToastContainer } from "react-toastify";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface CreateThreadDialogProps {
     setShowNewThreadBox: (value: boolean) => void;
@@ -14,36 +15,27 @@ const CreateNewThread: React.FC<CreateThreadDialogProps> = ({ setShowNewThreadBo
     const { user } = useSessionContext();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [loading, setLoading] = useState<boolean>(false);
 
-    if (!open) return null;
+    const queryClient = useQueryClient();
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        if (!title.trim() || !content.trim()) return;
-
-        try {
-            //now here we will call the create new thread function:
-            await handleCreateNewThread({
-                title,
-                board_slug,
-                textContent: content,
-                media: "tempImage, tempImage2",
-                username: user?.session_data.username
-            });
-
+    const NewThreadMutation = useMutation({
+        mutationKey: ["NewThreadCreation"],
+        mutationFn: () => handleCreateNewThread({
+            title,
+            board_slug,
+            textContent: content,
+            media: "tempImage, tempImage2",
+            username: user?.session_data.username
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["fetchThreads"] });
+            toast("Thead has been created");
+            setShowNewThreadBox(false);
             setTitle("");
             setContent("");
-
-            // console.log(res);
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLoading(false)
-            toast(`Thread has been created`)
-            setShowNewThreadBox(false);
-        }
-    };
+        },
+        onError: (data) => console.log(data)
+    });
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -81,9 +73,9 @@ const CreateNewThread: React.FC<CreateThreadDialogProps> = ({ setShowNewThreadBo
 
                 {/* Create Button */}
                 <button
-                    onClick={handleSubmit}
+                    onClick={() => NewThreadMutation.mutate()}
                     className="w-full bg-gray-800 text-white py-2 cursor-pointer">
-                    {loading ? "creating" : "Create"}
+                    {NewThreadMutation.isPending ? "creating" : "Create"}
                 </button>
             </div>
 

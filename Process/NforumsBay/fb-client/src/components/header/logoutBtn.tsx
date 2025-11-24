@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import useSessionContext from "../../context/useContext";
 import Timer from "./Timer";
 import SessionOver from "../popups/sessionOver";
+import { useMutation } from "@tanstack/react-query";
+import logoutAdminOrUser from "../../api/services/logout";
+import { useNavigate } from "react-router-dom";
 
 interface Timer {
     hours: number;
@@ -12,9 +15,46 @@ interface Timer {
 
 const Username = () => {
 
-    const { user, logout } = useSessionContext();
+    const navigate = useNavigate();
+    const { user, setUser } = useSessionContext();
     const [time, setTime] = useState<Timer>();
     const [showPopUp, setShowPopUp] = useState<boolean | null>(null);
+    const [logoutURL, setLogoutURL] = useState<string>("");
+
+    //setting the logout url
+    useEffect(() => {
+        if (user?.session_data?.type === "admin") {
+            setLogoutURL('/admin/admin_logout');
+        } else {
+            setLogoutURL('/anonymous/anon_logout');
+        }
+    }, [user?.session_data.type]);
+
+    const LogoutMutation = useMutation({
+
+        mutationKey: ["logoutQuery"],
+
+        mutationFn: () => logoutAdminOrUser({ logoutURL }),
+
+        onSuccess: (data) => {
+            if (data?.success) {
+                console.log(data)
+                setUser(data);
+                localStorage.removeItem('user');
+                navigate('/');
+            }
+
+            if (!data?.authorized) {
+                setUser(null);
+                localStorage.removeItem('user');
+                navigate('/');
+            }
+        },
+
+        onError: (data) => {
+            console.error('Server failed to logout (success: false)', data);
+        }
+    });
 
     //this is to set the timers remaining time.
     useEffect(() => {
@@ -60,8 +100,9 @@ const Username = () => {
                     {username || 'user'}
                     <Timer hours={time?.hours} minutes={time?.minutes} seconds={time?.seconds} onComplete={handleComplete} />
                 </div>
-                <button onClick={logout} className="border-1 border-gray-400 px-2 cursor-pointer">
-                    Logout
+
+                <button onClick={() => LogoutMutation.mutate()} className="border-1 border-gray-400 px-2 cursor-pointer">
+                    {LogoutMutation.isPending ? "Logging Out" : "Logout"}
                 </button>
 
                 {showPopUp && <SessionOver setShowPopUp={setShowPopUp} />}

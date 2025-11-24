@@ -136,6 +136,7 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
                 setShowNewThreadBox={setShowNewThreadBox}
                 selectedBoardName={selectedBoardDetails.name}
                 board_slug={selectedBoardDetails.slug} />}
+
             {/* input section */}
             {/* this input type will carry the onSubmit function that will be triggerd + needed texts */}
             {showInputBox && replyBtnType ? <InputText {...inpVals[replyBtnType]} /> : null}
