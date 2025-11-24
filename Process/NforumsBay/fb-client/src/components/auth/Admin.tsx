@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useSessionContext from "../../context/useContext.jsx"; // FIX: Added .jsx extension to resolve import path
+import useSessionContext from "../../context/useContext.js"; // FIX: Added .jsx extension to resolve import path
 import server from "../../api/config.js";
 import type { AuthResponse } from "../../Types/authResponce.js";
 

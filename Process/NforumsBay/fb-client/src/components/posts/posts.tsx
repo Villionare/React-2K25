@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import fetchReplies, { type ReplyData } from '../../api/services/fetchReplies';
+import fetchReplies from '../../api/services/fetchReplies';
 import type { PostResponse } from '../../Types/opPostResponce';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import Replies from '../replies/replies';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props {
-    opData: PostResponse | null;
+    opData: PostResponse;
     setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
     setShowInputBox: (value: boolean) => void,
     setReplyOPID: (value: string) => void
@@ -13,36 +13,15 @@ interface Props {
     setSelectedThreadId: (value: string) => void
 }
 
-interface repliesData {
-    repliesArray: ReplyData[]
-}
-
 const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setReplyOPID, setReplyID, setSelectedThreadId }) => {
 
-    const [replies, setReplies] = useState<repliesData>();
+    // console.log("opData in Post compo", opData);
 
     //HERE FETCHING ALL THE REPLIES:
-    useEffect(() => {
-        const getReplies = async () => {
-            try {
-                const response = await fetchReplies(opData);
-                setReplies(response?.data);
-            } catch (err) {
-                console.error("Error fetching OP:", err);
-            }
-        };
-
-        getReplies();
-    }, [opData]);
-
-
-    //so here we will the reply to op 
-    // const replyToOP = () => {
-    //     //op will have the "to"
-    //     //text context will be here
-    //     //media 
-    //     //username
-    // }
+    const { data } = useQuery({
+        queryKey: ["fetchReplies", opData],
+        queryFn: () => fetchReplies(opData)
+    });
 
     return (
         <div>
@@ -85,7 +64,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                                         setShowInputBox(true);
                                         setReplyBtnType("replyOP");
                                         setReplyOPID(opData.post._id);
-                                        setSelectedThreadId(opData.post.thread_id)
+                                        setSelectedThreadId(opData.post.thread_id);
                                     }}>
                                         [REPLY]
                                     </button>
@@ -100,8 +79,8 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                             </p>
 
                             <div className='flex flex-col'>
-                                {replies?.repliesArray && replies.repliesArray.length > 0
-                                    ? replies.repliesArray.map((v, i) => (
+                                {data?.repliesArray && data.repliesArray.length > 0
+                                    ? data.repliesArray.map((v, i) => (
 
                                         <Replies
                                             replyDocId={v._id}

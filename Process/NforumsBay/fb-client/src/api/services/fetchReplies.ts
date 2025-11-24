@@ -17,19 +17,17 @@ export interface ReplyData {
     // __v: number;
 }
 
-interface RepliesProps {
+export interface RepliesData {
     repliesArray: ReplyData[]; // the actual reply to render
 }
 
 const fetchReplies = async (opData: PostResponse | null) => {
 
     if (!opData) return;
-
     const { post } = opData;
     const { _id } = post;
-    const res = await server.get<RepliesProps>('post/replies', { params: { _id } })
-    console.log("fetchReplies:", res);
-    return res;
+    const res = await server.get<RepliesData>('post/replies', { params: { _id } })
+    return res.data;
 }
 
 export default fetchReplies;

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ThreadItem from './threadItem';
 import fetchThreads from '../../api/services/fetchThreads';
-import type { THREAD_RESPONSE } from '../../Types/threads';
 import { Maximize, Minimize } from 'lucide-react';
 import InputText from '../textInput/input';
 import CreateNewThread from './createNewThread';
@@ -18,7 +17,6 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
     const threadsCotainer = useRef<HTMLDivElement>(null);
 
     const [selectedThreadId, setSelectedThreadId] = useState<string | undefined>();
-    const [threads, setThreads] = useState<THREAD_RESPONSE>();
     const [ReplyID, setReplyID] = useState<string>();
     const [replyOPID, setReplyOPID] = useState<string>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
@@ -47,12 +45,10 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
     }
 
     //fetcing the thread using the provided slug.
-    const { data, isSuccess } = useQuery({
+    const { data } = useQuery({
         queryKey: ["fetchThreads"],
-        queryFn: fetchThreads(selectedBoardDetails.slug)
+        queryFn: () => fetchThreads(selectedBoardDetails.slug)
     });
-
-    isSuccess && setThreads(data);
 
     //full screen handling
     useEffect(() => {
@@ -94,13 +90,15 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
                 <div className="flex">
 
                     <div className='flex-1 flex items-center justify-start'>
-                        <button className='bg-red-600 p-1 ml-2 cursor-pointer' onClick={() => setShowNewThreadBox(true)}>
+                        <button className='bg-red-600 p-1 ml-2 cursor-pointer' onClick={() => {
+                            setShowNewThreadBox(true)
+                        }}>
                             Create new Thread
                         </button>
                     </div>
 
                     <div className="flex-1 flex items-center justify-center">
-                        <h2 className=" text-red-600 text-3xl font-bold">({board_slug}):Threads</h2>
+                        <h2 className=" text-red-600 text-3xl font-bold">({selectedBoardDetails.slug}):Threads</h2>
                     </div>
 
                     <div className='flex-1 text-white flex items-center justify-end gap-4'>
@@ -116,8 +114,8 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
             {/* main content */}
             <div className="space-y-2 mx-15" >
                 {
-                    threads?.threads && threads.threads.length > 0 ? (
-                        [...threads.threads].reverse().map(thread => (
+                    data?.threads && data.threads.length > 0 ? (
+                        [...data.threads].reverse().map(thread => (
                             <ThreadItem
                                 key={thread._id}
                                 threadId={thread.thread_id}
@@ -133,7 +131,10 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}
             </div >
 
-            {showNewTheadBox && <CreateNewThread setShowNewThreadBox={setShowNewThreadBox} selectedBoardName={selectedBoardName} board_slug={board_slug} />}
+            {showNewTheadBox && <CreateNewThread
+                setShowNewThreadBox={setShowNewThreadBox}
+                selectedBoardName={selectedBoardDetails.name}
+                board_slug={selectedBoardDetails.slug} />}
             {/* input section */}
             {/* this input type will carry the onSubmit function that will be triggerd + needed texts */}
             {showInputBox && replyBtnType ? <InputText {...inpVals[replyBtnType]} /> : null}

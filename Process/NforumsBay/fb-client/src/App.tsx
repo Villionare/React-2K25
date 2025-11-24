@@ -3,7 +3,7 @@ import EnterAnonymousName from "./components/auth/anonymousEnter";
 import useSessionContext from "./context/useContext";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminAuthComponent from "./components/auth";
+import AdminAuthComponent from "./components/auth/Admin";
 import checkSessionExistence from "./api/services/checkSessionExistence";
 import fetchHeaderData from "./api/services/headerData";
 import { useQuery } from "@tanstack/react-query";
@@ -12,14 +12,11 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
 
-
-
   const [showAnonForm, setshowAnonForm] = useState(false);
   const [showAdminForm, setshowAdminForm] = useState(false);
   const { user } = useSessionContext();
   const [isLogout, setIsLogout] = useState(false);
   const navigate = useNavigate();
-
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["headerData"],
