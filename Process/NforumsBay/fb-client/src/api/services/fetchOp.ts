@@ -7,8 +7,6 @@ interface Params {
 
 const fetchOP = async ({ op }: Params) => {
   const response = await server.get<PostResponse>('/post', { params: { op } });
-  console.log(response.data);
-
   return response.data;
 };
 

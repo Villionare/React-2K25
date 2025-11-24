@@ -2,30 +2,29 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSessionContext from "../../context/useContext";
 import createAnonymousUser from "../../api/services/Anonymous";
+import { useMutation } from "@tanstack/react-query";
 
 const EnterAnonymousName = () => {
     const { login } = useSessionContext();
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
-    const startAnonymous = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const res = await createAnonymousUser(username);
-        console.log(res);
-
-        if (res.success) {
-            login(res);
+    const AnonymousMutation = useMutation({
+        mutationKey: ["AnonymousAuth"],
+        mutationFn: () => createAnonymousUser(username),
+        onSuccess: (data) => {
+            login(data);
             navigate('home');
-        } else {
-            console.log("failed to login anonymous:", res);
-        }
-    };
+            console.log(data)
+        },
+        onError: (data) => { console.log("error happened", data) },
+    });
 
     return (
         // Inner Container BG: Dark News Block (#232527) with a Column Rule border
         <div className="flex flex-col bg-black p-4 gap-2 rounded-lg border border-[#424549] shadow-md">
 
-            <form onSubmit={(e) => startAnonymous(e)}>
+            <form onSubmit={(e) => { e.preventDefault(); AnonymousMutation.mutate() }}>
                 <div className="flex flex-row  gap-3 items-center justify-center">
 
                     <input

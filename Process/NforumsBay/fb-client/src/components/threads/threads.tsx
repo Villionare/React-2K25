@@ -14,6 +14,12 @@ interface Props_threadsFun {
 
 const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
 
+    //fetcing the thread using the provided slug.
+    const { data } = useQuery({
+        queryKey: ["fetchThreads", selectedBoardDetails],
+        queryFn: () => fetchThreads(selectedBoardDetails.slug)
+    });
+
     const threadsCotainer = useRef<HTMLDivElement>(null);
 
     const [selectedThreadId, setSelectedThreadId] = useState<string | undefined>();
@@ -44,11 +50,6 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
         }
     }
 
-    //fetcing the thread using the provided slug.
-    const { data } = useQuery({
-        queryKey: ["fetchThreads"],
-        queryFn: () => fetchThreads(selectedBoardDetails.slug)
-    });
 
     //full screen handling
     useEffect(() => {

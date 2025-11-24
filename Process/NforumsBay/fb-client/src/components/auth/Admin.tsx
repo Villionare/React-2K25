@@ -1,28 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSessionContext from "../../context/useContext.js"; // FIX: Added .jsx extension to resolve import path
-import server from "../../api/config.js";
-import type { AuthResponse } from "../../Types/authResponce.js";
+import { useMutation } from "@tanstack/react-query";
+import AdminAuth, { type Login, type SignUp } from "../../api/services/adminAuth.js";
 
-interface SignUp {
-    signUpName: string,
-    signUpAge: string,
-    signUpUsername: string,
-    signUpEmail: string,
-    signUptypePassword: string
-}
-
-interface Login {
-    loginIdentifier: string,
-    loginPassword: string
-}
-
-const AdminAuthComponent = () => {
-    const { login } = useSessionContext();
-    const [isLogin, setInLogin] = useState(true);
-    const [loading, setLoading] = useState(false);
+const AdminAuthComponent: React.FC = () => {
 
     const navigate = useNavigate();
+    const { login } = useSessionContext();
+    const [isLogin, setInLogin] = useState(true);
 
     const [inpSignUpChange, setInpSignUpChange] = useState<SignUp>({
         signUpName: "",
@@ -37,32 +23,24 @@ const AdminAuthComponent = () => {
         loginPassword: ""
     });
 
-    const SubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);
+    const fetchUrl = isLogin ? '/admin/admin_login' : '/admin/admin_signup';
+    const sending_data = isLogin ? inpSignInChange : inpSignUpChange;
 
-        const fetchUrl = isLogin
-            ? '/admin/admin_login'
-            : '/admin/admin_signup';
-
-        try {
-
-            const sending_data = isLogin ? inpSignInChange : inpSignUpChange;
-            const response = await server.post<AuthResponse>(fetchUrl, sending_data)
+    const AuthMutation = useMutation({
+        mutationKey: ["AuthAdmin"],
+        mutationFn: () => AdminAuth({ fetchUrl, sending_data }),
+        onSuccess: (data) => {
+            console.log("Server returned:", data);
 
             if (isLogin) {
-                console.log(response.data);
-                login(response.data);
-                await navigate('/home');
+                login(data);
+                navigate('/home');
             } else {
-                await navigate('/adminsubmitted'); // Use absolute path for safety
+                navigate('/adminsubmitted');
             }
-        } catch (error) {
-            setLoading(false);
-            console.error('Login/Signup error:', error);
-            // Optionally set error state for UI feedback, e.g., setError(error.message)
-        }
-    };
+        },
+        onError: (data) => { console.log("error happened", data) },
+    });
 
     const handleSignUpchange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -79,7 +57,6 @@ const AdminAuthComponent = () => {
             [name]: value
         }));
     };
-
 
     return (
         // Outer Background: Deep Inkwell (#1A1C1E)
@@ -105,7 +82,7 @@ const AdminAuthComponent = () => {
                         * if you are facing any issue mail developer on - mr.duedull@gmail.com
                     </p>}
                 {/* Form */}
-                <form className="flex flex-col space-y-3" onSubmit={SubmitForm}>
+                <form className="flex flex-col space-y-3" onSubmit={(e) => { e.preventDefault(); AuthMutation.mutate() }}>
                     {isLogin ? (
                         <>
                             <input
@@ -201,15 +178,16 @@ const AdminAuthComponent = () => {
                     <button
                         type="submit"
                         className="w-full py-3 mt-4 rounded-md border border-gray-400 cursor-pointer text-[#EAE4D9]"
-                        disabled={loading}
+                        disabled={AuthMutation.isPending}
                     >
                         {isLogin
-                            ? loading
+                            ? AuthMutation.isPending
                                 ? "Signing in..."
                                 : "Sign In"
-                            : loading
+                            : AuthMutation.isPending
                                 ? "Signing Up..."
-                                : "Sign Up"}
+                                : "Sign Up"
+                        }
                     </button>
                 </form>
 
