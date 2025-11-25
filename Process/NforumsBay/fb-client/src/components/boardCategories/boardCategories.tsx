@@ -4,6 +4,7 @@ import Boards from '../boards/boards';
 import { useQuery } from '@tanstack/react-query';
 import fetchBoardsAndCategories from '../../api/services/fetchCategories&Boards';
 import Threads from '../threads/threads';
+import Counter from '../../states/Counter';
 
 
 //we will be declaring the interface where we are recieving the data.
@@ -37,7 +38,7 @@ const BoardCategories: React.FC = () => {
                     </div>
                 ))}
             </div>
-
+            <Counter />
             {selectedBoardDetails && <Threads selectedBoardDetails={selectedBoardDetails} />}
         </div>
     );
