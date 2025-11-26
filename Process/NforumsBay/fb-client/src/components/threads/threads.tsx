@@ -26,7 +26,7 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
     const [ReplyID, setReplyID] = useState<string>();
     const [replyOPID, setReplyOPID] = useState<string>();
     const [fullScreen, setFullScreen] = useState<boolean>(false);
-    const [showInputBox, setShowInputBox] = useState<boolean>(true);
+    const [showInputBox, setShowInputBox] = useState<boolean>(true); //ok
     const [replyBtnType, setReplyBtnType] = useState<keyof typeof inpVals | "">("");
     const [showNewTheadBox, setShowNewThreadBox] = useState<boolean>(false);
 
@@ -127,6 +127,7 @@ const Threads: React.FC<Props_threadsFun> = ({ selectedBoardDetails }) => {
                                 setReplyOPID={setReplyOPID}
                                 setReplyID={setReplyID}
                                 setSelectedThreadId={setSelectedThreadId}
+                                board_slug={selectedBoardDetails.slug}
                             />
                         ))
                     ) : (<div className='text-white'><p>No threads exist</p></div>)}

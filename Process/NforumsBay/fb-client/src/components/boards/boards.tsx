@@ -1,8 +1,6 @@
-// Boards.tsx
 import React from 'react';
 import type { HomeDataMain } from '../../Types/apiBoardCategories';
 import type { BoardData } from '../boardCategories/boardCategories';
-// import BoardItem from './boardItems';
 
 interface prop {
     boardId: string,

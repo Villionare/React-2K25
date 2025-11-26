@@ -2,9 +2,8 @@ import { createContext, type ReactNode } from "react";
 import type { AuthResponse } from "../Types/authResponce";
 
 export interface UserContextProps {
-    login: (value: AuthResponse) => void;
-    // logout: () => void;
     user: AuthResponse | null;
+    login: (value: AuthResponse) => void;
     setUser: (value: AuthResponse | null) => void;
 }
 

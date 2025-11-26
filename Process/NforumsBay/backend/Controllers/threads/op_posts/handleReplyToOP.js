@@ -18,11 +18,14 @@ const handleReplyOP = async (req, res) => {
             return res.status(400).json({ message: "Thread ID is required" });
         }
 
-        const get_Thread_ObjId = await threadsModel.find({ _id: thread_id });
+        const get_Thread_ObjId = await threadsModel.findById(thread_id);
 
         if (!get_Thread_ObjId) {
-            return res.status(400).json({ message: `thread with this thread_id: ${thread_id} not found` });
+            return res.status(400).json({
+                message: `thread with this thread_id: ${thread_id} not found`
+            });
         }
+
         if (!username || !to || !textContent || !media) {
             return res.status(400).json({ message: "Missing required fields" });
         }

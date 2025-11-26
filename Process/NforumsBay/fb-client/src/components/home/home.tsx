@@ -9,20 +9,24 @@ import fetchBoardsAndCategories from "../../api/services/fetchCategories&Boards.
 const Home = () => {
     const navigate = useNavigate();
 
-    //if session does not exists then it will clear the ls.
+    const { data: sessionExists, isLoading: loadingSessionData } = useQuery({
+        queryKey: ["checkingSessionExistenceOnServer"],
+        queryFn: checkSessionExistence,
+        retry: false,
+    });
+
+    // Check only after query finishes
     useEffect(() => {
-        const checkSession = async () => {
-            const sessionExists = await checkSessionExistence();
+        if (loadingSessionData) return; // ⛔ Don't run early
 
-            if (!sessionExists) {
-                console.log("cleared ls as the session doesn't exist on server");
-                localStorage.removeItem('user');
-                navigate('/', { replace: true });
-            }
+        // If server says NO session
+        if (sessionExists === false) {
+            console.log("cleared ls as the session doesn't exist on server");
+            localStorage.removeItem("user");
+            navigate("/", { replace: true });
         }
+    }, [sessionExists, loadingSessionData, navigate]);
 
-        checkSession();
-    }, [navigate]);
 
     // connecting to socket
     useEffect(() => {

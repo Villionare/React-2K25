@@ -10,7 +10,8 @@ const Counter: React.FC = () => {
     // const handleDecrease = CounterGlobalStateZust((state) => state.decreaseCount);
     const counter = globalContextZustand((state) => state.normalVal);
     const increase = globalContextZustand((state) => state.increaseIt);
-    const decrease = globalContextZustand((state) => state.decreaseIt);
+    const decrease = globalContextZustand((state) => state.decreaseIt); 1
+
     return (
         // Tailwind classes for the main container
         <div className="flex flex-col items-center justify-center p-6 bg-gray-100 rounded-xl shadow-lg border border-gray-200">
@@ -42,6 +43,21 @@ const Counter: React.FC = () => {
                 >
                     Increase
                 </button>
+            </div>
+            <div className='flex gap-10 text-red-600'>
+
+                {/* <span>
+                    replyid:
+                    {replyId}
+                </span>
+                <span>
+                    opid:
+                    {opid}
+                </span>
+                <span>
+                    threadid:
+                    {thread}
+                </span> */}
             </div>
         </div>
     );

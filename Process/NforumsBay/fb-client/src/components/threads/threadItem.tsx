@@ -4,9 +4,10 @@ import fetchOP from '../../api/services/fetchOp';
 import { useQuery } from '@tanstack/react-query';
 
 interface ThreadItemProps {
+    op: string,
     threadId: string,
     threadname: string,
-    op: string,
+    board_slug: string,
     setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
     setShowInputBox: (value: boolean) => void,
     setReplyOPID: (value: string) => void,
@@ -21,7 +22,9 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ threadId,
     setShowInputBox,
     setReplyOPID,
     setReplyID,
-    setSelectedThreadId }) => {
+    setSelectedThreadId,
+    board_slug
+}) => {
 
     //FOR EVERY POST THREAD ITEM IN THE BOARD, THE RESPECTIVE OP POST WILL BE FETCHED FROM THE SERVER.
     const { data, isSuccess } = useQuery({
@@ -35,7 +38,15 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ threadId,
                 <p className='text-blue-400'>&gt;&gt; {threadname}</p>
                 <p className='text-blue-400'>{threadId}</p>
             </div>
-            {isSuccess && <Post opData={data} setReplyBtnType={setReplyBtnType} setShowInputBox={setShowInputBox} setReplyOPID={setReplyOPID} setReplyID={setReplyID} setSelectedThreadId={setSelectedThreadId} />}
+            {isSuccess && <Post
+                opData={data}
+                setReplyBtnType={setReplyBtnType}
+                setShowInputBox={setShowInputBox}
+                setReplyOPID={setReplyOPID}
+                setReplyID={setReplyID}
+                setSelectedThreadId={setSelectedThreadId}
+                board_slug={board_slug}
+            />}
         </div>
     );
 };

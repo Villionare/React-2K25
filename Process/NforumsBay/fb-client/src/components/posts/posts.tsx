@@ -3,9 +3,11 @@ import type { PostResponse } from '../../Types/opPostResponce';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import Replies from '../replies/replies';
 import { useQuery } from '@tanstack/react-query';
+import GlobalStates from '../../states/Globals';
 
 interface Props {
-    opData: PostResponse;
+    opData: PostResponse,
+    board_slug: string,
     setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
     setShowInputBox: (value: boolean) => void,
     setReplyOPID: (value: string) => void
@@ -13,15 +15,42 @@ interface Props {
     setSelectedThreadId: (value: string) => void
 }
 
-const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setReplyOPID, setReplyID, setSelectedThreadId }) => {
+const Post: React.FC<Props> = ({
+    opData,
+    board_slug,
+    setReplyID,
+    setReplyBtnType,
+    setShowInputBox,
+    setSelectedThreadId }) => {
 
-    // console.log("opData in Post compo", opData);
+    //TAKING THREAD ID AND SENDING TO GLOBALCONTEXT
+    const setThreadId = GlobalStates((state) => state.setSelectedThreadId);
+
+    //TAKING THREAD ID AND SENDING TO GLOBALCONTEXT
+    const setReplyOPID = GlobalStates((state) => state.setReplyOPID);
+
+    //SETTING THE INPUT BOX VALUES GLOBALLY
+    const setInputActionText = GlobalStates((state) => state.setInputActionText);
+    const setInputPlaceHolderText = GlobalStates((state) => state.setInputPlaceHolderText);
+    const setReplyType = GlobalStates((state) => state.setReplyType);
+    const setBoardSlug = GlobalStates((state) => state.setBoardSlug);
 
     //HERE FETCHING ALL THE REPLIES:
     const { data } = useQuery({
         queryKey: ["fetchReplies", opData],
         queryFn: () => fetchReplies(opData)
     });
+
+    const opBtnAction = () => {
+        setReplyType("op");
+        setShowInputBox(true);
+        setReplyBtnType("replyOP");
+        setReplyOPID(opData.post._id);
+        setThreadId(opData.post.thread_id);
+        setBoardSlug(board_slug);
+        setInputActionText("replying to op");
+        setInputPlaceHolderText("please enter your reply to the op");
+    };
 
     return (
         <div>
@@ -60,12 +89,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                                     </div>
                                 </div>
                                 <div>
-                                    <button className='cursor-pointer text-cyan-500' onClick={() => {
-                                        setShowInputBox(true);
-                                        setReplyBtnType("replyOP");
-                                        setReplyOPID(opData.post._id);
-                                        setSelectedThreadId(opData.post.thread_id);
-                                    }}>
+                                    <button className='cursor-pointer text-cyan-500' onClick={opBtnAction}>
                                         [REPLY]
                                     </button>
                                 </div>
@@ -97,6 +121,7 @@ const Post: React.FC<Props> = ({ opData, setReplyBtnType, setShowInputBox, setRe
                                             setShowInputBox={setShowInputBox}
                                             setReplyID={setReplyID}
                                             setSelectedThreadId={setSelectedThreadId}
+                                            board_slug={board_slug}
                                         />
                                     )) : <span> 0</span>
                                 }

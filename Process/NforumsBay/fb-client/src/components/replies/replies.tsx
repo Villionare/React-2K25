@@ -1,5 +1,6 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import type { PostResponse } from "../../Types/opPostResponce";
+import GlobalStates from "../../states/Globals";
 
 export interface RepliesProps {
     opData: PostResponse,
@@ -10,14 +11,51 @@ export interface RepliesProps {
     username: string,
     createdAt: string,
     replyDocId: string,
+    board_slug: string,
     textContent: string,
     setReplyID: (value: string) => void
     setSelectedThreadId: (value: string) => void
     setShowInputBox: (value: boolean) => void
     setReplyBtnType: (value: ("" | "replyOP" | "replyREPLY")) => void,
+
 }
 
-const Replies: React.FC<RepliesProps> = ({ opData, username, textContent, media, upVote, downVote, createdAt, reply_Id, replyDocId, setReplyID, setReplyBtnType, setShowInputBox, setSelectedThreadId }) => {
+const Replies: React.FC<RepliesProps> = ({
+    media,
+    opData,
+    upVote,
+    username,
+    downVote,
+    reply_Id,
+    createdAt,
+    replyDocId,
+    textContent,
+    board_slug,
+    setReplyBtnType,
+    setShowInputBox }) => {
+
+    //TAKING THREAD ID AND SENDING TO GLOBALCONTEXT
+    const setThreadId = GlobalStates((state) => state.setSelectedThreadId);
+
+    //SETTING GLOBAL REPLY TO REPLY ID
+    const setReplyID = GlobalStates((state) => state.setReplyID);
+
+    //SETTING THE INPUT BOX VALUES GLOBALLY
+    const setInputActionText = GlobalStates((state) => state.setInputActionText);
+    const setInputPlaceHolderText = GlobalStates((state) => state.setInputPlaceHolderText);
+    const setReplyType = GlobalStates((state) => state.setReplyType);
+    const setBoardSlug = GlobalStates((state) => state.setBoardSlug);
+
+    const replyBtnAction = () => {
+        setReplyType("reply");
+        setShowInputBox(true);
+        setReplyID(replyDocId)
+        setBoardSlug(board_slug);
+        setThreadId(opData.post.thread_id)
+        setReplyBtnType("replyREPLY");
+        setInputActionText("replying to reply");
+        setInputPlaceHolderText("please enter your reply to the reply");
+    };
 
     return (
         <div className="text-white p-3 border border-gray-600 rounded-lg mb-3">
@@ -62,12 +100,7 @@ const Replies: React.FC<RepliesProps> = ({ opData, username, textContent, media,
                         </button>
                     </div>
                 </div>
-                <button className="text-red-500 cursor-pointer" onClick={() => {
-                    setShowInputBox(true);
-                    setReplyID(replyDocId);
-                    setReplyBtnType("replyREPLY");
-                    setSelectedThreadId(opData.post.thread_id)
-                }}>
+                <button className="text-red-500 cursor-pointer" onClick={replyBtnAction}>
                     [Reply]
                 </button>
             </div>
