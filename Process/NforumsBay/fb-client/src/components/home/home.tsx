@@ -9,24 +9,25 @@ import fetchBoardsAndCategories from "../../api/services/fetchCategories&Boards.
 const Home = () => {
     const navigate = useNavigate();
 
-    const { data: sessionExists, isLoading: loadingSessionData } = useQuery({
+    const {
+        data: sessionExists,
+        isLoading: loadingSessionData,
+    } = useQuery({
         queryKey: ["checkingSessionExistenceOnServer"],
         queryFn: checkSessionExistence,
-        retry: false,
+        retry: true,
     });
 
-    // Check only after query finishes
     useEffect(() => {
-        if (loadingSessionData) return; // ⛔ Don't run early
+        // if (!loadingSessionData && sessionExists === false) {
+        //     console.log("cleared ls as the session doesn't exist on server");
+        //     localStorage.removeItem("user");
+        //     navigate("/", { replace: true });
+        // }
 
-        // If server says NO session
-        if (sessionExists === false) {
-            console.log("cleared ls as the session doesn't exist on server");
-            localStorage.removeItem("user");
-            navigate("/", { replace: true });
-        }
-    }, [sessionExists, loadingSessionData, navigate]);
+        console.log("from in the log:", sessionExists);
 
+    }, [loadingSessionData, sessionExists, navigate]);
 
     // connecting to socket
     useEffect(() => {
@@ -63,19 +64,6 @@ const Home = () => {
 
         return <div className="flex flex-col bg-black">
             <BoardCategories />
-
-            {/* {user ? toast(`welcome ${user?.session_data?.type} ${user?.session_data?.username}`) : null} */}
-            {/* <ToastContainer position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            transition={Bounce} /> */}
         </div>
     }
 }

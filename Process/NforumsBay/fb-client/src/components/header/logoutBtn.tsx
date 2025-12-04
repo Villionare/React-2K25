@@ -5,6 +5,7 @@ import SessionOver from "../popups/sessionOver";
 import { useMutation } from "@tanstack/react-query";
 import logoutAdminOrUser from "../../api/services/logout";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../others/spinner";
 
 interface Timer {
     hours: number;
@@ -102,7 +103,7 @@ const Username = () => {
                 </div>
 
                 <button onClick={() => LogoutMutation.mutate()} className="border-1 border-gray-400 px-2 cursor-pointer">
-                    {LogoutMutation.isPending ? "Logging Out" : "Logout"}
+                    {LogoutMutation.isPending ? <Spinner /> : "Logout"}
                 </button>
 
                 {showPopUp && <SessionOver setShowPopUp={setShowPopUp} />}
